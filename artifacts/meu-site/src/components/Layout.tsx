@@ -104,10 +104,10 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="flex items-center gap-3">
             <Link
-              href="/checkout"
+              href="/comparacao"
               className="bg-[#FF5A1F] text-[#1A0500] font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 hover:shadow-[0_0_24px_rgba(255,90,31,0.45)] transition-all duration-300 hidden md:block"
             >
-              Começar grátis
+              Ver planos
             </Link>
             <button
               className="md:hidden text-[#7AA88E] hover:text-white transition-colors p-2 relative z-10"
@@ -192,13 +192,13 @@ export default function Layout({ children }: LayoutProps) {
               {/* CTA */}
               <div className="px-4 pb-8 pt-4 border-t border-[#1E3828]">
                 <Link
-                  href="/checkout"
+                  href="/checkout?plan=max"
                   onClick={() => setMenuOpen(false)}
                   className="block bg-[#FF5A1F] text-[#1A0500] font-extrabold py-3.5 rounded-full text-center text-sm hover:shadow-[0_0_24px_rgba(255,90,31,0.4)] transition-shadow"
                 >
-                  Começar 7 dias grátis →
+                  Quero o Nexus Max →
                 </Link>
-                <p className="text-[#4A6A58] text-xs text-center mt-3">Sem cartão de crédito</p>
+                <p className="text-[#4A6A58] text-xs text-center mt-3">50% off no 1º mês · sem fidelidade</p>
               </div>
             </motion.div>
           </>

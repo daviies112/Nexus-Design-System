@@ -79,8 +79,8 @@ const PLANS = [
     price: 649,
     month1: 649,
     discount: null,
-    label: "Para quem está estruturando o processo de prospecção",
-    limit: "Até 30 candidatas/mês · Até 40 revendedoras ativas",
+    label: "Para estruturar o processo de prospecção. A maioria faz upgrade em 2–3 meses ao bater o limite de revendedoras.",
+    limit: "30 candidatas/mês · máx. 40 revendedoras",
     features: START_FEATURES,
     badge: null,
     badgeColor: "#7AA88E",
@@ -95,10 +95,10 @@ const PLANS = [
     price: PRO_PRICE,
     month1: PRO_MONTH1,
     discount: 35,
-    label: "Para empresas com revendedoras ativas que precisam de operação 100% automática",
-    limit: "Até 70 candidatas/mês · Revendedoras ilimitadas",
+    label: "Operação financeira e logística automática. Sem Serasa D+17 e sem plano de ação IA por consultora.",
+    limit: "70 candidatas/mês · Revendedoras ilimitadas",
     features: PRO_FEATURES,
-    badge: "⭐ Mais Escolhido",
+    badge: "Para crescer · 35% OFF",
     badgeColor: "#FF5A1F",
     accentColor: "#FF5A1F",
     cta: `Escolher o Pro — R$${PRO_MONTH1} no 1º mês`,
@@ -111,13 +111,13 @@ const PLANS = [
     price: MAX_PRICE,
     month1: MAX_MONTH1,
     discount: 50,
-    label: "Para empresas que não podem perder um repasse sequer",
+    label: "Ilimitado em tudo. Do lead ao Serasa, 100% automático. Para quem leva a rede a sério.",
     limit: "Ilimitado em tudo",
     features: MAX_FEATURES,
-    badge: "🏆 Melhor Custo-Benefício",
+    badge: "🏆 Recomendado — A operação completa · 50% OFF",
     badgeColor: "#00CC7A",
     accentColor: "#00CC7A",
-    cta: `Ir para o Max — R$${MAX_MONTH1} no 1º mês`,
+    cta: `Quero o Max — R$${MAX_MONTH1} no 1º mês`,
     ctaStyle: "green",
     highlight: `Só R$${DELTA} a mais que o Pro no 1º mês`,
   },
@@ -151,8 +151,9 @@ export default function PricingSection() {
           <span className="text-[#FF5A1F] text-sm font-bold">⚡ Pro: 35% OFF · Max: 50% OFF · Válido para novas assinaturas</span>
         </motion.div>
 
+        {/* Ordem: Start | Max (centro) | Pro — Max no centro = maior destaque visual */}
         <div className="grid md:grid-cols-3 gap-6 items-start">
-          {PLANS.map((plan, idx) => (
+          {[PLANS[0], PLANS[2], PLANS[1]].map((plan, idx) => (
             <motion.div
               key={plan.id}
               custom={idx * 0.08 + 0.18}
@@ -160,10 +161,10 @@ export default function PricingSection() {
               variants={fadeUp}
               className={`relative rounded-2xl border-2 flex flex-col ${
                 plan.id === "max"
-                  ? "border-[#00CC7A]/50 bg-gradient-to-b from-[#0A1A10] to-[#0C1A12] shadow-[0_0_50px_rgba(0,204,122,0.09)]"
+                  ? "border-[#00CC7A]/60 bg-gradient-to-b from-[#071510] to-[#0A1A10] shadow-[0_0_70px_rgba(0,204,122,0.15)] md:-mt-4 md:-mb-4"
                   : plan.id === "pro"
-                  ? "border-[#FF5A1F]/45 bg-[#0C1A12] shadow-[0_0_40px_rgba(255,90,31,0.08)]"
-                  : "border-[#1E3828] bg-[#0C1A12] opacity-85"
+                  ? "border-[#FF5A1F]/35 bg-[#0C1A12] shadow-[0_0_30px_rgba(255,90,31,0.06)] opacity-90"
+                  : "border-[#1E3828] bg-[#0C1A12] opacity-70"
               }`}
             >
               {/* Badge */}

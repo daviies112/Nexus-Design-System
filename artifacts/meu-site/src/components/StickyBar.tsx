@@ -43,7 +43,7 @@ export default function StickyBar() {
 
               {/* Center: trust micro-items */}
               <div className="hidden xl:flex items-center gap-5 text-[#4A6A58] text-xs">
-                {["Sem cartão de crédito", "Cancele quando quiser", "Setup em 24h"].map((item, i) => (
+                {["Setup em 7 dias úteis", "Cancele quando quiser", "Um cartão. Zero surpresas."].map((item, i) => (
                   <span key={i} className="flex items-center gap-1.5">
                     <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
                       <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#00CC7A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -56,12 +56,12 @@ export default function StickyBar() {
               {/* Right: CTA + dismiss */}
               <div className="flex items-center gap-3 flex-shrink-0">
                 <motion.button
-                  onClick={() => scrollTo("qualificacao")}
+                  onClick={() => scrollTo("preco")}
                   whileHover={{ scale: 1.04, y: -1 }}
                   whileTap={{ scale: 0.97 }}
-                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-6 py-2.5 rounded-full text-sm tracking-wide hover:shadow-[0_0_24px_rgba(255,90,31,0.5)] transition-shadow inline-flex items-center gap-2"
+                  className="bg-gradient-to-r from-[#00CC7A] to-[#00AA62] text-[#001A0E] font-bold px-6 py-2.5 rounded-full text-sm tracking-wide hover:shadow-[0_0_24px_rgba(0,204,122,0.5)] transition-shadow inline-flex items-center gap-2"
                 >
-                  Começar grátis
+                  🏆 Nexus Max — 50% off
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
