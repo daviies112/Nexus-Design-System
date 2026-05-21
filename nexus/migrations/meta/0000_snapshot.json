@@ -1,0 +1,1690 @@
+{
+  "id": "ec5f1d70-602f-40dd-a0d2-3b1dc39230a8",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.chat_sessions": {
+      "name": "chat_sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "messages": {
+          "name": "messages",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "chat_sessions_lead_id_leads_id_fk": {
+          "name": "chat_sessions_lead_id_leads_id_fk",
+          "tableFrom": "chat_sessions",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.demos": {
+      "name": "demos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scheduled_date": {
+          "name": "scheduled_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'scheduled'"
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "demos_lead_id_leads_id_fk": {
+          "name": "demos_lead_id_leads_id_fk",
+          "tableFrom": "demos",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.email_campaigns": {
+      "name": "email_campaigns",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_emails": {
+          "name": "total_emails",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 7
+        },
+        "emails_sent": {
+          "name": "emails_sent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "emails_opened": {
+          "name": "emails_opened",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "emails_clicked": {
+          "name": "emails_clicked",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "email_campaigns_lead_id_leads_id_fk": {
+          "name": "email_campaigns_lead_id_leads_id_fk",
+          "tableFrom": "email_campaigns",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.email_templates": {
+      "name": "email_templates",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subject": {
+          "name": "subject",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "html_content": {
+          "name": "html_content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text_content": {
+          "name": "text_content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "template_type": {
+          "name": "template_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "delay_days": {
+          "name": "delay_days",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.formulario_cliente": {
+      "name": "formulario_cliente",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_completo": {
+          "name": "nome_completo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_principal": {
+          "name": "email_principal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefone_contato": {
+          "name": "telefone_contato",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cargo_funcao": {
+          "name": "cargo_funcao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_empresa": {
+          "name": "nome_empresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "setor_atuacao": {
+          "name": "setor_atuacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tamanho_equipe": {
+          "name": "tamanho_equipe",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "receita_anual": {
+          "name": "receita_anual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "principais_concorrentes": {
+          "name": "principais_concorrentes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "objetivos_principais": {
+          "name": "objetivos_principais",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metas_numericas": {
+          "name": "metas_numericas",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prazo_implementacao": {
+          "name": "prazo_implementacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orcamento_disponivel": {
+          "name": "orcamento_disponivel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ferramentas_atuais": {
+          "name": "ferramentas_atuais",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "principais_desafios": {
+          "name": "principais_desafios",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "processo_atual_vendas": {
+          "name": "processo_atual_vendas",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "volume_leads_mensais": {
+          "name": "volume_leads_mensais",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "taxa_conversao_atual": {
+          "name": "taxa_conversao_atual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "integracoes_necessarias": {
+          "name": "integracoes_necessarias",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "requisitos_tecnicos": {
+          "name": "requisitos_tecnicos",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "equipe_responsavel": {
+          "name": "equipe_responsavel",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nivel_autonomia": {
+          "name": "nivel_autonomia",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expectativas_resultados": {
+          "name": "expectativas_resultados",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "indicadores_sucesso": {
+          "name": "indicadores_sucesso",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tempo_esperado_roi": {
+          "name": "tempo_esperado_roi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "necessidade_treinamento": {
+          "name": "necessidade_treinamento",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "disponibilidade_treinamento": {
+          "name": "disponibilidade_treinamento",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "preferencia_suporte": {
+          "name": "preferencia_suporte",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "etapa_implementacao": {
+          "name": "etapa_implementacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'planejamento'"
+        },
+        "prioridade_implementacao": {
+          "name": "prioridade_implementacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'media'"
+        },
+        "observacoes_adicionais": {
+          "name": "observacoes_adicionais",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ativo'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "formulario_cliente_user_id_users_id_fk": {
+          "name": "formulario_cliente_user_id_users_id_fk",
+          "tableFrom": "formulario_cliente",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.formulario_personalizado": {
+      "name": "formulario_personalizado",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefone": {
+          "name": "telefone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa": {
+          "name": "empresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tamanho_empresa": {
+          "name": "tamanho_empresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "receita": {
+          "name": "receita",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "volume_leads": {
+          "name": "volume_leads",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pontos_dor": {
+          "name": "pontos_dor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "timeline": {
+          "name": "timeline",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "interesse_especifico": {
+          "name": "interesse_especifico",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "orcamento_disponivel": {
+          "name": "orcamento_disponivel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "decisor": {
+          "name": "decisor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "processo_decisao": {
+          "name": "processo_decisao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "solucao_atual": {
+          "name": "solucao_atual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "principais_desafios": {
+          "name": "principais_desafios",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plano_recomendado": {
+          "name": "plano_recomendado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "roi_data": {
+          "name": "roi_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "origem": {
+          "name": "origem",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "campanha": {
+          "name": "campanha",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'novo'"
+        },
+        "lgpd_consent": {
+          "name": "lgpd_consent",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lgpd_consent_date": {
+          "name": "lgpd_consent_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.leads": {
+      "name": "leads",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "company": {
+          "name": "company",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "company_size": {
+          "name": "company_size",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revenue": {
+          "name": "revenue",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "leads_volume": {
+          "name": "leads_volume",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pain_point": {
+          "name": "pain_point",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "timeline": {
+          "name": "timeline",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "roi_data": {
+          "name": "roi_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'new'"
+        },
+        "lgpd_consent": {
+          "name": "lgpd_consent",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lgpd_consent_date": {
+          "name": "lgpd_consent_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.onboarding_surveys": {
+      "name": "onboarding_surveys",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nome_empresa": {
+          "name": "nome_empresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "setor": {
+          "name": "setor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "setor_outro": {
+          "name": "setor_outro",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "telefone_whatsapp": {
+          "name": "telefone_whatsapp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_calendar": {
+          "name": "email_calendar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "apresentacao_whatsapp": {
+          "name": "apresentacao_whatsapp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "horario_funcionamento": {
+          "name": "horario_funcionamento",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "horario_personalizado": {
+          "name": "horario_personalizado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "produtos_servicos": {
+          "name": "produtos_servicos",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ia_informa_valores": {
+          "name": "ia_informa_valores",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tom_comunicacao": {
+          "name": "tom_comunicacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "processo_qualificacao": {
+          "name": "processo_qualificacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quando_transferir": {
+          "name": "quando_transferir",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipos_reuniao": {
+          "name": "tipos_reuniao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duracao_padrao": {
+          "name": "duracao_padrao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duracao_outro": {
+          "name": "duracao_outro",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "disponibilidade_horarios": {
+          "name": "disponibilidade_horarios",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "informacoes_necessarias": {
+          "name": "informacoes_necessarias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quando_follow_up": {
+          "name": "quando_follow_up",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "follow_up_personalizado": {
+          "name": "follow_up_personalizado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tentativas_follow_up": {
+          "name": "tentativas_follow_up",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tentativas_personalizado": {
+          "name": "tentativas_personalizado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "situacoes_sem_follow_up": {
+          "name": "situacoes_sem_follow_up",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "crm_atual": {
+          "name": "crm_atual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "crm_outro": {
+          "name": "crm_outro",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "compliance": {
+          "name": "compliance",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "compliance_outro": {
+          "name": "compliance_outro",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "urgencia_implementacao": {
+          "name": "urgencia_implementacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'completed'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "onboarding_surveys_user_id_users_id_fk": {
+          "name": "onboarding_surveys_user_id_users_id_fk",
+          "tableFrom": "onboarding_surveys",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "onboarding_surveys_lead_id_leads_id_fk": {
+          "name": "onboarding_surveys_lead_id_leads_id_fk",
+          "tableFrom": "onboarding_surveys",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pagamento_recusado": {
+      "name": "pagamento_recusado",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefone": {
+          "name": "telefone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa": {
+          "name": "empresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "numero_cartao_mascara": {
+          "name": "numero_cartao_mascara",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validade_cartao": {
+          "name": "validade_cartao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "plano_escolhido": {
+          "name": "plano_escolhido",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor_plano": {
+          "name": "valor_plano",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ciclo_cobranca": {
+          "name": "ciclo_cobranca",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "motivo_recusa": {
+          "name": "motivo_recusa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tentativas": {
+          "name": "tentativas",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "origem": {
+          "name": "origem",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'checkout'"
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reuniao_prospecto": {
+      "name": "reuniao_prospecto",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "formulario_personalizado_id": {
+          "name": "formulario_personalizado_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tipo_reuniao": {
+          "name": "tipo_reuniao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_agendada": {
+          "name": "data_agendada",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duracao": {
+          "name": "duracao",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 60
+        },
+        "plataforma": {
+          "name": "plataforma",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "link_reuniao": {
+          "name": "link_reuniao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nome_prospecto": {
+          "name": "nome_prospecto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_prospecto": {
+          "name": "email_prospecto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefone_prospecto": {
+          "name": "telefone_prospecto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cargo_prospecto": {
+          "name": "cargo_prospecto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "empresa_prospecto": {
+          "name": "empresa_prospecto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "objetivo_reuniao": {
+          "name": "objetivo_reuniao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pontos_discussao": {
+          "name": "pontos_discussao",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "materiais_compartilhados": {
+          "name": "materiais_compartilhados",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notas_preparacao": {
+          "name": "notas_preparacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lembrete_enviado": {
+          "name": "lembrete_enviado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "confirmado": {
+          "name": "confirmado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'agendado'"
+        },
+        "notas_reuniao": {
+          "name": "notas_reuniao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "proximos_passos": {
+          "name": "proximos_passos",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "probabilidade_conversao": {
+          "name": "probabilidade_conversao",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_realizacao": {
+          "name": "data_realizacao",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duracao_real": {
+          "name": "duracao_real",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "participantes": {
+          "name": "participantes",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "reuniao_prospecto_lead_id_leads_id_fk": {
+          "name": "reuniao_prospecto_lead_id_leads_id_fk",
+          "tableFrom": "reuniao_prospecto",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "reuniao_prospecto_formulario_personalizado_id_formulario_personalizado_id_fk": {
+          "name": "reuniao_prospecto_formulario_personalizado_id_formulario_personalizado_id_fk",
+          "tableFrom": "reuniao_prospecto",
+          "tableTo": "formulario_personalizado",
+          "columnsFrom": [
+            "formulario_personalizado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.scheduled_emails": {
+      "name": "scheduled_emails",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "campaign_id": {
+          "name": "campaign_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "template_id": {
+          "name": "template_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scheduled_at": {
+          "name": "scheduled_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sent_at": {
+          "name": "sent_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opened_at": {
+          "name": "opened_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "clicked_at": {
+          "name": "clicked_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'scheduled'"
+        },
+        "personalized_subject": {
+          "name": "personalized_subject",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "personalized_content": {
+          "name": "personalized_content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "error_message": {
+          "name": "error_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "scheduled_emails_campaign_id_email_campaigns_id_fk": {
+          "name": "scheduled_emails_campaign_id_email_campaigns_id_fk",
+          "tableFrom": "scheduled_emails",
+          "tableTo": "email_campaigns",
+          "columnsFrom": [
+            "campaign_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "scheduled_emails_lead_id_leads_id_fk": {
+          "name": "scheduled_emails_lead_id_leads_id_fk",
+          "tableFrom": "scheduled_emails",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "scheduled_emails_template_id_email_templates_id_fk": {
+          "name": "scheduled_emails_template_id_email_templates_id_fk",
+          "tableFrom": "scheduled_emails",
+          "tableTo": "email_templates",
+          "columnsFrom": [
+            "template_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.subscriptions": {
+      "name": "subscriptions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plan": {
+          "name": "plan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "billing_cycle": {
+          "name": "billing_cycle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "subscriptions_user_id_users_id_fk": {
+          "name": "subscriptions_user_id_users_id_fk",
+          "tableFrom": "subscriptions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stripe_customer_id": {
+          "name": "stripe_customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stripe_subscription_id": {
+          "name": "stripe_subscription_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_username_unique": {
+          "name": "users_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
+          ]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
