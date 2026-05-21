@@ -4,56 +4,56 @@ const TESTIMONIALS = [
   {
     name: "Camila R.",
     city: "São Paulo, SP",
-    initials: "CR",
+    photo: "/testimonials/camila.png",
     color: "#FF5A1F",
     text: "Antes eu passava 3h por dia cobrando minhas revendedoras. Agora a Amanda cuida de tudo e eu foco no crescimento da rede. Valia cada centavo do Pro.",
   },
   {
     name: "Patrícia M.",
     city: "Belo Horizonte, MG",
-    initials: "PM",
+    photo: "/testimonials/patricia.png",
     color: "#00CC7A",
     text: "Setup feito em 6 dias. A emissão de NF-e automática me salvou de uma multa que seria três vezes o valor do plano. Melhor investimento que já fiz.",
   },
   {
     name: "Fernanda L.",
     city: "Curitiba, PR",
-    initials: "FL",
+    photo: "/testimonials/fernanda.png",
     color: "#FF5A1F",
     text: "Pagava R$4.800/mês em ferramentas separadas. Hoje pago R$997 e tenho mais funcionalidade. Impossível voltar para o jeito antigo.",
   },
   {
     name: "Juliana S.",
     city: "Rio de Janeiro, RJ",
-    initials: "JS",
+    photo: "/testimonials/juliana.png",
     color: "#00CC7A",
     text: "80 revendedoras gerenciadas automaticamente. As comissões são calculadas e os repasses cobrados sem eu abrir uma planilha sequer.",
   },
   {
     name: "Aline C.",
     city: "Fortaleza, CE",
-    initials: "AC",
+    photo: "/testimonials/aline.png",
     color: "#FF5A1F",
     text: "O contrato digital com assinatura eletrônica foi um divisor de águas. Antes levava 3 dias para formalizar uma nova revendedora. Agora é automático.",
   },
   {
     name: "Mariana T.",
     city: "Recife, PE",
-    initials: "MT",
+    photo: "/testimonials/mariana.png",
     color: "#00CC7A",
     text: "97% das cobranças resolvidas sem eu precisar ligar. Recuperei meu fim de semana e minha saúde mental. A régua D+5/D+10/D+15 é genial.",
   },
   {
     name: "Renata F.",
     city: "Porto Alegre, RS",
-    initials: "RF",
+    photo: "/testimonials/renata.png",
     color: "#FF5A1F",
     text: "Tentei três sistemas antes. Nenhum entendia semijoias. A Nexus foi criada para o nosso mercado — é completamente diferente.",
   },
   {
     name: "Luciana B.",
     city: "Goiânia, GO",
-    initials: "LB",
+    photo: "/testimonials/luciana.png",
     color: "#00CC7A",
     text: "Em 2 meses recuperei R$4.200 em cobranças que eu teria esquecido. Pagou o plano por mais de 4 meses. A Amanda não esquece nada.",
   },
@@ -79,14 +79,17 @@ function Stars() {
 
 function Card({ t }: { t: typeof TESTIMONIALS[0] }) {
   return (
-    <div className="flex-shrink-0 w-[288px] bg-[#0C1A12] border border-[#1E3828] rounded-2xl p-6 mx-3 hover:border-[#2A4A38] transition-colors duration-300">
+    <div className="flex-shrink-0 w-[300px] bg-[#0C1A12] border border-[#1E3828] rounded-2xl p-6 mx-3 hover:border-[#2A4A38] hover:shadow-[0_0_20px_rgba(0,204,122,0.04)] transition-all duration-300">
       <Stars />
       <p className="text-[#C4DDD0] text-[13px] leading-relaxed mb-5">"{t.text}"</p>
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-          style={{ background: `${t.color}33`, border: `1px solid ${t.color}44`, color: t.color }}>
-          {t.initials}
-        </div>
+        <img
+          src={t.photo}
+          alt={t.name}
+          className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2"
+          style={{ borderColor: t.color + "44" }}
+          loading="lazy"
+        />
         <div>
           <div className="text-white text-sm font-semibold leading-tight">{t.name}</div>
           <div className="text-[#4A6A58] text-xs">{t.city}</div>

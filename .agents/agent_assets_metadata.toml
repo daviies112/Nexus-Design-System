@@ -1,0 +1,50 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "BRHoUhm2MR2t_1PoL4L_A"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/camila.png"
+type = "image"
+title = "camila testimonial"
+
+[[generated]]
+id = "a5g4VNrempe0PcyDZBkz3"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/patricia.png"
+type = "image"
+title = "patricia testimonial"
+
+[[generated]]
+id = "7ETyKeXowyQ6uZ72fjH4W"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/fernanda.png"
+type = "image"
+title = "fernanda testimonial"
+
+[[generated]]
+id = "EaYpuNbp-LdE6R4sMI7HQ"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/juliana.png"
+type = "image"
+title = "juliana testimonial"
+
+[[generated]]
+id = "9gV20FxZV5W0V1B6kEA7S"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/aline.png"
+type = "image"
+title = "aline testimonial"
+
+[[generated]]
+id = "EZQZYU8rQTli0LnwW-KHi"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/mariana.png"
+type = "image"
+title = "mariana testimonial"
+
+[[generated]]
+id = "1lC2krOH1haoOl1OBc_aE"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/renata.png"
+type = "image"
+title = "renata testimonial"
+
+[[generated]]
+id = "2HRFuJLTDIWCoNyVjnDpR"
+uri = "file://artifacts/nexus-intelligence/public/testimonials/luciana.png"
+type = "image"
+title = "luciana testimonial"
