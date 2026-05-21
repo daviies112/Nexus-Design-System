@@ -12,7 +12,6 @@ import HeroMockup from "@/components/HeroMockup";
 import HowItWorks from "@/components/HowItWorks";
 import IntegrationStrip from "@/components/IntegrationStrip";
 import TrustBadges from "@/components/TrustBadges";
-import StickyBar from "@/components/StickyBar";
 
 /* ─── Icon helpers ─── */
 function IconCheck() {
@@ -944,8 +943,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── STICKY CONVERSION BAR (desktop only) ── */}
-      <StickyBar />
     </div>
   );
 }
