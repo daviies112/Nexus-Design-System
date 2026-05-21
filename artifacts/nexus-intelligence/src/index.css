@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+/* Fonts now loaded via <link> in index.html for non-blocking render */
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -393,6 +393,62 @@
 @keyframes nexus-border-shimmer {
   0%   { background-position: 0%   0%; }
   100% { background-position: 300% 300%; }
+}
+
+/* ── Smooth scroll for the whole page ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Better tap targets on mobile ── */
+@media (max-width: 768px) {
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── Page entrance fade-in ── */
+@keyframes nexus-page-in {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+#root {
+  animation: nexus-page-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Selection color ── */
+::selection {
+  background: rgba(255, 90, 31, 0.25);
+  color: #fff;
+}
+
+/* ── Focus ring for accessibility ── */
+:focus-visible {
+  outline: 2px solid rgba(0, 204, 122, 0.6);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #060F0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E3828;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2A4A38;
+}
+
+/* ── Hero mobile improvements ── */
+@media (max-width: 640px) {
+  .hero-badge-pill {
+    font-size: 11px;
+  }
 }
 
 @layer utilities {

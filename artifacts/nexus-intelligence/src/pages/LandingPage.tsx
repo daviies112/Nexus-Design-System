@@ -286,9 +286,8 @@ export default function LandingPage() {
                   transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl font-normal text-center lg:text-left"
                 >
-                  Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
-                  <br className="hidden sm:block" />
-                  A partir de R$649/mês. 3 planos. Sem fidelidade.
+                  <span className="block">Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.</span>
+                  <span className="block mt-0.5 text-[#FF5A1F]/80 font-medium">Nexus Max com 50% off no 1º mês · 3 planos · Sem fidelidade.</span>
                 </motion.p>
 
                 <motion.div
@@ -380,7 +379,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1E3828] border border-[#1E3828] rounded-2xl overflow-hidden">
             {[
               { num: "97%",   countTo: 97,  suffix: "%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
-              { num: "R$649", countTo: null, suffix: "",  label: "A partir de — Plano Start", sub: "3 planos disponíveis" },
+              { num: "300+", countTo: 300, suffix: "+", label: "Empreendedoras automatizadas", sub: "e crescendo" },
               { num: "24h",   countTo: 24,  suffix: "h", label: "Setup assistido", sub: "após a assinatura" },
               { num: "Zero",  countTo: null, suffix: "",  label: "Contrato de fidelidade", sub: "cancele quando quiser" },
             ].map((s, i) => (
@@ -578,7 +577,7 @@ export default function LandingPage() {
             >
               Quero a Amanda AI
             </motion.button>
-            <span className="text-[#4A6A58] text-sm">A partir de R$649/mês · setup em 7 dias · sem fidelidade</span>
+            <span className="text-[#4A6A58] text-sm">50% off no 1º mês com Nexus Max · setup em 7 dias · sem fidelidade</span>
           </motion.div>
         </div>
       </section>

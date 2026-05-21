@@ -5,6 +5,36 @@ import { NexusIconSm } from "./NexusIcon";
 import CustomCursor from "./CustomCursor";
 import FloatingCTA from "./FloatingCTA";
 
+function ScrollToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          initial={{ opacity: 0, scale: 0.6, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.6, y: 12 }}
+          transition={{ type: "spring", stiffness: 340, damping: 28 }}
+          whileHover={{ scale: 1.1, y: -2 }}
+          whileTap={{ scale: 0.92 }}
+          className="fixed bottom-24 right-6 z-50 w-10 h-10 rounded-full liquid-glass-nexus border border-[#1E3828] flex items-center justify-center text-[#7AA88E] hover:text-white hover:border-[#00CC7A]/40 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+          aria-label="Voltar ao topo"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 11V3M3 7l4-4 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -222,6 +252,30 @@ export default function Layout({ children }: LayoutProps) {
               <p className="text-[#7AA88E] text-sm mt-4 max-w-xs text-center md:text-left">
                 A IA que automatiza cobrança, estoque e notas fiscais para revendedoras de semijoias.
               </p>
+              <div className="flex items-center gap-3 mt-5">
+                <a
+                  href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Nexus%20Intelligence"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-[#1E3828] hover:bg-[#25D366]/20 flex items-center justify-center text-[#7AA88E] hover:text-[#25D366] transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 2C5.6 2 2 5.6 2 10c0 1.4.4 2.8 1 3.9L2 18l4.2-1.1C7.3 17.6 8.6 18 10 18c4.4 0 8-3.6 8-8s-3.6-8-8-8zm4.1 11c-.2.5-1 1-1.4 1-.4 0-.8.1-2.5-.5-2.1-.8-3.4-2.9-3.5-3-.1-.1-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.1.3-.3.4-.1.1-.3.3-.4.4-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2 1.1.9 2 1.2 2.3 1.3.3.1.5 0 .6-.1.2-.2.5-.5.7-.8.1-.2.3-.2.5-.1.2.1 1.2.6 1.4.7.2.1.4.2.4.3.1.2 0 .8-.4 1.3z"/>
+                  </svg>
+                </a>
+                <a
+                  href="https://instagram.com/nexusintelligence"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-[#1E3828] hover:bg-[#E1306C]/20 flex items-center justify-center text-[#7AA88E] hover:text-[#E1306C] transition-colors"
+                  aria-label="Instagram"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                </a>
+              </div>
             </div>
 
             <div className="flex flex-wrap justify-center md:justify-end gap-10 text-sm">
@@ -246,7 +300,14 @@ export default function Layout({ children }: LayoutProps) {
           </div>
 
           <div className="pt-8 border-t border-[#1E3828] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#4A6A58]">
-            <p>© {new Date().getFullYear()} Nexus Intelligence. Todos os direitos reservados. CNPJ: 00.000.000/0001-00</p>
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00CC7A] animate-pulse" />
+                <span>Plataforma 100% operacional</span>
+              </span>
+              <span className="text-[#1E3828]">·</span>
+              <span>© {new Date().getFullYear()} Nexus Intelligence. Todos os direitos reservados.</span>
+            </div>
             <div className="flex gap-4">
               <Link href="/termos-uso" className="hover:text-white transition-colors">Termos</Link>
               <Link href="/politica-privacidade" className="hover:text-white transition-colors">Privacidade</Link>
@@ -281,6 +342,7 @@ export default function Layout({ children }: LayoutProps) {
       </footer>
 
       <FloatingCTA />
+      <ScrollToTop />
     </div>
   );
 }

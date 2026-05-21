@@ -1,2 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /checkout
+Disallow: /brand
+Disallow: /instagram
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: https://nexusintelligence.com.br/sitemap.xml
