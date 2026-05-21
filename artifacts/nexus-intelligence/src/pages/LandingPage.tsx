@@ -599,7 +599,6 @@ export default function LandingPage() {
             >
               Quero a Amanda AI
             </motion.button>
-            <span className="text-[#4A6A58] text-sm">50% off no 1º mês com Nexus Max · setup em 7 dias · sem fidelidade</span>
           </motion.div>
         </div>
       </section>
@@ -650,84 +649,6 @@ export default function LandingPage() {
               Três planos. Todos com a Amanda AI. Escolha o que combina com o tamanho da sua rede.
             </motion.p>
           </div>
-
-          {/* Competitor comparison */}
-          <motion.div
-            custom={0.12}
-            initial="hidden" whileInView="visible" viewport={{ once: true }}
-            variants={fadeUp}
-            className="grid md:grid-cols-2 rounded-2xl overflow-hidden border border-[#1E3828] mb-8"
-          >
-            <div className="bg-[#0C1A12] p-8 border-b md:border-b-0 md:border-r border-[#1E3828]">
-              <p className="text-[#4A6A58] text-sm font-medium mb-6 uppercase tracking-wider">O ecossistema fragmentado que você usa hoje</p>
-              <div className="space-y-3 mb-6">
-                {[
-                  { label: "Sistema de gestão (CRM + gestão)", val: "R$ 250" },
-                  { label: "App de vendas (catálogo + pedidos)", val: "R$ 450" },
-                  { label: "Sistema de reuniões IA", val: "R$ 3.000" },
-                  { label: "Formulários + landing pages", val: "R$ 100" },
-                  { label: "Agência de tráfego (mínimo)", val: "R$ 1.200" },
-                ].map((item, i) => (
-                  <div key={i} className="flex justify-between items-center">
-                    <span className="text-[#4A6A58] text-sm line-through">{item.label}</span>
-                    <span className="text-[#4A6A58] text-sm line-through">{item.val}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="pt-4 border-t border-[#1E3828]">
-                <div className="text-[#EF4444] font-syne font-extrabold text-3xl">R$5.000+/mês</div>
-                <div className="text-[#4A6A58] text-sm mt-1">sem contar o tempo e o esgotamento</div>
-              </div>
-            </div>
-
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#FF5A1F] p-8 flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <NexusIconSm size={28} />
-                  <div>
-                    <p className="text-[#1A0500] text-xs font-bold uppercase tracking-widest">🏆 Nexus Max</p>
-                    <p className="text-[#5C1A00] text-[10px] font-semibold">A operação completa · 50% OFF no 1º mês</p>
-                  </div>
-                </div>
-                <div className="mb-1">
-                  <span className="text-[#5C1A00] text-sm font-medium line-through">R$1.449/mês</span>
-                </div>
-                <div className="mb-1">
-                  <span className="font-syne font-extrabold text-[52px] text-[#1A0500] leading-none">R$724</span>
-                  <span className="text-[#5C1A00] text-lg font-semibold ml-1">/1º mês</span>
-                </div>
-                <p className="text-[#5C1A00] text-sm font-medium mb-6">ilimitado em tudo · sem fidelidade · setup em 7 dias</p>
-                <ul className="space-y-2 mb-6">
-                  {[
-                    "Amanda AI — do lead ao repasse automático",
-                    "Pix + NF-e + Serasa D+17 — 100% automático",
-                    "Maleta + RMA + Anti-churn com IA",
-                    "Plano de ação IA por consultora",
-                    "Canal dedicado + prioridade em novas features",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2.5 text-[#1A0500] text-sm font-medium">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M2.5 7l3 3 6-6" stroke="#1A0500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <motion.button
-                onClick={() => { window.location.href = "/checkout?plan=max"; }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="bg-[#1A0500] text-[#FF5A1F] font-bold py-3.5 rounded-full text-[15px] hover:shadow-[0_0_24px_rgba(26,5,0,0.5)] transition-shadow w-full tracking-wide"
-              >
-                Quero o Max — R$724 no 1º mês
-              </motion.button>
-            </motion.div>
-          </motion.div>
 
           {/* 3 full plan cards — MAX no centro (posição de maior destaque) */}
           <div className="grid md:grid-cols-3 gap-5 items-start">
