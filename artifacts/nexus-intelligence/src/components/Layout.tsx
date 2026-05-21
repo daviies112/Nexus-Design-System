@@ -53,7 +53,7 @@ export default function Layout({ children }: LayoutProps) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/checkout" className="bg-[#FF5A1F] text-[#1A0500] font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-[#FF5A1F]/90 hover:scale-[1.02] transition-all hidden md:block shadow-sm">
+            <Link href="/checkout" className="bg-[#FF5A1F] text-[#1A0500] font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity hidden md:block">
               Começar grátis
             </Link>
             <button

@@ -46,12 +46,12 @@ export default function ROICalculator() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-[#FF5A1F] text-xs font-bold tracking-[0.2em] uppercase block mb-4">CALCULADORA DE ROI</span>
-          <h2 className="font-syne font-extrabold text-4xl md:text-5xl text-white">
-            Quanto você perde por mês?
+          <h2 className="font-syne font-bold text-3xl md:text-4xl text-white tracking-tight">
+            Quanto você perde operando
+            <span className="text-[#FF5A1F]"> no manual?</span>
           </h2>
-          <p className="text-[#7AA88E] text-lg mt-4 max-w-xl mx-auto">
-            Calcule em 30 segundos o custo real de operar no manual.
+          <p className="text-[#7AA88E] text-base mt-4 max-w-xl mx-auto leading-relaxed">
+            Calcule em 30 segundos o custo real da sua operação atual.
           </p>
         </motion.div>
 

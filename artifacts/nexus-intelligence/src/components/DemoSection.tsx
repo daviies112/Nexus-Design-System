@@ -82,12 +82,12 @@ export default function DemoSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-[#FF5A1F] text-xs font-bold tracking-[0.2em] uppercase block mb-4">AMANDA AI EM AÇÃO</span>
-          <h2 className="font-syne font-extrabold text-4xl md:text-5xl text-white">
-            Veja como funciona
+          <h2 className="font-syne font-bold text-3xl md:text-4xl text-white tracking-tight">
+            Veja a Amanda trabalhando
+            <span className="text-[#FF5A1F]"> em tempo real.</span>
           </h2>
-          <p className="text-[#7AA88E] text-lg mt-4 max-w-2xl mx-auto">
-            Em segundos, a Amanda resolve cobrança, emite nota e atualiza estoque — sem você tocar em nada.
+          <p className="text-[#7AA88E] text-base mt-4 max-w-xl mx-auto leading-relaxed">
+            Em segundos, resolve cobrança, emite nota e atualiza estoque — sem você tocar em nada.
           </p>
         </motion.div>
 

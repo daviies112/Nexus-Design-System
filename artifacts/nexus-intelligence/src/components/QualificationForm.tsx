@@ -146,11 +146,11 @@ export default function QualificationForm() {
     <section id="qualificacao" className="bg-[#060F0A] py-24 md:py-32 px-6 border-t border-[#1E3828]">
       <div className="max-w-2xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-          <span className="text-[#FF5A1F] text-xs font-bold tracking-[0.2em] uppercase block mb-4">QUALIFICAÇÃO</span>
-          <h2 className="font-syne font-extrabold text-4xl md:text-5xl text-white">
+          <h2 className="font-syne font-bold text-3xl md:text-4xl text-white tracking-tight">
             Receba sua proposta
+            <span className="text-[#FF5A1F]"> personalizada.</span>
           </h2>
-          <p className="text-[#7AA88E] text-lg mt-4">2 minutos para receber uma proposta personalizada.</p>
+          <p className="text-[#7AA88E] text-base mt-4 leading-relaxed">2 minutos para receber uma proposta personalizada.</p>
         </motion.div>
 
         <div className="bg-[#0C1A12] border border-[#1E3828] rounded-3xl p-8">
