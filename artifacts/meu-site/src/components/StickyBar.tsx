@@ -29,7 +29,7 @@ export default function StickyBar() {
           className="fixed bottom-0 left-0 right-0 z-40 hidden lg:block"
         >
           <div className="liquid-glass-nexus border-t border-[#1E3828]">
-            <div className="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between gap-6">
+            <div className="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between gap-6 opacity-[0]">
 
               {/* Left: brand + info */}
               <div className="flex items-center gap-4 min-w-0">
