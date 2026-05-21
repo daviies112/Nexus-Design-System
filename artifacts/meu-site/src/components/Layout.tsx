@@ -25,6 +25,7 @@ function ScrollProgressBar() {
 
 const NAV_LINKS = [
   { label: "Funcionalidades", href: "/funcionalidades" },
+  { label: "Comparar", href: "/comparacao" },
   { label: "Integrações", href: "/integracoes" },
   { label: "Sobre", href: "/sobre-nos" },
   { label: "Ajuda", href: "/central-ajuda" },

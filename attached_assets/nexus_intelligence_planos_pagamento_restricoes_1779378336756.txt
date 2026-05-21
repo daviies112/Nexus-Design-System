@@ -1,0 +1,572 @@
+================================================================================
+NEXUS INTELLIGENCE — PLANOS, PAGAMENTO E SISTEMA DE RESTRIÇÕES
+================================================================================
+Documento interno de especificação completa
+Versão definitiva
+================================================================================
+
+
+================================================================================
+PARTE 1 — OS TRÊS PLANOS
+================================================================================
+
+
+--------------------------------------------------------------------------------
+NEXUS START — R$ 649/mês
+--------------------------------------------------------------------------------
+
+Para empresas que estão estruturando o processo de prospecção e querem
+automatizar o caminho do lead até o contrato assinado.
+
+Limite: até 30 leads únicos por mês pelo WhatsApp.
+Após assinar o contrato, o atendimento das revendedoras é feito pelo time
+humano da empresa. A Amanda atua exclusivamente no ciclo de prospecção.
+
+O QUE ESTÁ INCLUSO:
+
+ATENDIMENTO E PROSPECÇÃO AUTOMATIZADA
+
+Amanda IA
+Atende automaticamente todos os leads pelo WhatsApp, mantém memória de
+contexto por conversa, entende texto e áudio, divide mensagens longas
+de forma natural e sabe quando pausar e devolver para um humano. Quando
+o humano encerra, a Amanda reativa sozinha.
+
+Formulário de qualificação personalizado
+A Amanda envia automaticamente o formulário com design personalizado,
+sistema de pontuação configurável e URL única por lead. Follow-up
+automático em até 3 tentativas para leads que não preencheram.
+
+Consulta de CPF automática — Datacorp
+Cobrada por uso em todos os planos: R$ 1,99 por consulta.
+Após o formulário, o sistema consulta o CPF na Datacorp verificando
+validade, nome, endereço, processos judiciais e pendências financeiras.
+Calcula score de 0 a 100 e decide automaticamente:
+  - 80 a 100 pontos: aprovação automática
+  - 50 a 79 pontos: encaminha para análise manual
+  - 0 a 49 pontos: reprovação automática
+A consulta de CPF está em todos os planos porque sem ela o fluxo de
+prospecção para completamente antes do contrato.
+
+Aprovação e reprovação automática
+O sistema notifica o lead pelo WhatsApp com aprovação ou reprovação sem
+nenhuma intervenção humana.
+
+Contrato digital com assinatura eletrônica
+Gerado automaticamente com os dados do formulário, enviado por WhatsApp
+e e-mail. Monitoramento de assinatura a cada 1 minuto. Follow-up
+automático para contratos não assinados. Mensagem de parabéns automática
+quando a revendedora assina.
+
+AGENDAMENTO E REUNIÕES COM IA
+
+Agendamento automático pelo Google Calendar
+Agenda reuniões, verifica disponibilidade, detecta conflitos, cria
+reuniões online (Google Meet) ou presenciais, envia lembretes automáticos
+2 horas e 5 minutos antes pelo WhatsApp. Cancelamento e reagendamento
+sem intervenção humana.
+
+Gravação e transcrição automática de reuniões
+Ao final da reunião, para a gravação, converte o áudio, transcreve com
+Gemini 2.5 Pro, gera resumo executivo e envia para a empresa por
+e-mail e WhatsApp. Histórico completo armazenado.
+
+Follow-up de não comparecimento
+Lead agendou e não apareceu: sistema detecta e dispara mensagem
+automática.
+
+GESTÃO OPERACIONAL
+
+Catálogo digital de produtos
+Catálogo com imagens, categorias, busca e filtros. Compartilhável com
+revendedoras.
+
+Controle de estoque
+Múltiplos armazéns, alertas automáticos de estoque baixo e histórico
+de movimentações.
+
+Gestão de pedidos
+Controle de pedidos com status (pendente, aprovado, enviado, entregue),
+rastreamento e notificações.
+
+Geração de etiqueta de envio
+Geração de etiqueta via Melhor Envio de forma manual. A empresa solicita
+e o sistema gera.
+
+Criação de maleta
+Criação manual de maletas para as revendedoras.
+
+MARKETING E CRESCIMENTO
+
+Campanhas de marketing com link WhatsApp
+Criação de campanhas com link WhatsApp pré-preenchido e rastreamento
+por origem (Facebook, Instagram, Google, YouTube, TikTok). A Amanda
+identifica de qual campanha veio cada lead.
+
+Publicação em 6 redes sociais
+Instagram, Facebook, LinkedIn, Twitter/X, YouTube e TikTok com
+adaptação automática de formato. Agendamento e biblioteca de mídia
+inclusos.
+
+CRM E GESTÃO INTERNA
+
+CRM completo
+Histórico de todos os contatos, status, tags, observações, prioridade,
+origem, responsável e valor total.
+
+Workspace colaborativo
+Kanban (estilo Trello) e páginas de documentação (estilo Notion).
+Boards, listas, cards, drag and drop, hierarquia de páginas.
+
+Gestão de equipe
+Cadastro de funcionários por setor e cargo.
+
+Base de conhecimento vetorial (RAG)
+A Amanda consulta base de conhecimento configurável para responder
+perguntas frequentes. Quando não encontra, escala para humano.
+
+FINANCEIRO E CONTABILIDADE
+
+OCR de despesas financeiras
+Análise de boletos, NF-e, recibos e comprovantes por foto com Gemini
+Vision. Extrai tipo, valores, datas, códigos de barras e PIX.
+
+Integração bancária
+Open Banking com múltiplos bancos, consolidação de saldos, categorização
+automática e previsão de fluxo de caixa.
+
+Contabilidade automatizada
+DRE, Balanço Patrimonial, livros fiscais e apuração de impostos
+(IRPJ, CSLL, ICMS, PIS, COFINS).
+
+RANKING E GAMIFICAÇÃO
+
+Sistema de níveis: Bronze, Prata, Ouro, Diamante e Platina por volume
+de vendas. Ranking mensal, anual e histórico.
+
+Badges e conquistas por metas de vendas, indicações e frequência.
+Loja de pontos para trocar por produtos ou benefícios.
+
+Metas mensais, desafios semanais e especiais com recompensas
+configuráveis.
+
+Sistema de indicação com link único por revendedora, rastreamento
+completo e bônus automáticos por indicação cadastrada, aprovada e ativa.
+
+O QUE NÃO ESTÁ INCLUSO NO START (dores propositais):
+- Pix automático para cobrança de repasse
+- Maleta 100% automatizada (confirmação via Pix + rolagem de peças)
+- Follow-up de inadimplência (D+5, D+10, D+15)
+- Anti-churn (D+3, D+10, D+20)
+- NF-e automática via Bling
+- Acerto parcial automático
+- Análise de comprovante por visão computacional
+- RMA com análise de foto de defeito por IA
+- Negativação Serasa
+- Plano de ação IA por consultora
+- Declaração de sinistro automática
+
+
+--------------------------------------------------------------------------------
+NEXUS PRO — R$ 997/mês  [MAIS ESCOLHIDO]
+--------------------------------------------------------------------------------
+
+Para empresas que já têm revendedoras ativas e precisam que toda a
+operação financeira e logística rode sozinha, sem nenhum humano para
+cobrar, controlar ou acompanhar.
+
+Limite: até 70 leads únicos por mês pelo WhatsApp + revendedoras ativas
+ilimitadas.
+
+Inclui tudo do Start, mais:
+
+FINANCEIRO AUTOMATIZADO
+
+Pix automático para cobrança de repasse — Efi Bank
+Cobrado por uso em Pro e Max: R$ 3,00 por transação.
+No dia configurado, o sistema gera automaticamente a cobrança Pix para
+cada revendedora com saldo pendente, envia o QR code pelo WhatsApp e
+monitora o pagamento. Ao confirmar, atualiza o status, notifica
+revendedora e empresa, encerra o ciclo daquele mês.
+
+Análise de comprovante de pagamento por visão computacional
+Gemini Vision extrai valor pago, data, horário e chave Pix de qualquer
+comprovante enviado por foto ou print. Atualiza automaticamente o
+financeiro da revendedora sem intervenção humana.
+
+Acerto parcial automático
+Revendedora paga valor parcial do repasse: o sistema detecta, registra
+o acerto parcial, atualiza o saldo e notifica a empresa com o valor
+restante.
+
+Follow-up de inadimplência completo
+D+5: primeira cobrança automática com valor e vencimento.
+D+10: segunda cobrança com aviso de encaminhamento jurídico.
+D+15: cobrança final com bloqueio do sistema para a revendedora.
+Tudo automático, via WhatsApp, sem nenhum humano fazer a cobrança.
+
+NF-e automática via Bling
+Emissão individual e em lote (semanal toda segunda-feira às 7h).
+Cobrado por nota emitida, com margem aplicada pela Nexus.
+
+LOGÍSTICA COMPLETA
+
+Maleta 100% automatizada
+Geração automática de maleta, envio de notificação por WhatsApp à
+revendedora, confirmação de recebimento via Pix, rolagem de peças
+automatizada ao fim do ciclo, declaração de sinistro para peças
+perdidas ou danificadas.
+
+Melhor Envio com automação completa
+Fila de expedição automática, notificação de nova maleta, rastreamento
+por WhatsApp e etiqueta de devolução (RMA). Margem de 40% fica com
+a Nexus sobre o valor do frete.
+
+RETENÇÃO DE REVENDEDORAS (Anti-churn)
+
+D+3 pós-entrega: mensagem de boas-vindas e dica de stories.
+D+10: follow-up com sugestão de foto de produto para postar.
+D+20: mensagem de urgência com estratégia de vendas.
+Tudo automático, configurável e enviado via WhatsApp.
+
+RMA COM INTELIGÊNCIA ARTIFICIAL
+
+Detecção de intenção de defeito
+A Amanda identifica automaticamente quando a revendedora está descrevendo
+um defeito em alguma peça e inicia o fluxo de RMA.
+
+Análise de foto de defeito
+A revendedora envia foto da peça com defeito. O Gemini Vision analisa,
+classifica o tipo de defeito, verifica se está dentro da política de
+troca e aprova ou rejeita o RMA automaticamente.
+
+O QUE NÃO ESTÁ INCLUSO NO PRO:
+- Negativação Serasa D+17
+- Plano de ação IA por consultora
+
+
+--------------------------------------------------------------------------------
+NEXUS MAX — R$ 1.449/mês
+--------------------------------------------------------------------------------
+
+Para empresas que não podem perder um repasse sequer e precisam de
+operação 100% automática, incluindo recuperação de dívidas e inteligência
+individual por consultora.
+
+Limite: ilimitado em tudo.
+
+Inclui tudo do Pro, mais:
+
+Negativação Serasa D+17 — automatizada
+Cobrado por ação: R$ 25,00 (custo da Nexus: R$ 10,00).
+Se a revendedora chegar ao D+17 sem pagar após todos os follow-ups,
+o sistema negativar automaticamente no Serasa sem nenhuma intervenção
+humana. Notificação automática para a revendedora e para a empresa.
+
+Plano de ação IA por consultora
+Cobrado por geração: R$ 5,00.
+Diagnóstico individual gerado por IA para cada revendedora com base no
+histórico de vendas, inadimplência e engajamento. Entregue via WhatsApp
+com estratégias personalizadas para aumentar a performance da consultora.
+
+Reset automático de soft allocation
+Cron diário às 8h05 para reset de alocações e atualização de estoque.
+
+Acesso prioritário a novas funcionalidades.
+Suporte via canal dedicado.
+
+
+================================================================================
+PARTE 2 — SERVIÇOS COBRADOS POR USO EM TODOS OS PLANOS
+================================================================================
+
+Esses serviços têm custo real por transação e são cobrados conforme o
+consumo do cliente, independente do plano. Aparecem na fatura do dia 5
+do mês seguinte.
+
+Serviço                    Custo Nexus    Preço cliente    Margem
+-----------------------------------------------------------------
+Consulta CPF (Datacorp)    R$ 0,80        R$ 1,99          149%
+Pix automático (Efi Bank)  R$ 0,50        R$ 3,00          500%  [Pro/Max]
+Etiqueta Melhor Envio      60% do frete   +40% fica Nexus  ---   [Pro/Max]
+NF-e via Bling             R$ 0,50–1,00   por nota         ---   [Pro/Max]
+Negativação Serasa         R$ 10,00       R$ 25,00         150%  [Max]
+Plano de ação IA           R$ 0,30 tokens R$ 5,00          1500% [Max]
+
+Nota: O Pix automático, NF-e, Melhor Envio automatizado e Negativação
+Serasa só estão disponíveis nos planos correspondentes. Mesmo que o
+serviço exista por uso, ele só é ativado se o plano permitir.
+
+
+================================================================================
+PARTE 3 — MODELO DE PAGAMENTO
+================================================================================
+
+
+MEIO DE PAGAMENTO: CARTÃO DE CRÉDITO ÚNICO
+
+O cliente cadastra um único cartão de crédito na plataforma. Todas as
+cobranças — mensalidade fixa + todos os itens de uso avulso do mês —
+são debitadas nesse mesmo cartão. Não existe segundo cartão, não existe
+saldo de créditos, não existe recarga. O cliente nunca pensa em pagamento
+novamente depois de cadastrar o cartão.
+
+CICLO DE COBRANÇA: DOIS EVENTOS SEPARADOS NO MESMO CARTÃO
+
+Os dois eventos são intencionalmente separados. Se houver problema no
+cartão em um evento, o outro não é afetado.
+
+Evento 1 — Dia 1 de cada mês: cobrança da mensalidade do plano.
+  Start:  R$ 649,00
+  Pro:    R$ 997,00
+  Max:  R$ 1.449,00
+
+Evento 2 — Dia 5 de cada mês: cobrança do uso avulso acumulado no
+mês anterior. Inclui: consultas CPF, transações Pix automático,
+etiquetas Melhor Envio, NF-es emitidas, negativações Serasa e planos
+de ação IA gerados.
+
+Exemplo de fatura do dia 5 para um cliente Pro:
+  - 52 consultas CPF × R$ 1,99 = R$ 103,48
+  - 68 transações Pix × R$ 3,00 = R$ 204,00
+  - 14 etiquetas Melhor Envio = R$ 58,40 (margem da Nexus)
+  - 22 NF-es emitidas = R$ 22,00
+  - Total uso avulso: R$ 387,88
+
+FATURA TRANSPARENTE
+
+O cliente tem acesso na plataforma a um extrato detalhado de cada item
+cobrado, com data, hora, revendedora envolvida e valor unitário. Nenhum
+valor é cobrado sem registro. Antes do fechamento do dia 5, o cliente
+recebe notificação por WhatsApp com o total a ser cobrado, podendo
+contestar qualquer item antes da cobrança.
+
+UPGRADE E DOWNGRADE
+
+Upgrade de plano: efeito imediato. As funcionalidades do novo plano
+ficam disponíveis na hora. A diferença de mensalidade é cobrada
+proporcionalmente no próximo evento do dia 1.
+
+Downgrade de plano: entra em efeito no próximo ciclo de faturamento
+(dia 1 do mês seguinte). As funcionalidades do plano atual ficam
+ativas até o fim do ciclo vigente.
+
+
+================================================================================
+PARTE 4 — PÁGINA DE CUSTOS E PAINEL DE ROI
+================================================================================
+
+
+VISÃO GERAL
+
+Dentro da plataforma, cada cliente tem acesso a uma página dedicada de
+custos e retorno. O objetivo não é apenas transparência — é retenção.
+Quando o cliente vê que gastou R$ 1.800 no mês e teve 120 revendedoras
+ativas gerando repasse, ele não cancela. Ele enxerga o ROI em tempo
+real. A página faz o argumento de renovação sozinha, sem nenhuma ação
+da Nexus.
+
+SEÇÃO 1 — CUSTOS DO MÊS (atualizado em tempo real)
+
+O que o sistema mostra:
+  - Plano atual e mensalidade
+  - Total de consultas CPF realizadas + valor acumulado
+  - Total de transações Pix automático + valor acumulado
+  - Total de etiquetas Melhor Envio geradas + valor acumulado
+  - Total de NF-es emitidas + valor acumulado
+  - Total de negativações Serasa executadas + valor acumulado
+  - Total de planos de ação IA gerados + valor acumulado
+  - Total consolidado do mês até o momento
+  - Projeção do total até o fechamento (dia 5)
+
+SEÇÃO 2 — RETORNO DO MÊS (atualizado em tempo real)
+
+O que o sistema mostra:
+  - Número de revendedoras ativas no período
+  - Total de leads qualificados pelo WhatsApp
+  - Total de contratos assinados
+  - Total de repasse cobrado automaticamente (via Pix)
+  - Total inadimplente recuperado nos D+5/D+10/D+15
+  - Total negativado no D+17
+  - Volume de NF-es emitidas
+  - Custo por revendedora ativa no mês
+
+O "custo por revendedora ativa" é o número mais poderoso da página.
+Se o cliente tem 80 revendedoras ativas e gastou R$ 1.800 no mês,
+o custo por revendedora é R$ 22,50. Esse número torna o investimento
+irrefutável.
+
+SEÇÃO 3 — ALARME DE USO
+
+O sistema monitora o uso avulso acumulado e dispara alertas automáticos
+em dois momentos:
+
+Alerta de 70%: notificação dentro da plataforma e por WhatsApp avisando
+que o uso avulso está chegando em 70% do threshold configurado. Mensagem
+informativa, sem urgência.
+
+Alerta de 100% (threshold atingido): notificação dentro da plataforma
+e por WhatsApp com o total acumulado e sugestão de upgrade de plano
+com cálculo do custo comparativo. Esse alerta é também uma oportunidade
+de upsell automático.
+
+Thresholds padrão por plano (configuráveis):
+  Start: alerta quando uso avulso ultrapassa R$ 200/mês
+  Pro:   alerta quando uso avulso ultrapassa R$ 500/mês
+  Max:   alerta quando uso avulso ultrapassa R$ 1.000/mês
+
+O alerta de upgrade mostra automaticamente a diferença entre o plano
+atual e o próximo: "Você está gastando R$ 580 em uso avulso. No Pro,
+você teria automação financeira completa e pagaria R$ 348 a mais na
+mensalidade. Calcule se faz sentido."
+
+SEÇÃO 4 — HISTÓRICO
+
+Acesso ao extrato mês a mês com comparativo de crescimento de
+revendedoras ativas, custo total, retorno gerado e custo por
+revendedora ativa. Exportável em PDF ou planilha.
+
+
+================================================================================
+PARTE 5 — SISTEMA DE RESTRIÇÕES POR PLANO
+================================================================================
+
+
+COMO FUNCIONA TECNICAMENTE
+
+O sistema é multi-tenant. Cada empresa-cliente é um tenant identificado
+pela instância do WhatsApp (Evolution API). Todas as restrições são
+aplicadas no nível do tenant, verificadas a cada ação, antes da execução.
+
+REGRA CENTRAL: Antes de executar qualquer ação que tenha restrição de
+plano, o sistema verifica o plano ativo do tenant. Se o plano não inclui
+a funcionalidade, a ação não é executada e o sistema notifica o
+administrador com a mensagem de upgrade.
+
+RESTRIÇÃO 1 — LIMITE DE LEADS ÚNICOS POR MÊS
+
+O sistema conta cada número de telefone único que inicia uma conversa
+pelo WhatsApp do tenant. Esse contador é resetado no dia 1 de cada mês.
+
+Controle:
+  - Start: ao atingir 30 leads únicos, novos contatos recebem mensagem
+    automática informando que o atendimento via IA está temporariamente
+    indisponível. O administrador é notificado dentro da plataforma e por
+    WhatsApp com sugestão de upgrade.
+  - Pro: mesma lógica com limite de 70.
+  - Max: sem limite. Sem verificação.
+
+O sistema começa a alertar o administrador com 80% do limite atingido
+(24 no Start, 56 no Pro) para evitar corte abrupto no meio de uma
+campanha de marketing.
+
+RESTRIÇÃO 2 — FUNCIONALIDADES BLOQUEADAS POR PLANO
+
+Cada funcionalidade tem uma tag de plano mínimo no banco de dados.
+O middleware de autorização verifica o plano do tenant antes de qualquer
+execução de workflow, endpoint de API ou cron automático.
+
+Funcionalidade                    Start    Pro     Max
+------------------------------------------------------
+Amanda IA (prospecção)            SIM      SIM     SIM
+Consulta CPF                      SIM      SIM     SIM
+Formulário + Score                SIM      SIM     SIM
+Aprovação/Reprovação              SIM      SIM     SIM
+Contrato digital                  SIM      SIM     SIM
+Agendamento + reunião IA          SIM      SIM     SIM
+Catálogo + estoque + pedidos      SIM      SIM     SIM
+Etiqueta (geração manual)         SIM      SIM     SIM
+Maleta (criação manual)           SIM      SIM     SIM
+Ranking + gamificação             SIM      SIM     SIM
+Marketing + redes sociais         SIM      SIM     SIM
+CRM + workspace                   SIM      SIM     SIM
+OCR despesas + contabilidade      SIM      SIM     SIM
+Pix automático de repasse         NÃO      SIM     SIM
+Análise de comprovante IA         NÃO      SIM     SIM
+Acerto parcial automático         NÃO      SIM     SIM
+Follow-up inadimplência D+5/10/15 NÃO      SIM     SIM
+Maleta 100% automatizada          NÃO      SIM     SIM
+Rolagem de peças                  NÃO      SIM     SIM
+Declaração de sinistro            NÃO      SIM     SIM
+NF-e automática (Bling)           NÃO      SIM     SIM
+Melhor Envio automatizado         NÃO      SIM     SIM
+RMA com análise de foto IA        NÃO      SIM     SIM
+Anti-churn D+3/D+10/D+20          NÃO      SIM     SIM
+Negativação Serasa D+17           NÃO      NÃO     SIM
+Plano de ação IA por consultora   NÃO      NÃO     SIM
+
+RESTRIÇÃO 3 — CRONS AUTOMÁTICOS
+
+Os crons são registrados no n8n com verificação de plano antes de
+qualquer execução. Um cron de inadimplência que roda às 9h diariamente
+verifica o plano de cada tenant antes de processar. Se o tenant está no
+Start, o cron pula aquele tenant e segue para o próximo.
+
+Exemplo de lógica de verificação nos crons:
+  Para cada tenant na fila:
+    SE plano >= Pro: executa follow-up inadimplência
+    SE plano >= Max: executa negativação Serasa
+    SE plano == Start: pula, registra log de plano insuficiente
+
+RESTRIÇÃO 4 — USO AVULSO CONDICIONADO AO PLANO
+
+Mesmo que o serviço exista por uso, ele só é executado se o plano
+permitir.
+
+Exemplo: O Pix automático custa R$ 3,00 por transação, mas só está
+disponível no Pro e no Max. Se um cliente Start tentar acionar o Pix
+automático via API ou workflow, o sistema bloqueia e notifica com
+sugestão de upgrade.
+
+Consulta CPF é o único serviço por uso disponível em todos os planos,
+porque é condição para o fluxo de prospecção funcionar.
+
+RESTRIÇÃO 5 — VISIBILIDADE PARCIAL NA INTERFACE
+
+Na plataforma, funcionalidades não inclusas no plano atual aparecem
+visíveis mas bloqueadas — com cadeado e texto "Disponível no Plano Pro"
+ou "Disponível no Plano Max". Ao clicar, o sistema abre modal de upgrade
+com comparativo de planos e botão de upgrade direto.
+
+Essa abordagem é superior a esconder as funcionalidades porque o cliente
+vê o que existe e sente a dor de não ter acesso, sem precisar que um
+vendedor explique o que ele está perdendo.
+
+RESTRIÇÃO 6 — REVENDEDORAS ILIMITADAS (ESCLARECIMENTO)
+
+No Start, a restrição é sobre leads únicos no WhatsApp, não sobre
+revendedoras cadastradas. Uma vez que o lead se torna revendedora e
+assina o contrato, ela fica cadastrada na plataforma sem limite em
+qualquer plano. O que muda entre os planos é a automação disponível
+para gerir essas revendedoras — no Start, a gestão é manual; no Pro
+e no Max, é completamente automatizada.
+
+
+================================================================================
+PARTE 6 — PROJEÇÃO DE RECEITA
+================================================================================
+
+Receita estimada por cliente por plano:
+
+Start:  R$ 649 fixo + ~25 CPFs × R$ 1,99 = ~R$ 700/mês por cliente
+Pro:    R$ 997 + ~50 CPFs × R$ 1,99 + ~60 Pix × R$ 3 + etiquetas
+        + NF-es = ~R$ 1.400/mês por cliente
+Max:    R$ 1.449 + uso avulso médio + ~10 negativações × R$ 15 líquido
+        + planos IA = ~R$ 2.200/mês por cliente
+
+Com 20 clientes (mix: 4 Start / 12 Pro / 4 Max):
+  Mensalidades fixas:  R$ 16.552/mês
+  Uso avulso:          R$  5.800/mês
+  Total mensal:        ~R$ 22.352/mês
+  Total anual:         ~R$ 268.224/ano
+
+Com 50 clientes (mesmo mix proporcional):
+  Mensalidades fixas:  R$ 41.380/mês
+  Uso avulso:          R$ 14.500/mês
+  Total mensal:        ~R$ 55.880/mês
+  Total anual:         ~R$ 670.560/ano
+
+
+================================================================================
+NEXUS INTELLIGENCE — Automação que devolve tempo para quem importa.
+================================================================================

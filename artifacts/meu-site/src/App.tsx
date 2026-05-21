@@ -14,6 +14,7 @@ import TermosUso from "@/pages/TermosUso";
 import PoliticaPrivacidade from "@/pages/PoliticaPrivacidade";
 import CentralAjuda from "@/pages/CentralAjuda";
 import Checkout from "@/pages/Checkout";
+import Comparacao from "@/pages/Comparacao";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ function Router() {
         <Route path="/politica-privacidade" component={PoliticaPrivacidade} />
         <Route path="/central-ajuda" component={CentralAjuda} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/comparacao" component={Comparacao} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
