@@ -97,7 +97,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* ── HEADER ── */}
       <header
-        className={`h-20 sticky top-0 z-50 flex-none transition-all duration-500 ${
+        className={`h-20 fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 ${
           scrolled
             ? "liquid-glass-nexus border-b border-[#00CC7A]/10 shadow-[0_4px_24px_rgba(0,0,0,0.35)]"
             : "bg-[#060F0A]/80 backdrop-blur-md border-b border-[#1E3828]/20"
@@ -235,7 +235,7 @@ export default function Layout({ children }: LayoutProps) {
         )}
       </AnimatePresence>
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pt-20">{children}</main>
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#060F0A] border-t border-[#1E3828] py-12 md:py-16 flex-none mt-auto">
