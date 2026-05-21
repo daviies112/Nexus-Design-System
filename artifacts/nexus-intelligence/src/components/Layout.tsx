@@ -138,6 +138,32 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
         </div>
+
+        {/* Watermark — Kresna-style faded wordmark flush with footer width */}
+        <div className="max-w-7xl mx-auto px-6 mt-8 pointer-events-none select-none overflow-hidden" aria-hidden>
+          <svg
+            id="nexus-watermark"
+            viewBox="0 0 900 140"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-auto"
+            style={{ display: "block" }}
+          >
+            <text
+              x="450" y="120"
+              textAnchor="middle"
+              fontFamily="'Syne', sans-serif"
+              fontWeight="800"
+              fontSize="180"
+              letterSpacing="-6"
+              fill="none"
+              stroke="rgba(0,204,122,0.07)"
+              strokeWidth="1"
+            >
+              NEXUS
+            </text>
+          </svg>
+        </div>
       </footer>
     </div>
   );
