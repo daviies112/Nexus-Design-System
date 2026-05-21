@@ -604,7 +604,7 @@ export default function LandingPage() {
         }} />
         <GridOverlay opacity={0.02} />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-xl mb-14">
             <motion.h2
               custom={0}
@@ -700,44 +700,118 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
 
-          {/* 3 plans mini cards */}
-          <motion.div
-            custom={0.2}
-            initial="hidden" whileInView="visible" viewport={{ once: true }}
-            variants={fadeUp}
-            className="grid md:grid-cols-3 gap-4"
-          >
-            {[
-              { name: "Nexus Start", price: "R$649/mês", limit: "30 leads · 40 revendedoras", cta: "start", accent: false },
-              { name: "Nexus Pro", price: "R$997/mês", limit: "70 leads · Ilimitadas", cta: "pro", accent: true },
-              { name: "Nexus Max", price: "R$1.449/mês", limit: "Ilimitado em tudo", cta: "max", accent: false },
-            ].map((p, i) => (
-              <div
-                key={i}
-                className={`rounded-xl border p-5 flex items-center justify-between gap-4 ${
-                  p.accent
-                    ? "border-[#FF5A1F]/40 bg-[#FF5A1F]/5"
-                    : "border-[#1E3828] bg-[#060F0A]"
-                }`}
-              >
-                <div>
-                  <div className={`text-xs font-bold uppercase tracking-wider mb-0.5 ${p.accent ? "text-[#FF5A1F]" : "text-[#7AA88E]"}`}>{p.name}</div>
-                  <div className="text-white font-syne font-extrabold text-lg">{p.price}</div>
-                  <div className="text-[#4A6A58] text-xs mt-0.5">{p.limit}</div>
+          {/* 3 full plan cards */}
+          <div className="grid md:grid-cols-3 gap-5 items-start">
+
+            {/* START */}
+            <motion.div custom={0.2} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="rounded-2xl border-2 border-[#1E3828] bg-[#0C1A12] flex flex-col opacity-90">
+              <div className="p-6 flex-1">
+                <div className="text-[#7AA88E] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Start</div>
+                <div className="flex items-end gap-1 mb-1">
+                  <span className="font-syne font-extrabold text-4xl text-white">R$649</span>
+                  <span className="text-[#7AA88E] text-sm mb-1">/mês</span>
                 </div>
-                <a
-                  href={`/checkout?plan=${p.cta}`}
-                  className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all hover:-translate-y-0.5 ${
-                    p.accent
-                      ? "bg-[#FF5A1F] text-[#1A0500]"
-                      : "bg-[#1E3828] text-[#C4DDD0] hover:bg-[#2A4A38]"
-                  }`}
-                >
-                  Escolher
+                <div className="text-[10px] font-semibold px-2.5 py-1 rounded-full inline-block mb-4 bg-[#1E3828] text-[#7AA88E]">30 candidatas/mês · 40 revendedoras</div>
+                <p className="text-[#7AA88E] text-xs leading-relaxed mb-4">Para quem está estruturando o processo de prospecção e quer automatizar o caminho do lead até o contrato.</p>
+                <ul className="space-y-2 text-xs text-[#7AA88E]">
+                  {["Amanda AI — atendimento WhatsApp 24/7","Formulário + consulta CPF automática","Contrato digital com assinatura eletrônica","Agendamento + gravação de reuniões com IA","Maleta com rastreio integrado","Anti-churn D+3 automático","CRM + publicação em 6 redes sociais"].map((f, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M2.5 7l3 3 6-6" stroke="#7AA88E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                  <li className="flex items-start gap-2 text-[#3A5A48] pt-1">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5 opacity-40"><path d="M4 4l6 6M10 4l-6 6" stroke="#7AA88E" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    Pix automático · NF-e · Serasa
+                  </li>
+                </ul>
+              </div>
+              <div className="px-6 pb-6">
+                <a href="/checkout?plan=start" className="block w-full py-3 rounded-xl font-bold text-sm text-center bg-[#1E3828] text-[#7AA88E] hover:bg-[#2A4A38] hover:text-white transition-all">
+                  Começar com o Start — R$649/mês
                 </a>
               </div>
-            ))}
-          </motion.div>
+            </motion.div>
+
+            {/* PRO */}
+            <motion.div custom={0.28} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="relative rounded-2xl border-2 border-[#FF5A1F]/50 bg-[#0C1A12] shadow-[0_0_50px_rgba(255,90,31,0.1)] flex flex-col">
+              <div className="bg-[#FF5A1F] text-[#1A0500] text-center py-1.5 text-[10px] font-extrabold tracking-widest uppercase rounded-t-xl">
+                ⭐ Mais Escolhido · 35% OFF no 1º mês
+              </div>
+              <div className="p-6 flex-1">
+                <div className="text-[#FF5A1F] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Pro</div>
+                <div className="flex items-end gap-1 mb-0.5">
+                  <span className="font-syne font-extrabold text-4xl text-white">R$648</span>
+                  <span className="text-[#7AA88E] text-sm mb-1">/1º mês</span>
+                </div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[#4A6A58] text-xs line-through">R$997/mês</span>
+                  <span className="text-[#FF5A1F] text-[10px] font-bold">depois R$997/mês</span>
+                </div>
+                <div className="text-[10px] font-semibold px-2.5 py-1 rounded-full inline-block mb-4 bg-[#FF5A1F]/15 text-[#FF5A1F]">70 candidatas/mês · Revendedoras ilimitadas</div>
+                <p className="text-[#C4DDD0] text-xs leading-relaxed mb-4">Para empresas com revendedoras ativas que precisam que toda a operação financeira e logística rode sozinha.</p>
+                <ul className="space-y-2 text-xs text-[#C4DDD0]">
+                  {["Tudo do Start, mais:","Pix automático de cobrança (R$3,00/transação)","Follow-up inadimplência D+5 / D+10 / D+15","Maleta 100% automatizada com fila de expedição","Anti-churn D+3 / D+10 / D+20 automático","NF-e automática via Bling","RMA com análise de foto de defeito por IA"].map((f, i) => (
+                    <li key={i} className={`flex items-start gap-2 ${i === 0 ? "text-white font-semibold" : ""}`}>
+                      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M2.5 7l3 3 6-6" stroke="#FF5A1F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                  <li className="flex items-start gap-2 text-[#3A5A48] pt-1">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5 opacity-40"><path d="M4 4l6 6M10 4l-6 6" stroke="#7AA88E" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    Negativação Serasa · Plano de ação IA
+                  </li>
+                </ul>
+              </div>
+              <div className="px-6 pb-6">
+                <a href="/checkout?plan=pro" className="block w-full py-3.5 rounded-xl font-extrabold text-sm text-center bg-[#FF5A1F] text-[#1A0500] hover:shadow-[0_0_24px_rgba(255,90,31,0.4)] hover:-translate-y-0.5 transition-all">
+                  Escolher o Pro — R$648 no 1º mês
+                </a>
+                <p className="text-[#4A6A58] text-[9px] text-center mt-1.5">Depois R$997/mês · Cancele quando quiser</p>
+              </div>
+            </motion.div>
+
+            {/* MAX */}
+            <motion.div custom={0.36} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="relative rounded-2xl border-2 border-[#00CC7A]/45 bg-gradient-to-b from-[#0A1A10] to-[#0C1A12] shadow-[0_0_50px_rgba(0,204,122,0.08)] flex flex-col">
+              <div className="bg-gradient-to-r from-[#00CC7A] to-[#00AA62] text-[#001A0E] text-center py-1.5 text-[10px] font-extrabold tracking-widest uppercase rounded-t-xl">
+                🏆 Melhor Custo-Benefício · 50% OFF no 1º mês
+              </div>
+              <div className="p-6 flex-1">
+                <div className="text-[#00CC7A] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Max</div>
+                <div className="flex items-end gap-1 mb-0.5">
+                  <span className="font-syne font-extrabold text-4xl text-white">R$724</span>
+                  <span className="text-[#7AA88E] text-sm mb-1">/1º mês</span>
+                </div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[#4A6A58] text-xs line-through">R$1.449/mês</span>
+                  <span className="text-[#00CC7A] text-[10px] font-bold">depois R$1.449/mês</span>
+                </div>
+                <div className="bg-[#00CC7A]/10 border border-[#00CC7A]/20 rounded-lg px-3 py-1.5 mb-3">
+                  <p className="text-[#00CC7A] text-[10px] font-bold">Só R$76 a mais que o Pro no 1º mês — Serasa D+17 + plano de ação IA incluídos.</p>
+                </div>
+                <div className="text-[10px] font-semibold px-2.5 py-1 rounded-full inline-block mb-4 bg-[#00CC7A]/15 text-[#00CC7A]">Ilimitado em tudo</div>
+                <p className="text-[#C4DDD0] text-xs leading-relaxed mb-4">Para empresas que não podem perder um repasse sequer. Operação 100% automática, do lead ao Serasa.</p>
+                <ul className="space-y-2 text-xs text-[#C4DDD0]">
+                  {["Tudo do Pro, mais:","Negativação Serasa D+17 automática (R$25/ação)","Plano de ação IA por consultora (R$5/geração)","Suporte via canal dedicado","Acesso prioritário a novas funcionalidades","Ilimitado em leads, revendedoras e admins"].map((f, i) => (
+                    <li key={i} className={`flex items-start gap-2 ${i === 0 ? "text-white font-semibold" : ""}`}>
+                      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M2.5 7l3 3 6-6" stroke="#00CC7A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="px-6 pb-6">
+                <a href="/checkout?plan=max" className="block w-full py-3.5 rounded-xl font-extrabold text-sm text-center bg-gradient-to-r from-[#00CC7A] to-[#00AA62] text-[#001A0E] hover:shadow-[0_0_24px_rgba(0,204,122,0.4)] hover:-translate-y-0.5 transition-all">
+                  Ir para o Max — R$724 no 1º mês
+                </a>
+                <p className="text-[#4A6A58] text-[9px] text-center mt-1.5">Depois R$1.449/mês · Cancele quando quiser</p>
+              </div>
+            </motion.div>
+
+          </div>
 
           {/* Social proof bar */}
           <motion.div
