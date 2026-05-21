@@ -25,7 +25,7 @@ export default function StickyBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 280, damping: 24 }}
-          className="fixed bottom-0 left-0 right-0 z-[60] hidden lg:block"
+          className="fixed bottom-0 left-0 right-0 z-40 hidden lg:block"
         >
           <div className="liquid-glass-nexus border-t border-[#1E3828]">
             <div className="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between gap-6">

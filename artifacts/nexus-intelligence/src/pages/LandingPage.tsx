@@ -660,25 +660,28 @@ export default function LandingPage() {
               className="bg-[#FF5A1F] p-8 flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-4">
                   <NexusIconSm size={28} />
-                  <p className="text-[#1A0500] text-sm font-semibold uppercase tracking-wider">Nexus Intelligence</p>
+                  <div>
+                    <p className="text-[#1A0500] text-xs font-bold uppercase tracking-widest">🏆 Nexus Max</p>
+                    <p className="text-[#5C1A00] text-[10px] font-semibold">A operação completa · 50% OFF no 1º mês</p>
+                  </div>
                 </div>
                 <div className="mb-1">
-                  <span className="text-[#5C1A00] text-sm font-medium">A partir de</span>
+                  <span className="text-[#5C1A00] text-sm font-medium line-through">R$1.449/mês</span>
                 </div>
                 <div className="mb-1">
-                  <span className="font-syne font-extrabold text-[52px] text-[#1A0500] leading-none">R$649</span>
-                  <span className="text-[#5C1A00] text-lg font-semibold ml-1">/mês</span>
+                  <span className="font-syne font-extrabold text-[52px] text-[#1A0500] leading-none">R$724</span>
+                  <span className="text-[#5C1A00] text-lg font-semibold ml-1">/1º mês</span>
                 </div>
-                <p className="text-[#5C1A00] text-sm font-medium mb-6">tudo integrado · sem fidelidade · setup em 7 dias</p>
+                <p className="text-[#5C1A00] text-sm font-medium mb-6">ilimitado em tudo · sem fidelidade · setup em 7 dias</p>
                 <ul className="space-y-2 mb-6">
                   {[
                     "Amanda AI — do lead ao repasse automático",
-                    "WhatsApp Business API oficial (sem risco)",
-                    "Prospecção, financeiro e logística integrados",
-                    "NF-e, Pix, Serasa — tudo automatizado",
-                    "Um cartão. Um painel. Zero ferramentas paralelas.",
+                    "Pix + NF-e + Serasa D+17 — 100% automático",
+                    "Maleta + RMA + Anti-churn com IA",
+                    "Plano de ação IA por consultora",
+                    "Canal dedicado + prioridade em novas features",
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2.5 text-[#1A0500] text-sm font-medium">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -690,12 +693,12 @@ export default function LandingPage() {
                 </ul>
               </div>
               <motion.button
-                onClick={() => scrollTo("qualificacao")}
+                onClick={() => { window.location.href = "/checkout?plan=max"; }}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 className="bg-[#1A0500] text-[#FF5A1F] font-bold py-3.5 rounded-full text-[15px] hover:shadow-[0_0_24px_rgba(26,5,0,0.5)] transition-shadow w-full tracking-wide"
               >
-                Quero sair das ferramentas fragmentadas
+                Quero o Max — R$724 no 1º mês
               </motion.button>
             </motion.div>
           </motion.div>
