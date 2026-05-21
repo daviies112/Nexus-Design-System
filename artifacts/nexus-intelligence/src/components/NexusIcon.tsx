@@ -1,3 +1,72 @@
+/* ─────────────────────────────────────────────────────
+   NexusNetworkLines
+   Expands the logo's visual DNA (pillars + N-diagonals +
+   nodes) into a decorative background/section element.
+   ───────────────────────────────────────────────────── */
+export function NexusNetworkLines({
+  color = "#FF5A1F",
+  className = "",
+  style = {},
+}: {
+  color?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const pillars = [70, 210, 350, 490];
+  const top = 22;
+  const bot = 178;
+  const mid = 100;
+
+  return (
+    <svg
+      viewBox="0 0 560 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`pointer-events-none select-none ${className}`}
+      style={style}
+    >
+      <defs>
+        <linearGradient id="nlg" x1="70" y1="100" x2="490" y2="20" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor={color} stopOpacity="1" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.4" />
+        </linearGradient>
+      </defs>
+
+      {/* Orbital ellipse — dashed, very faint */}
+      <ellipse cx="280" cy="100" rx="265" ry="82"
+        stroke={color} strokeWidth="0.6" strokeDasharray="4 11" opacity="0.45" />
+
+      {/* Vertical pillars */}
+      {pillars.map(x => (
+        <line key={x} x1={x} y1={top} x2={x} y2={bot}
+          stroke={color} strokeWidth="1.2" opacity="0.7" />
+      ))}
+
+      {/* N-diagonals — flowing up-right, logo-identical logic */}
+      <line x1="70"  y1={mid} x2="210" y2={top} stroke="url(#nlg)" strokeWidth="1.8" />
+      <line x1="210" y1={bot} x2="350" y2={mid} stroke="url(#nlg)" strokeWidth="1.8" />
+      <line x1="350" y1={mid} x2="490" y2={top} stroke="url(#nlg)" strokeWidth="1.8" />
+
+      {/* Action nodes (mid-row) */}
+      <circle cx="70"  cy={mid} r="6.5" fill={color} />
+      <circle cx="350" cy={mid} r="6.5" fill={color} />
+
+      {/* Diagonal-end nodes */}
+      <circle cx="210" cy={top} r="5"   fill={color} opacity="0.9" />
+      <circle cx="210" cy={bot} r="5"   fill={color} opacity="0.9" />
+      <circle cx="490" cy={top} r="5"   fill={color} opacity="0.9" />
+
+      {/* Pillar endpoint nodes (subtle) */}
+      {pillars.map(x => (
+        <g key={x}>
+          <circle cx={x} cy={top} r="3.5" fill={color} opacity="0.4" />
+          <circle cx={x} cy={bot} r="3.5" fill={color} opacity="0.4" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 export interface NexusIconProps {
   size?: number;
   stroke?: string;

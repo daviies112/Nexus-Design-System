@@ -97,10 +97,10 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* ── HEADER ── */}
       <header
-        className={`h-20 sticky top-[2px] z-50 flex-none transition-all duration-500 ${
+        className={`h-20 sticky top-0 z-50 flex-none transition-all duration-500 ${
           scrolled
-            ? "liquid-glass-nexus border-b border-[#00CC7A]/10 shadow-[0_4px_24px_rgba(0,0,0,0.3)]"
-            : "bg-transparent border-b border-transparent"
+            ? "liquid-glass-nexus border-b border-[#00CC7A]/10 shadow-[0_4px_24px_rgba(0,0,0,0.35)]"
+            : "bg-[#060F0A]/80 backdrop-blur-md border-b border-[#1E3828]/20"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">

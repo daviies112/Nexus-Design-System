@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { NexusIconSm } from "@/components/NexusIcon";
+import { NexusIconSm, NexusNetworkLines } from "@/components/NexusIcon";
 import DemoSection from "@/components/DemoSection";
 import ROICalculator from "@/components/ROICalculator";
 import QualificationForm from "@/components/QualificationForm";
@@ -405,6 +405,16 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── Brand divider — N-network stamp between stats and HowItWorks ── */}
+      <div className="relative bg-[#060F0A] flex items-center justify-center py-6 overflow-hidden" aria-hidden>
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(90deg, transparent, rgba(255,90,31,0.03) 50%, transparent)" }} />
+        <NexusNetworkLines
+          color="#FF5A1F"
+          className="w-[340px] max-w-full"
+          style={{ opacity: 0.13 }}
+        />
+      </div>
+
       {/* ── HOW IT WORKS ── */}
       <HowItWorks />
 
@@ -414,6 +424,12 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse 50% 60% at 90% 0%, rgba(255,90,31,0.09) 0%, rgba(255,90,31,0.04) 40%, transparent 70%)"
         }} />
+        {/* Brand network lines — top-right corner */}
+        <NexusNetworkLines
+          color="#FF5A1F"
+          className="absolute -top-4 -right-16 w-[460px]"
+          style={{ opacity: 0.055 }}
+        />
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10">
           <motion.div
             custom={0}
@@ -482,6 +498,12 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse 55% 45% at 10% 0%, rgba(0,204,122,0.06) 0%, transparent 60%)"
         }} />
+        {/* Brand network lines — right side, green-tinted */}
+        <NexusNetworkLines
+          color="#00CC7A"
+          className="absolute -right-20 top-1/2 -translate-y-1/2 w-[520px]"
+          style={{ opacity: 0.05 }}
+        />
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-2xl mb-14">
             <motion.p
@@ -601,6 +623,12 @@ export default function LandingPage() {
           background: "radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0,204,122,0.06) 0%, transparent 60%)"
         }} />
         <GridOverlay opacity={0.02} />
+        {/* Brand network lines — left edge, framing pricing */}
+        <NexusNetworkLines
+          color="#00CC7A"
+          className="absolute -left-24 top-1/2 -translate-y-1/2 w-[480px] -rotate-90"
+          style={{ opacity: 0.045 }}
+        />
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-xl mb-14">
@@ -861,6 +889,18 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,204,122,0.07) 0%, transparent 70%)"
         }} />
+        {/* Brand network lines — bottom-left corner */}
+        <NexusNetworkLines
+          color="#00CC7A"
+          className="absolute -bottom-4 -left-16 w-[420px]"
+          style={{ opacity: 0.07 }}
+        />
+        {/* Brand network lines — top-right corner, mirrored */}
+        <NexusNetworkLines
+          color="#FF5A1F"
+          className="absolute -top-4 -right-16 w-[420px] scale-x-[-1]"
+          style={{ opacity: 0.055 }}
+        />
 
         {/* NEXUS watermark — Kresna-style faded wordmark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden" aria-hidden>
