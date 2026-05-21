@@ -1,0 +1,857 @@
+================================================================================
+NEXUS INTELLIGENCE — METODOLOGIA COMPLETA DE IMPLEMENTAÇÃO
+================================================================================
+Documento interno de operação
+Cobre: Pré-venda → Onboarding → Operação contínua → Expansão → Offboarding
+Versão definitiva
+================================================================================
+
+
+================================================================================
+VISÃO GERAL DA METODOLOGIA
+================================================================================
+
+A metodologia Nexus é dividida em 5 grandes etapas que cobrem toda a jornada
+do cliente: desde o primeiro contato comercial até a operação consolidada e
+eventual expansão de plano.
+
+Cada etapa tem fases internas, responsáveis definidos, prazos, checklists de
+conclusão e critérios de avanço. Nenhuma etapa começa antes da anterior ser
+concluída e validada.
+
+ETAPA 0 — PRÉ-VENDA E DIAGNÓSTICO
+ETAPA 1 — ONBOARDING TÉCNICO (dias 1 a 7)
+ETAPA 2 — ONBOARDING OPERACIONAL (dias 8 a 14)
+ETAPA 3 — OPERAÇÃO CONTÍNUA (mês a mês)
+ETAPA 4 — EXPANSÃO DE PLANO
+ETAPA 5 — OFFBOARDING
+
+Responsáveis internos da Nexus:
+  CS (Customer Success): acompanhamento do cliente, treinamento, suporte.
+  TEC (Técnico): configuração de infraestrutura, workflows, integrações.
+  COM (Comercial): gestão do relacionamento de conta e expansão.
+
+Prazos são contados em dias úteis a partir da data de assinatura do contrato.
+
+
+================================================================================
+ETAPA 0 — PRÉ-VENDA E DIAGNÓSTICO
+================================================================================
+Responsável: COM + CS
+Duração: variável (durante o processo comercial)
+Objetivo: entender a operação atual do cliente antes de vender, para
+configurar corretamente e definir o plano certo desde o início.
+
+
+FASE 0.1 — FORMULÁRIO DE DIAGNÓSTICO PRÉ-VENDA
+
+Antes de apresentar proposta, o comercial aplica o diagnóstico com o prospect.
+Esse diagnóstico define qual plano recomendar e quais integrações ativar.
+
+Perguntas obrigatórias do diagnóstico:
+
+  OPERAÇÃO ATUAL
+  1. Quantas revendedoras ativas você tem hoje?
+  2. Quantos leads novos você recebe por mês (estimativa)?
+  3. Como você prospecta hoje? (indicação, redes sociais, anúncios, outros)
+  4. Você usa WhatsApp para prospecção? É um número pessoal ou comercial?
+  5. Como você faz a qualificação das revendedoras hoje?
+  6. Você consulta CPF antes de contratar? Como?
+  7. Você tem contrato digital hoje? Como assina?
+
+  GESTÃO FINANCEIRA
+  8. Como você cobra o repasse das revendedoras hoje?
+  9. Quantas revendedoras inadimplentes você tem em média por mês?
+  10. Você já negativou alguém no Serasa? Como foi o processo?
+  11. Você emite NF-e para as revendedoras? Via qual sistema?
+
+  LOGÍSTICA
+  12. Você trabalha com maletas consignadas?
+  13. Como você controla o que cada revendedora está com você?
+  14. Você usa Melhor Envio ou transportadora própria?
+  15. Como você gerencia devoluções por defeito (RMA)?
+
+  FERRAMENTAS ATUAIS
+  16. Quais ferramentas você usa hoje? (Jueri, Up Vendas, outros)
+  17. Quanto paga por mês em ferramentas?
+  18. O que mais te incomoda na operação atual?
+
+  METAS
+  19. Quantas revendedoras você quer ter em 6 meses?
+  20. Qual o seu maior gargalo hoje para crescer?
+
+CRITÉRIO DE CONCLUSÃO DA ETAPA 0:
+  [ ] Diagnóstico preenchido e registrado no CRM interno da Nexus
+  [ ] Plano recomendado definido com justificativa
+  [ ] Integrações necessárias mapeadas (Bling, Efi Bank, Melhor Envio, Serasa)
+  [ ] Proposta enviada com o plano correto
+  [ ] Contrato assinado e pagamento do primeiro mês confirmado
+
+
+================================================================================
+ETAPA 1 — ONBOARDING TÉCNICO
+================================================================================
+Responsável principal: TEC
+Responsável de acompanhamento: CS
+Duração: dias 1 a 7 após assinatura
+Objetivo: ter toda a infraestrutura técnica configurada, testada e funcionando
+antes de qualquer treinamento com o cliente.
+
+
+FASE 1.1 — PROVISIONAMENTO DO TENANT (dia 1)
+Responsável: TEC
+
+  BANCO DE DADOS E INFRAESTRUTURA
+  [ ] Criar schema exclusivo no PostgreSQL para o tenant
+  [ ] Configurar namespace no Redis para o tenant
+      (padrão: instance_name + ':' + telefone como chave de sessão)
+  [ ] Registrar tenant_id no sistema multi-tenant
+  [ ] Configurar limites de plano no middleware de autorização:
+      Start: 30 leads únicos/mês, sem Pix automático, sem maleta auto,
+             sem follow-up inadimplência, sem anti-churn, sem NF-e,
+             sem RMA IA, sem negativação, sem plano de ação IA
+      Pro:   70 leads únicos/mês, revendedoras ilimitadas, todas as
+             automações financeiras e logísticas ativas
+      Max:   ilimitado em tudo, negativação e plano de ação IA ativos
+  [ ] Registrar plano ativo, data de início e data de renovação
+  [ ] Configurar billing: cartão cadastrado, dia 1 mensalidade,
+      dia 5 uso avulso
+  [ ] Confirmar cobrança do primeiro mês processada com sucesso
+
+  WHATSAPP — EVOLUTION API
+  [ ] Provisionar instância exclusiva no Evolution API para o tenant
+  [ ] Conectar o número de WhatsApp do cliente (QR code ou pareamento)
+  [ ] Confirmar status connected no Evolution API
+  [ ] Testar envio e recebimento de mensagem de texto
+  [ ] Testar envio e recebimento de áudio
+  [ ] Configurar webhook de recebimento apontando para o n8n do tenant
+  [ ] Registrar número da instância no sistema como tenant_id principal
+
+  ATIVAÇÃO DO WORKFLOW PRINCIPAL (n8n)
+  [ ] Importar workflow base Emerick para o tenant
+  [ ] Configurar variáveis de ambiente do tenant:
+      - INSTANCE_NAME (nome da instância WhatsApp)
+      - TENANT_ID
+      - POSTGRES_URL (schema do tenant)
+      - REDIS_PREFIX (prefixo exclusivo do tenant)
+      - OPENAI_API_KEY (chave da Nexus, compartilhada)
+      - GEMINI_API_KEY (chave da Nexus, compartilhada)
+      - DATACORP_KEY (para consulta de CPF)
+  [ ] Ativar cron de monitoramento de contratos (a cada 1 minuto)
+  [ ] Ativar cron de follow-up de formulários (a cada 3 minutos)
+  [ ] Ativar cron de follow-up de contratos (a cada 5 minutos)
+  [ ] Confirmar que os crons estão rodando no n8n sem erro
+  [ ] Ativar cron diário 8h: reset de estoque
+  [ ] Ativar cron diário 9h: ciclo financeiro (somente Pro/Max)
+  [ ] Ativar cron diário 10h30: anti-churn (somente Pro/Max)
+  [ ] Ativar cron semanal 2ª 7h: NF-e em lote (somente Pro/Max)
+  [ ] Ativar cron dia 1 de cada mês 8h: ciclo mensal
+
+  CHECKLIST DE VALIDAÇÃO TÉCNICA DO DIA 1:
+  [ ] Banco criado e acessível
+  [ ] Redis funcionando com prefixo correto
+  [ ] WhatsApp conectado e respondendo
+  [ ] Workflow ativo sem erros no n8n
+  [ ] Todos os crons do plano ativos e sem erro
+
+
+FASE 1.2 — INTEGRAÇÕES EXTERNAS (dias 2 e 3)
+Responsável: TEC (configuração) + CS (coleta de credenciais com o cliente)
+
+  O CS entra em contato com o cliente no dia 1 para solicitar as credenciais
+  das integrações necessárias conforme o plano contratado.
+
+  GOOGLE (todos os planos)
+  [ ] Solicitar acesso ao Google Calendar do cliente (ou criar conta Google
+      exclusiva para a plataforma)
+  [ ] Configurar OAuth Google Calendar no tenant
+  [ ] Testar criação de evento via API
+  [ ] Configurar Google Meet para reuniões online (se aplicável)
+  [ ] Testar gravação e transcrição de reunião de teste
+  [ ] Confirmar resumo executivo gerado e enviado por WhatsApp
+
+  DATACORP — CONSULTA CPF (todos os planos)
+  [ ] Confirmar chave Datacorp ativa para o tenant
+  [ ] Fazer consulta de teste com CPF fictício válido
+  [ ] Confirmar retorno de score e dados completos
+  [ ] Confirmar registro no banco de dados com log da consulta
+  [ ] Confirmar que o custo de R$ 1,99 está sendo registrado para faturamento
+
+  EFI BANK — PIX AUTOMÁTICO (somente Pro e Max)
+  [ ] Solicitar credenciais da conta Efi Bank do cliente
+  [ ] Configurar OAuth Efi Bank no tenant
+  [ ] Configurar chave Pix do cliente
+  [ ] Fazer transação de teste (R$ 0,01) e confirmar recebimento
+  [ ] Confirmar que o custo de R$ 3,00 por transação está sendo registrado
+  [ ] Testar geração de QR code Pix e envio via WhatsApp
+
+  MELHOR ENVIO (somente Pro e Max)
+  [ ] Solicitar token Melhor Envio do cliente
+  [ ] Configurar integração Melhor Envio no tenant
+  [ ] Gerar etiqueta de teste e confirmar download
+  [ ] Confirmar registro de margem de 40% sobre o valor do frete
+  [ ] Testar envio de código de rastreamento via WhatsApp
+
+  BLING — NF-E (somente Pro e Max)
+  [ ] Solicitar token Bling do cliente
+  [ ] Configurar integração Bling no tenant
+  [ ] Confirmar dados fiscais do cliente cadastrados (CNPJ, IE, regime)
+  [ ] Emitir NF-e de teste e confirmar autorização pela SEFAZ
+  [ ] Confirmar envio automático do DANFE por e-mail e WhatsApp
+  [ ] Confirmar registro de custo por nota no sistema de faturamento
+
+  SERASA (somente Max)
+  [ ] Solicitar credenciais Serasa do cliente
+  [ ] Configurar integração Serasa no tenant
+  [ ] Confirmar que a negativação está bloqueada até D+17 no workflow
+  [ ] Confirmar log de negativação registrado no banco
+
+  REDES SOCIAIS — PUBLICAÇÃO (todos os planos)
+  [ ] Solicitar tokens de cada rede social:
+      Instagram (via Meta Business), Facebook, LinkedIn,
+      Twitter/X, YouTube, TikTok
+  [ ] Configurar cada token no tenant
+  [ ] Testar publicação de post de teste em cada rede conectada
+  [ ] Confirmar retorno de status de publicação no sistema
+
+  CHECKLIST DE VALIDAÇÃO DO DIA 3:
+  [ ] Todas as integrações do plano configuradas e testadas
+  [ ] Zero erros em todos os testes de integração
+  [ ] Todos os custos de uso sendo registrados corretamente no sistema
+  [ ] CS confirma com o cliente que todas as credenciais foram fornecidas
+
+
+FASE 1.3 — CONFIGURAÇÃO DA AMANDA IA (dias 4 e 5)
+Responsável: TEC + CS
+
+  PERSONALIDADE E COMPORTAMENTO
+  [ ] Definir nome da Amanda com o cliente (pode manter Amanda ou renomear)
+  [ ] Configurar tom de voz: formal, informal ou neutro
+  [ ] Configurar tempo de digitação simulado (pausa entre mensagens)
+  [ ] Configurar horário de atendimento da Amanda
+  [ ] Configurar mensagem de fora do horário de atendimento
+  [ ] Configurar número de tentativas de follow-up para formulário
+      não preenchido (padrão: 3 tentativas)
+  [ ] Configurar intervalo entre tentativas de follow-up
+
+  BASE DE CONHECIMENTO (RAG)
+  [ ] Coletar com o cliente os documentos base:
+      - FAQ de perguntas frequentes sobre o negócio
+      - Política de consignação
+      - Política de devolução e RMA
+      - Tabela de preços e comissões
+      - Qualquer outro documento relevante
+  [ ] Processar e indexar documentos na base vetorial do tenant
+  [ ] Testar 10 perguntas frequentes e confirmar respostas corretas
+  [ ] Configurar escalamento para humano quando a Amanda não souber responder
+  [ ] Testar fluxo de escalamento: Amanda → humano → Amanda reativa
+
+  FLUXO DE PROSPECÇÃO COMPLETO
+  [ ] Configurar mensagem de boas-vindas para leads novos
+  [ ] Configurar perguntas de qualificação inicial da Amanda
+      (antes de enviar o formulário)
+  [ ] Configurar identificação de origem de campanha
+      (Facebook, Instagram, Google, YouTube, TikTok)
+  [ ] Testar fluxo completo:
+      Lead envia mensagem → Amanda responde → Amanda qualifica →
+      Amanda envia link do formulário → Follow-up se não preencher
+
+  CHECKLIST DE VALIDAÇÃO DO DIA 5:
+  [ ] Amanda responde mensagens de texto corretamente
+  [ ] Amanda responde áudio transcrevendo e respondendo
+  [ ] Amanda envia formulário automaticamente
+  [ ] Amanda dispara follow-up para formulário não preenchido
+  [ ] Amanda identifica origem da campanha corretamente
+  [ ] Base de conhecimento respondendo perguntas corretas
+  [ ] Escalamento para humano funcionando
+  [ ] Amanda reativa após encerramento pelo humano
+
+
+FASE 1.4 — FORMULÁRIO, CONTRATO E SCORE (dias 5 e 6)
+Responsável: TEC + CS + Cliente
+
+  FORMULÁRIO DE QUALIFICAÇÃO
+  [ ] Definir com o cliente as perguntas do formulário de qualificação
+  [ ] Configurar peso de cada pergunta no score de 0 a 100
+  [ ] Definir com o cliente os critérios de aprovação automática,
+      análise manual e reprovação (padrão: 80+, 50-79, 0-49)
+  [ ] Criar design do formulário com identidade visual do cliente
+  [ ] Gerar URL base do formulário para o tenant
+  [ ] Testar preenchimento completo do formulário
+  [ ] Testar URL única por lead gerada automaticamente
+  [ ] Confirmar que os dados preenchidos chegam no banco corretamente
+
+  SCORE E DECISÃO AUTOMÁTICA
+  [ ] Testar consulta CPF disparada após preenchimento do formulário
+  [ ] Confirmar score calculado e registrado no banco
+  [ ] Testar aprovação automática (score 80+): mensagem correta enviada
+  [ ] Testar encaminhamento para análise manual (score 50-79):
+      notificação enviada para o administrador
+  [ ] Testar reprovação automática (score 0-49): mensagem correta enviada
+  [ ] Confirmar registro completo do evento no CRM da plataforma
+
+  CONTRATO DIGITAL
+  [ ] Coletar template de contrato do cliente (Word ou PDF)
+  [ ] Configurar template no sistema com campos dinâmicos:
+      nome, CPF, endereço, data, condições negociadas
+  [ ] Configurar assinatura eletrônica
+  [ ] Testar geração de contrato com dados fictícios
+  [ ] Testar envio de contrato por WhatsApp e e-mail
+  [ ] Confirmar que o cron de monitoramento (1 minuto) detecta assinatura
+  [ ] Testar follow-up para contrato não assinado
+  [ ] Testar mensagem de parabéns ao assinar
+
+  CHECKLIST DE VALIDAÇÃO DO DIA 6:
+  [ ] Fluxo completo de prospecção testado do início ao fim:
+      Lead → Amanda → Formulário → CPF → Score → Decisão → Contrato
+  [ ] Todos os status registrados corretamente no banco
+  [ ] Todos os eventos registrados no CRM da plataforma
+  [ ] Custo de CPF sendo computado corretamente no faturamento
+
+
+FASE 1.5 — VALIDAÇÃO TÉCNICA FINAL E STRESS TEST (dia 7)
+Responsável: TEC
+
+  [ ] Simular 5 leads simultâneos entrando no WhatsApp
+  [ ] Confirmar que o sistema mantém contexto separado para cada lead
+  [ ] Confirmar que o contador de leads únicos do plano está funcionando
+  [ ] Simular lead que atinge o limite do plano e confirmar bloqueio
+      e notificação para o administrador
+  [ ] Verificar logs do n8n: zero erros em todos os workflows
+  [ ] Verificar logs do PostgreSQL: todas as tabelas com dados corretos
+  [ ] Verificar logs do Redis: sessões sendo criadas e encerradas
+  [ ] Verificar sistema de faturamento: todos os custos de uso registrados
+  [ ] Confirmar que nenhuma funcionalidade bloqueada pelo plano está acessível
+  [ ] Gerar relatório técnico de conclusão do onboarding técnico
+
+  CRITÉRIO DE AVANÇO PARA ETAPA 2:
+  [ ] Zero erros críticos no stress test
+  [ ] Fluxo completo de prospecção funcionando end-to-end
+  [ ] Todas as integrações do plano testadas e validadas
+  [ ] CS notifica cliente que o sistema está pronto para treinamento
+
+
+================================================================================
+ETAPA 2 — ONBOARDING OPERACIONAL
+================================================================================
+Responsável principal: CS
+Duração: dias 8 a 14 após assinatura
+Objetivo: o cliente e sua equipe saberem operar a plataforma completamente
+e o sistema estar com os dados reais do cliente cadastrados.
+
+
+FASE 2.1 — KICKOFF COM O CLIENTE (dia 8)
+Responsável: CS
+
+  Reunião de kickoff: 1 hora via Google Meet com o decisor e a equipe que
+  vai operar a plataforma.
+
+  PAUTA OBRIGATÓRIA DO KICKOFF:
+  [ ] Apresentar a visão geral da plataforma e o que está ativo no plano
+  [ ] Confirmar número de WhatsApp conectado e funcionando
+  [ ] Confirmar integrações ativas
+  [ ] Apresentar o cronograma de treinamento da semana
+  [ ] Definir quem será o ponto focal do cliente (operador principal)
+  [ ] Coletar dados que ainda faltam para configuração:
+      - Produtos e estoque inicial
+      - Revendedoras ativas (se já existirem)
+      - Contrato modelo (se ainda não enviado)
+      - FAQ do negócio (se ainda não enviado)
+  [ ] Tirar dúvidas iniciais do cliente
+  [ ] Registrar ata de kickoff no sistema interno
+
+  APÓS O KICKOFF — CONFIGURAÇÕES QUE DEPENDEM DOS DADOS DO CLIENTE:
+  [ ] Importar catálogo de produtos no sistema
+      (planilha padrão Nexus enviada ao cliente para preenchimento)
+  [ ] Importar estoque inicial por produto e armazém
+  [ ] Importar revendedoras ativas existentes (se houver)
+  [ ] Configurar política de estoque mínimo para alertas
+  [ ] Configurar dias de repasse do ciclo financeiro do cliente
+  [ ] Configurar régua de cobranças (D+5, D+10, D+15) — somente Pro/Max
+  [ ] Configurar régua de anti-churn (D+3, D+10, D+20) — somente Pro/Max
+
+
+FASE 2.2 — TREINAMENTO MÓDULO 1: PROSPECÇÃO E AMANDA (dia 9)
+Responsável: CS
+Formato: reunião ao vivo de 90 minutos + gravação enviada depois
+
+  CONTEÚDO DO TREINAMENTO:
+  [ ] Como a Amanda funciona e o que ela faz sozinha
+  [ ] Como o operador humano intervém e quando
+  [ ] Como retomar o atendimento depois de intervir
+  [ ] Como ver o histórico de conversas de cada lead
+  [ ] Como ver o status de cada lead no CRM
+  [ ] Como configurar o formulário de qualificação
+  [ ] Como ajustar o score de aprovação
+  [ ] Como ver leads em análise manual e aprovar/reprovar manualmente
+  [ ] Como criar e editar o template de contrato
+  [ ] Como monitorar contratos pendentes de assinatura
+  [ ] Como identificar de qual campanha veio cada lead
+
+  EXERCÍCIO PRÁTICO (feito ao vivo com o cliente):
+  [ ] Operador faz um lead de teste entrar pelo WhatsApp
+  [ ] Acompanha todo o fluxo: Amanda → formulário → CPF → score →
+      aprovação → contrato → assinatura
+  [ ] Operador intervém manualmente em um lead de teste
+  [ ] Operador reativa a Amanda após a intervenção
+  [ ] Operador localiza o lead no CRM com histórico completo
+
+  CRITÉRIO DE CONCLUSÃO:
+  [ ] Operador consegue executar o fluxo completo sem ajuda
+  [ ] CS confirma que o cliente entendeu o que a Amanda faz sozinha
+      e o que precisa de intervenção humana
+  [ ] Gravação da sessão enviada ao cliente
+
+
+FASE 2.3 — TREINAMENTO MÓDULO 2: GESTÃO OPERACIONAL (dia 10)
+Responsável: CS
+Formato: reunião ao vivo de 90 minutos + gravação enviada depois
+
+  CONTEÚDO DO TREINAMENTO:
+  [ ] Como cadastrar e editar produtos no catálogo
+  [ ] Como gerenciar estoque (entrada, saída, ajuste)
+  [ ] Como interpretar alertas de estoque baixo
+  [ ] Como criar pedidos manualmente
+  [ ] Como criar maletas manualmente (Start) ou configurar maleta
+      automática (Pro/Max)
+  [ ] Como gerar etiqueta de envio (Start: manual; Pro/Max: automático)
+  [ ] Como rastrear envios pelo sistema
+  [ ] Como ver a rolagem de peças por revendedora — somente Pro/Max
+  [ ] Como registrar um sinistro — somente Pro/Max
+  [ ] Como usar o CRM: filtros, tags, histórico, responsável
+  [ ] Como usar o Workspace (Kanban e páginas de documentação)
+  [ ] Como gerenciar a equipe interna
+
+  EXERCÍCIO PRÁTICO:
+  [ ] Operador cadastra 3 produtos com estoque
+  [ ] Operador cria uma maleta de teste
+  [ ] Operador gera uma etiqueta de envio de teste
+  [ ] Operador cria um card no Kanban e uma página no Workspace
+
+  CRITÉRIO DE CONCLUSÃO:
+  [ ] Operador consegue executar todas as ações acima sem ajuda
+  [ ] Gravação enviada ao cliente
+
+
+FASE 2.4 — TREINAMENTO MÓDULO 3: FINANCEIRO E RELATÓRIOS (dia 11)
+Responsável: CS
+Formato: reunião ao vivo de 90 minutos + gravação enviada depois
+
+  CONTEÚDO DO TREINAMENTO:
+  [ ] Como funciona o ciclo de cobrança de repasse — somente Pro/Max
+  [ ] Como ver inadimplentes e acompanhar o follow-up automático
+  [ ] Como processar um acerto parcial — somente Pro/Max
+  [ ] Como confirmar ou rejeitar um comprovante de pagamento — Pro/Max
+  [ ] Como emitir NF-e manual e acompanhar NF-e automática — Pro/Max
+  [ ] Como interpretar o DRE e o Balanço Patrimonial
+  [ ] Como usar o OCR de despesas
+  [ ] Como ver a integração bancária e o fluxo de caixa
+  [ ] Como ler a página de custos e ROI:
+      - Total gasto no mês por categoria
+      - Total de revendedoras ativas
+      - Custo por revendedora ativa
+      - Projeção até o fechamento
+  [ ] Como interpretar os alarmes de uso
+  [ ] Como exportar relatório de custos
+  [ ] Como funciona o faturamento: dia 1 (mensalidade) e dia 5 (uso avulso)
+  [ ] Como contestar um item cobrado antes do fechamento
+
+  EXERCÍCIO PRÁTICO:
+  [ ] Operador localiza a página de custos e interpreta os valores atuais
+  [ ] Operador simula um repasse e acompanha o status
+  [ ] Operador exporta o extrato do mês (mesmo que vazio)
+
+  CRITÉRIO DE CONCLUSÃO:
+  [ ] Operador entende o ciclo de cobrança completo
+  [ ] Operador sabe interpretar a página de custos e ROI
+  [ ] Gravação enviada ao cliente
+
+
+FASE 2.5 — TREINAMENTO MÓDULO 4: MARKETING E GAMIFICAÇÃO (dia 12)
+Responsável: CS
+Formato: reunião ao vivo de 60 minutos + gravação enviada depois
+
+  CONTEÚDO DO TREINAMENTO:
+  [ ] Como criar uma campanha com link WhatsApp rastreado
+  [ ] Como ver de qual campanha veio cada lead
+  [ ] Como criar e agendar posts para as 6 redes sociais
+  [ ] Como usar a biblioteca de mídia
+  [ ] Como funciona o ranking de revendedoras (Bronze ao Platina)
+  [ ] Como criar metas e desafios
+  [ ] Como ver o ranking mensal e histórico
+  [ ] Como funciona o sistema de indicação de revendedoras
+  [ ] Como o link de indicação funciona para cada revendedora
+  [ ] Como ver bônus de indicação pendentes e pagos
+
+  EXERCÍCIO PRÁTICO:
+  [ ] Operador cria um link de campanha para Instagram
+  [ ] Operador agenda um post de teste
+  [ ] Operador configura uma meta mensal de teste
+
+  CRITÉRIO DE CONCLUSÃO:
+  [ ] Operador consegue criar campanha, post e meta sem ajuda
+  [ ] Gravação enviada ao cliente
+
+
+FASE 2.6 — SIMULAÇÃO COMPLETA E VALIDAÇÃO FINAL (dias 13 e 14)
+Responsável: CS
+
+  DIA 13 — SIMULAÇÃO COMPLETA (feita pelo cliente sem ajuda do CS)
+  O CS observa em modo silencioso. O cliente executa tudo sozinho.
+
+  Roteiro de simulação:
+  [ ] Criar campanha com link rastreado
+  [ ] Mandar link para um número de teste
+  [ ] Lead entra pelo WhatsApp → Amanda atende
+  [ ] Amanda qualifica e envia formulário
+  [ ] Operador preenche o formulário como se fosse um lead real
+  [ ] Sistema consulta CPF, calcula score e aprova
+  [ ] Contrato gerado e enviado
+  [ ] Operador assina o contrato no link
+  [ ] Sistema detecta assinatura e envia parabéns
+  [ ] Operador verifica lead no CRM
+  [ ] Operador cria maleta para a nova revendedora
+  [ ] Operador gera etiqueta de envio
+  [ ] Operador verifica custo gerado na página de custos
+
+  Se o plano for Pro ou Max, adicionar:
+  [ ] Operador simula recebimento de comprovante de pagamento via WhatsApp
+  [ ] Sistema analisa e valida o comprovante automaticamente
+  [ ] Operador configura data de repasse do ciclo financeiro
+  [ ] Operador verifica follow-up de inadimplência configurado
+
+  DIA 14 — REUNIÃO DE GO-LIVE
+  Responsável: CS + COM
+  Duração: 30 minutos
+
+  Pauta:
+  [ ] Confirmar que todos os módulos funcionam corretamente
+  [ ] Confirmar que o cliente se sente seguro para operar
+  [ ] Entregar lista de suporte: canal WhatsApp, e-mail, SLA de resposta
+  [ ] Apresentar agenda de check-ins dos primeiros 90 dias
+  [ ] Coletar NPS do onboarding (de 0 a 10, qual a chance de indicar?)
+  [ ] Declarar cliente "operacional"
+
+  CRITÉRIO DE CONCLUSÃO DA ETAPA 2:
+  [ ] Simulação completa executada com sucesso pelo cliente sem ajuda
+  [ ] NPS coletado
+  [ ] Cliente declarado operacional
+  [ ] Registro de go-live no sistema interno com data e responsável
+
+
+================================================================================
+ETAPA 3 — OPERAÇÃO CONTÍNUA
+================================================================================
+Responsável: CS
+Objetivo: garantir que o cliente está usando a plataforma, crescendo e não
+abandonando. Prevenir churn antes que apareça.
+
+
+ROTINA DE CHECK-IN — PRIMEIROS 90 DIAS (período crítico)
+
+  CHECK-IN DE 7 DIAS (D+7 do go-live)
+  Responsável: CS
+  Formato: WhatsApp ou ligação de 15 minutos
+  Verificar:
+  [ ] Quantos leads entraram desde o go-live?
+  [ ] Algum erro ou comportamento inesperado da Amanda?
+  [ ] Alguma dificuldade em algum módulo?
+  [ ] O cliente está usando o CRM?
+  [ ] Alguma integração deu problema?
+  Ação: resolver qualquer problema imediatamente. Registrar no sistema.
+
+  CHECK-IN DE 30 DIAS (D+30 do go-live)
+  Responsável: CS
+  Formato: reunião de 30 minutos via Google Meet
+  Verificar:
+  [ ] Quantos leads qualificados no mês?
+  [ ] Quantos contratos assinados?
+  [ ] O cliente chegou perto do limite de leads do plano?
+  [ ] Qual foi o custo de uso avulso do mês?
+  [ ] O cliente entendeu a fatura do dia 5?
+  [ ] Alguma funcionalidade não está sendo usada que deveria?
+  [ ] O cliente tem alguma revendedora inadimplente que o sistema está
+      acompanhando? (Pro/Max)
+  Ação:
+  - Se próximo do limite de leads → iniciar conversa de upgrade
+  - Se não usando funcionalidades → reforçar treinamento
+  - Se insatisfeito → escalar para CS sênior imediatamente
+  Coletar NPS D+30.
+
+  CHECK-IN DE 60 DIAS (D+60 do go-live)
+  Responsável: CS
+  Formato: reunião de 30 minutos
+  Verificar:
+  [ ] Crescimento de revendedoras ativas comparado ao mês anterior
+  [ ] Taxa de inadimplência e recuperação automática (Pro/Max)
+  [ ] Uso de marketing e gamificação
+  [ ] Custo por revendedora ativa no mês
+  [ ] Alguma funcionalidade do plano superior que o cliente está
+      precisando mas não tem?
+  Ação:
+  - Apresentar comparativo de ROI: o que gastou vs o que gerou
+  - Se sinal de upgrade → passar para o COM
+
+  CHECK-IN DE 90 DIAS (D+90 do go-live)
+  Responsável: CS + COM
+  Formato: reunião de 45 minutos — revisão de conta
+  Verificar:
+  [ ] Revisão completa dos 3 meses: leads, contratos, revendedoras,
+      inadimplência, recuperação, custo total, ROI
+  [ ] NPS D+90
+  [ ] Metas do cliente: onde estava, onde está, onde quer estar
+  [ ] Funcionalidades mais usadas e menos usadas
+  [ ] O plano atual ainda é o correto?
+  Ação:
+  - Apresentar proposta de expansão se aplicável
+  - Renovar compromisso com o cliente
+  - Definir próxima revisão de conta (a cada 3 meses)
+
+
+ROTINA MENSAL CONTÍNUA (após os 90 dias)
+
+  TODO DIA 2 DE CADA MÊS — CS verifica automaticamente:
+  [ ] Quais clientes chegaram em 80%+ do limite de leads no mês anterior?
+      → Acionar COM para conversa de upgrade
+  [ ] Quais clientes tiveram redução de leads em relação ao mês anterior?
+      → Risco de churn — acionar CS para check-in de saúde
+  [ ] Quais clientes não fizeram login na plataforma nos últimos 15 dias?
+      → Risco de churn — contato imediato
+
+  TODO DIA 6 DE CADA MÊS — CS verifica cobranças:
+  [ ] Cartões com falha no dia 1 (mensalidade)?
+      → Acionar cliente imediatamente para atualizar cartão
+      → Plataforma em modo de aviso (não bloqueio imediato): 5 dias de
+         carência antes de suspender
+  [ ] Cartões com falha no dia 5 (uso avulso)?
+      → Mesmo procedimento
+  [ ] Clientes com uso avulso acima do threshold com alarme disparado?
+      → Verificar se o COM já abordou o upgrade
+
+  REVISÃO DE CONTA TRIMESTRAL (a cada 3 meses após os 90 dias)
+  Responsável: CS + COM
+  Formato: reunião de 45 minutos
+  Pauta:
+  [ ] Revisão de métricas do trimestre
+  [ ] Comparativo de ROI
+  [ ] Novas funcionalidades lançadas que o cliente ainda não usa
+  [ ] Oportunidade de upgrade
+  [ ] NPS trimestral
+
+
+PROTOCOLO DE SUPORTE CONTÍNUO
+
+  Canal de suporte: WhatsApp dedicado da Nexus + e-mail
+  SLA de resposta por prioridade:
+    Crítico (sistema fora do ar, Amanda não respondendo, Pix não
+             processando): resposta em até 2 horas, resolução em até 4 horas
+    Alto (integração com erro, cron não executou, contrato não gerou):
+         resposta em até 4 horas, resolução no mesmo dia
+    Médio (dúvida operacional, configuração, treinamento adicional):
+          resposta em até 24 horas
+    Baixo (sugestão de melhoria, dúvida não urgente):
+          resposta em até 48 horas
+
+  O cliente abre suporte via WhatsApp ou e-mail. O CS registra no sistema
+  interno com categoria, prioridade e status. Nenhum chamado pode ficar sem
+  atualização por mais de 4 horas em dias úteis.
+
+
+================================================================================
+ETAPA 4 — EXPANSÃO DE PLANO (UPGRADE)
+================================================================================
+Responsável: COM (gatilho) + CS (execução técnica)
+Objetivo: identificar o momento certo de upgrade e executar sem atrito.
+
+
+SINAIS DE GATILHO DE UPGRADE
+
+  Start → Pro:
+  - Cliente atingiu 80%+ do limite de leads em 2 meses seguidos
+  - Cliente tem revendedoras ativas e está cobrando repasse manualmente
+  - Cliente perguntou sobre Pix automático ou maleta automatizada
+  - NPS abaixo de 7 com menção a falta de automação financeira
+
+  Pro → Max:
+  - Cliente tem histórico de revendedoras que chegam no D+15 sem pagar
+  - Cliente perguntou sobre negativação Serasa
+  - Volume de inadimplência do cliente está crescendo mês a mês
+  - Cliente tem mais de 100 revendedoras ativas
+
+
+PROCESSO DE UPGRADE
+
+  PASSO 1 — ABORDAGEM COMERCIAL (COM)
+  [ ] COM agenda reunião de 30 minutos com o decisor
+  [ ] Apresenta comparativo: plano atual vs plano superior
+  [ ] Apresenta cálculo de ROI:
+      Ex: "Você tem 8 revendedoras inadimplentes por mês. Com o Max,
+      a negativação automática no D+17 custaria R$ 200 por mês.
+      Se recuperar mesmo que 2, já pagou. As 6 restantes param de
+      reincidir após a primeira negativação."
+  [ ] Mostra a tabela de funcionalidades bloqueadas que o cliente
+      já viu na plataforma com o cadeado
+  [ ] Propõe upgrade e aguarda decisão
+
+  PASSO 2 — EXECUÇÃO TÉCNICA (TEC) — execução no mesmo dia da aprovação
+  [ ] Atualizar plano do tenant no banco de dados
+  [ ] Atualizar middleware de autorização (liberar funcionalidades do
+      novo plano imediatamente)
+  [ ] Ativar crons adicionais do novo plano
+  [ ] Configurar novas integrações se necessário (ex: Serasa para Max)
+  [ ] Calcular diferença proporcional da mensalidade (pro rata)
+  [ ] Confirmar nova mensalidade no próximo dia 1
+
+  PASSO 3 — TREINAMENTO DO MÓDULO NOVO (CS) — dentro de 48 horas
+  [ ] Sessão de treinamento de 60 minutos focada apenas no que é novo
+  [ ] Exercício prático com o cliente
+  [ ] Confirmar que o cliente sabe usar as novas funcionalidades
+  [ ] Enviar gravação
+
+  CRITÉRIO DE CONCLUSÃO DO UPGRADE:
+  [ ] Plano atualizado no sistema
+  [ ] Funcionalidades disponíveis imediatamente
+  [ ] Crons ativos
+  [ ] Cliente treinado nas novas funcionalidades
+  [ ] Registro de upgrade no sistema com data e responsável
+
+
+================================================================================
+ETAPA 5 — OFFBOARDING
+================================================================================
+Responsável: COM (retenção) + CS (execução) + TEC (técnico)
+Objetivo: tentar reter o cliente, e se não for possível, encerrar de forma
+organizada e preservar o relacionamento.
+
+
+FASE 5.1 — DETECÇÃO E RETENÇÃO
+
+  Sinais de pedido de cancelamento ou risco de churn:
+  - Cliente solicita cancelamento diretamente
+  - NPS abaixo de 5
+  - Cliente não faz login há mais de 30 dias
+  - Cliente com cobranças recusadas e sem atualização de cartão após 7 dias
+
+  PROTOCOLO DE RETENÇÃO (antes de qualquer ação técnica):
+  [ ] COM entra em contato imediatamente (máximo 24 horas após o sinal)
+  [ ] Reunião de 30 minutos para entender o motivo real do cancelamento
+  [ ] Tentativa de resolução:
+      - Problema técnico: CS resolve imediatamente
+      - Preço: avaliar possibilidade de downgrade em vez de cancelamento
+      - Não está usando: CS agenda sessão de reativação e treinamento
+      - Migrou para concorrente: documentar o motivo para produto
+  [ ] Se retido: registrar no sistema com plano de acompanhamento reforçado
+  [ ] Se não retido: seguir para fase 5.2
+
+
+FASE 5.2 — PROCESSO DE ENCERRAMENTO
+
+  COMUNICAÇÃO
+  [ ] COM confirma decisão de encerramento por escrito (e-mail)
+  [ ] CS informa ao cliente o que acontece com os dados após o encerramento
+  [ ] CS informa o prazo de acesso à plataforma após o pedido
+      (padrão: acesso até o final do ciclo pago)
+
+  EXPORTAÇÃO DE DADOS (obrigatória — direito do cliente)
+  [ ] CS disponibiliza exportação completa dos dados do cliente:
+      - Todas as revendedoras cadastradas (nome, CPF, contato, status)
+      - Histórico de contratos assinados (PDF)
+      - Histórico financeiro (repasses, inadimplência, NF-es)
+      - Histórico de leads do CRM
+      - Catálogo de produtos e estoque
+      - Histórico de conversas da Amanda (log)
+  [ ] Exportação enviada ao cliente em formato .csv e .pdf compactados
+  [ ] Cliente confirma recebimento dos dados por escrito
+
+  DESCOMISSIONAMENTO TÉCNICO (TEC) — executado após fim do ciclo pago
+  [ ] Desativar todos os crons do tenant no n8n
+  [ ] Desativar workflow do tenant
+  [ ] Desconectar instância do Evolution API
+  [ ] Revogar tokens de todas as integrações (Google, Efi Bank, Bling,
+      Melhor Envio, Serasa, redes sociais)
+  [ ] Manter dados no PostgreSQL por 90 dias (obrigação legal) e depois
+      deletar schema do tenant
+  [ ] Remover sessões do Redis
+  [ ] Remover registro do tenant do sistema de billing
+  [ ] Confirmar que o cartão do cliente não receberá nenhuma cobrança
+      após o encerramento
+
+  PESQUISA DE SAÍDA
+  [ ] CS envia pesquisa de saída com 3 perguntas:
+      1. Por que você cancelou? (múltipla escolha + campo aberto)
+      2. O que poderíamos ter feito diferente?
+      3. Você indicaria a Nexus para outro negócio mesmo tendo cancelado?
+  [ ] Respostas registradas no sistema de produto para melhoria contínua
+
+  CRITÉRIO DE CONCLUSÃO DO OFFBOARDING:
+  [ ] Dados exportados e entregues ao cliente
+  [ ] Todos os serviços técnicos descomissionados
+  [ ] Faturamento encerrado sem cobrança indevida
+  [ ] Pesquisa de saída enviada
+  [ ] Registro de encerramento no sistema com data, motivo e responsável
+
+
+================================================================================
+RESUMO DE PRAZOS E RESPONSÁVEIS
+================================================================================
+
+Etapa                          Prazo         Responsável
+---------------------------------------------------------
+0. Pré-venda e diagnóstico     Variável      COM + CS
+1.1 Provisionamento tenant     Dia 1         TEC
+1.2 Integrações externas       Dias 2-3      TEC + CS
+1.3 Configuração Amanda        Dias 4-5      TEC + CS
+1.4 Formulário, contrato, CPF  Dias 5-6      TEC + CS + Cliente
+1.5 Stress test                Dia 7         TEC
+2.1 Kickoff com cliente        Dia 8         CS
+2.2 Treinamento prospecção     Dia 9         CS
+2.3 Treinamento operacional    Dia 10        CS
+2.4 Treinamento financeiro     Dia 11        CS
+2.5 Treinamento marketing      Dia 12        CS
+2.6 Simulação e go-live        Dias 13-14    CS + COM
+3. Operação contínua           Contínuo      CS + COM
+4. Expansão de plano           Conforme sinal COM + CS + TEC
+5. Offboarding                 Conforme pedido COM + CS + TEC
+
+Prazo total de onboarding (do contrato ao go-live): 14 dias úteis.
+
+
+================================================================================
+DIFERENÇAS DE IMPLEMENTAÇÃO POR PLANO
+================================================================================
+
+START — o que NÃO é configurado no onboarding técnico:
+  - Pix automático (Efi Bank não é integrado)
+  - Cron de inadimplência D+5/D+10/D+15 não é ativado
+  - Cron de anti-churn D+3/D+10/D+20 não é ativado
+  - NF-e (Bling não é integrado)
+  - Melhor Envio automático não é configurado
+  - RMA com análise de foto não é ativado
+  - Negativação Serasa não é integrada
+  - Plano de ação IA não é ativado
+  - Tempo de onboarding técnico: 5 dias (sem integrações financeiras)
+  - Treinamento módulo financeiro: 45 minutos (sem ciclo de repasse)
+
+PRO — o que é adicionado em relação ao Start:
+  - Integração Efi Bank configurada e testada (dias 2-3)
+  - Integração Bling configurada e testada (dias 2-3)
+  - Integração Melhor Envio automática configurada (dias 2-3)
+  - Cron de inadimplência ativado
+  - Cron de anti-churn ativado
+  - Cron de NF-e em lote ativado
+  - Treinamento módulo financeiro completo (90 minutos)
+  - Configuração de data de repasse do cliente
+  - Configuração da régua D+5/D+10/D+15
+
+MAX — o que é adicionado em relação ao Pro:
+  - Integração Serasa configurada e testada (dia 2-3)
+  - Cron de negativação D+17 ativado
+  - Plano de ação IA ativado por token
+  - Cron de reset soft allocation ativado (8h05)
+  - Treinamento adicional de 30 minutos: negativação e plano de ação IA
+  - Canal de suporte dedicado configurado
+
+
+================================================================================
+NEXUS INTELLIGENCE — Automação que devolve tempo para quem importa.
+================================================================================

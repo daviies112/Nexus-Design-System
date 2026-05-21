@@ -37,7 +37,7 @@ export default function StickyBar() {
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="text-[#C4DDD0] text-sm font-semibold whitespace-nowrap">Amanda AI para sua semijoia</span>
                   <span className="text-[#1E3828]">·</span>
-                  <span className="text-[#4A6A58] text-sm whitespace-nowrap">R$200/mês · 7 dias grátis</span>
+                  <span className="text-[#4A6A58] text-sm whitespace-nowrap">A partir de R$649/mês · sem fidelidade</span>
                 </div>
               </div>
 

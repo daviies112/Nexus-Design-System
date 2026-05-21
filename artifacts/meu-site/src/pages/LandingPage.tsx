@@ -289,7 +289,7 @@ export default function LandingPage() {
                 >
                   Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
                   <br className="hidden sm:block" />
-                  R$200/mês, sem cartão, sem contrato.
+                  A partir de R$649/mês. 3 planos. Sem fidelidade.
                 </motion.p>
 
                 <motion.div
@@ -381,7 +381,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1E3828] border border-[#1E3828] rounded-2xl overflow-hidden">
             {[
               { num: "97%",   countTo: 97,  suffix: "%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
-              { num: "R$200", countTo: null, suffix: "",  label: "Por mês, tudo incluso", sub: "21 módulos integrados" },
+              { num: "R$649", countTo: null, suffix: "",  label: "A partir de — Plano Start", sub: "3 planos disponíveis" },
               { num: "24h",   countTo: 24,  suffix: "h", label: "Setup assistido", sub: "após a assinatura" },
               { num: "Zero",  countTo: null, suffix: "",  label: "Contrato de fidelidade", sub: "cancele quando quiser" },
             ].map((s, i) => (
@@ -579,7 +579,7 @@ export default function LandingPage() {
             >
               Quero a Amanda AI
             </motion.button>
-            <span className="text-[#4A6A58] text-sm">R$200/mês · 7 dias grátis · sem cartão</span>
+            <span className="text-[#4A6A58] text-sm">A partir de R$649/mês · setup em 7 dias · sem fidelidade</span>
           </motion.div>
         </div>
       </section>
@@ -612,8 +612,8 @@ export default function LandingPage() {
               variants={fadeUp}
               className="font-syne font-bold text-3xl md:text-4xl text-white leading-snug tracking-tight"
             >
-              Simples, transparente,{" "}
-              <span className="text-[#FF5A1F] drop-shadow-[0_0_20px_rgba(255,90,31,0.3)]">sem surpresas.</span>
+              Antes fragmentado em 5 ferramentas.{" "}
+              <span className="text-[#FF5A1F] drop-shadow-[0_0_20px_rgba(255,90,31,0.3)]">Agora numa só.</span>
             </motion.h2>
             <motion.p
               custom={0.1}
@@ -621,26 +621,26 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-[#7AA88E] text-base mt-4 leading-relaxed max-w-sm"
             >
-              Um plano. 21 módulos. Tudo incluso pelo preço de um almoço por semana.
+              Três planos. Todos com a Amanda AI. Escolha o que combina com o tamanho da sua rede.
             </motion.p>
           </div>
 
+          {/* Competitor comparison */}
           <motion.div
-            custom={0.15}
+            custom={0.12}
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={fadeUp}
-            className="grid md:grid-cols-2 rounded-2xl overflow-hidden border border-[#1E3828]"
+            className="grid md:grid-cols-2 rounded-2xl overflow-hidden border border-[#1E3828] mb-8"
           >
-            {/* Left — o que você paga hoje */}
-            <div className="bg-[#0C1A12] p-10 border-b md:border-b-0 md:border-r border-[#1E3828]">
-              <p className="text-[#4A6A58] text-sm font-medium mb-7 uppercase tracking-wider">O que você paga hoje</p>
-              <div className="space-y-4 mb-8">
+            <div className="bg-[#0C1A12] p-8 border-b md:border-b-0 md:border-r border-[#1E3828]">
+              <p className="text-[#4A6A58] text-sm font-medium mb-6 uppercase tracking-wider">O ecossistema fragmentado que você usa hoje</p>
+              <div className="space-y-3 mb-6">
                 {[
-                  { label: "Cobrador / funcionário", val: "R$ 800+" },
-                  { label: "Software de estoque", val: "R$ 150" },
-                  { label: "Emissão de NF", val: "R$ 100" },
-                  { label: "WhatsApp Business API", val: "R$ 50" },
-                  { label: "Seu tempo (4h/dia × R$40/h)", val: "R$ 3.200" },
+                  { label: "Sistema de gestão (CRM + gestão)", val: "R$ 250" },
+                  { label: "App de vendas (catálogo + pedidos)", val: "R$ 450" },
+                  { label: "Sistema de reuniões IA", val: "R$ 3.000" },
+                  { label: "Formulários + landing pages", val: "R$ 100" },
+                  { label: "Agência de tráfego (mínimo)", val: "R$ 1.200" },
                 ].map((item, i) => (
                   <div key={i} className="flex justify-between items-center">
                     <span className="text-[#4A6A58] text-sm line-through">{item.label}</span>
@@ -648,35 +648,37 @@ export default function LandingPage() {
                   </div>
                 ))}
               </div>
-              <div className="pt-5 border-t border-[#1E3828]">
-                <div className="text-[#EF4444] font-syne font-extrabold text-3xl">R$4.300+/mês</div>
-                <div className="text-[#4A6A58] text-sm mt-1">sem contar esgotamento</div>
+              <div className="pt-4 border-t border-[#1E3828]">
+                <div className="text-[#EF4444] font-syne font-extrabold text-3xl">R$5.000+/mês</div>
+                <div className="text-[#4A6A58] text-sm mt-1">sem contar o tempo e o esgotamento</div>
               </div>
             </div>
 
-            {/* Right — Nexus */}
             <motion.div
               whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#FF5A1F] p-10 flex flex-col justify-between"
+              className="bg-[#FF5A1F] p-8 flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-3 mb-7">
-                  <NexusIconSm size={32} />
+                <div className="flex items-center gap-3 mb-6">
+                  <NexusIconSm size={28} />
                   <p className="text-[#1A0500] text-sm font-semibold uppercase tracking-wider">Nexus Intelligence</p>
                 </div>
-                <div className="mb-2">
-                  <span className="font-syne font-extrabold text-[56px] text-[#1A0500] leading-none">R$200</span>
+                <div className="mb-1">
+                  <span className="text-[#5C1A00] text-sm font-medium">A partir de</span>
+                </div>
+                <div className="mb-1">
+                  <span className="font-syne font-extrabold text-[52px] text-[#1A0500] leading-none">R$649</span>
                   <span className="text-[#5C1A00] text-lg font-semibold ml-1">/mês</span>
                 </div>
-                <p className="text-[#5C1A00] text-sm font-medium mb-8">21 módulos · sem taxas · sem fidelidade</p>
-                <ul className="space-y-2.5 mb-8">
+                <p className="text-[#5C1A00] text-sm font-medium mb-6">tudo integrado · sem fidelidade · setup em 7 dias</p>
+                <ul className="space-y-2 mb-6">
                   {[
-                    "Amanda AI — cobrança, NF e estoque",
-                    "WhatsApp Business API integrada",
-                    "Setup assistido em 24h",
-                    "Relatórios automáticos",
-                    "Suporte via WhatsApp",
+                    "Amanda AI — do lead ao repasse automático",
+                    "WhatsApp Business API oficial (sem risco)",
+                    "Prospecção, financeiro e logística integrados",
+                    "NF-e, Pix, Serasa — tudo automatizado",
+                    "Um cartão. Um painel. Zero ferramentas paralelas.",
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2.5 text-[#1A0500] text-sm font-medium">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -693,22 +695,61 @@ export default function LandingPage() {
                 whileTap={{ scale: 0.97 }}
                 className="bg-[#1A0500] text-[#FF5A1F] font-bold py-3.5 rounded-full text-[15px] hover:shadow-[0_0_24px_rgba(26,5,0,0.5)] transition-shadow w-full tracking-wide"
               >
-                Começar 7 dias grátis
+                Quero sair das ferramentas fragmentadas
               </motion.button>
             </motion.div>
           </motion.div>
 
-          {/* Social proof bar */}
+          {/* 3 plans mini cards */}
           <motion.div
-            custom={0.25}
+            custom={0.2}
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={fadeUp}
-            className="mt-6 grid grid-cols-3 gap-px bg-[#1E3828] border border-[#1E3828] rounded-xl overflow-hidden text-center"
+            className="grid md:grid-cols-3 gap-4"
+          >
+            {[
+              { name: "Nexus Start", price: "R$649/mês", limit: "30 leads · 40 revendedoras", cta: "start", accent: false },
+              { name: "Nexus Pro", price: "R$997/mês", limit: "70 leads · Ilimitadas", cta: "pro", accent: true },
+              { name: "Nexus Max", price: "R$1.449/mês", limit: "Ilimitado em tudo", cta: "max", accent: false },
+            ].map((p, i) => (
+              <div
+                key={i}
+                className={`rounded-xl border p-5 flex items-center justify-between gap-4 ${
+                  p.accent
+                    ? "border-[#FF5A1F]/40 bg-[#FF5A1F]/5"
+                    : "border-[#1E3828] bg-[#060F0A]"
+                }`}
+              >
+                <div>
+                  <div className={`text-xs font-bold uppercase tracking-wider mb-0.5 ${p.accent ? "text-[#FF5A1F]" : "text-[#7AA88E]"}`}>{p.name}</div>
+                  <div className="text-white font-syne font-extrabold text-lg">{p.price}</div>
+                  <div className="text-[#4A6A58] text-xs mt-0.5">{p.limit}</div>
+                </div>
+                <a
+                  href={`/checkout?plan=${p.cta}`}
+                  className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all hover:-translate-y-0.5 ${
+                    p.accent
+                      ? "bg-[#FF5A1F] text-[#1A0500]"
+                      : "bg-[#1E3828] text-[#C4DDD0] hover:bg-[#2A4A38]"
+                  }`}
+                >
+                  Escolher
+                </a>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Social proof bar */}
+          <motion.div
+            custom={0.28}
+            initial="hidden" whileInView="visible" viewport={{ once: true }}
+            variants={fadeUp}
+            className="mt-5 grid grid-cols-3 gap-px bg-[#1E3828] border border-[#1E3828] rounded-xl overflow-hidden text-center"
           >
             {[
               "Mais de 300 revendedoras automatizadas",
-              "Setup em até 24h após assinatura",
-              "94% mantêm o serviço após o primeiro mês",
+              "Setup em até 7 dias após assinatura",
+              "Cancele quando quiser, sem multa",
             ].map((item, i) => (
               <div key={i} className="bg-[#060F0A] px-4 py-4 text-[#7AA88E] text-xs leading-snug">
                 {item}

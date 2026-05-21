@@ -1,7 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { NexusIcon } from "@/components/NexusIcon";
 import { useToast } from "@/hooks/use-toast";
+
+const PLANS: Record<string, { name: string; price: number; desc: string; features: string[] }> = {
+  start: {
+    name: "Nexus Start",
+    price: 649,
+    desc: "Até 30 leads/mês · Até 40 revendedoras ativas",
+    features: [
+      "Amanda AI — atendimento WhatsApp 24/7",
+      "Formulário de qualificação personalizado",
+      "Consulta CPF automática (Datacorp) — R$1,99/consulta",
+      "Contrato digital com assinatura eletrônica",
+      "Agendamento automático (Google Calendar)",
+      "CRM completo + Workspace colaborativo",
+    ],
+  },
+  pro: {
+    name: "Nexus Pro",
+    price: 997,
+    desc: "Até 70 leads/mês · Revendedoras ilimitadas",
+    features: [
+      "Tudo do Start, mais:",
+      "Pix automático de cobrança (Efi Bank) — R$3,00/transação",
+      "Follow-up de inadimplência D+5, D+10, D+15",
+      "Maleta 100% automatizada",
+      "NF-e automática via Bling",
+      "Anti-churn completo D+3, D+10, D+20",
+    ],
+  },
+  max: {
+    name: "Nexus Max",
+    price: 1449,
+    desc: "Ilimitado em tudo",
+    features: [
+      "Tudo do Pro, mais:",
+      "Negativação Serasa D+17 automática — R$25,00/ação",
+      "Plano de ação IA por consultora — R$5,00/geração",
+      "Suporte via canal dedicado",
+      "Acesso prioritário a novas funcionalidades",
+      "Ilimitado em leads, revendedoras e admins",
+    ],
+  },
+};
 
 export default function Checkout() {
   const { toast } = useToast();
@@ -11,6 +53,15 @@ export default function Checkout() {
   const [company, setCompany] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("pro");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    if (plan && PLANS[plan]) setSelectedPlan(plan);
+  }, []);
+
+  const plan = PLANS[selectedPlan] || PLANS.pro;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,8 +84,9 @@ export default function Checkout() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="font-syne font-extrabold text-2xl text-white mb-3">Tudo certo!</h2>
-          <p className="text-[#7AA88E] mb-6">Nossa equipe vai entrar em contato via WhatsApp em até 2 horas para iniciar o seu setup.</p>
+          <h2 className="font-syne font-extrabold text-2xl text-white mb-3">Solicitação recebida!</h2>
+          <p className="text-[#7AA88E] mb-2">Nossa equipe vai entrar em contato via WhatsApp em até 2 horas para iniciar o seu setup.</p>
+          <p className="text-[#4A6A58] text-sm mb-6">O onboarding é feito em até 7 dias úteis após a confirmação do contrato.</p>
           <a href="/" className="inline-block bg-[#FF5A1F] text-[#1A0500] font-extrabold px-8 py-4 rounded-xl hover:-translate-y-0.5 transition-transform shadow-lg">
             Voltar para o site
           </a>
@@ -49,23 +101,40 @@ export default function Checkout() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="text-center mb-10">
             <NexusIcon size={48} className="mx-auto mb-4" />
-            <h1 className="font-syne font-extrabold text-3xl text-white mb-2">Começar 7 dias grátis</h1>
-            <p className="text-[#7AA88E]">Sem cartão de crédito. Setup em 24h.</p>
+            <h1 className="font-syne font-extrabold text-3xl text-white mb-2">Começar com a Nexus</h1>
+            <p className="text-[#7AA88E]">Setup em 7 dias. Sem fidelidade. Cancele quando quiser.</p>
+          </div>
+
+          <div className="flex gap-2 mb-6">
+            {Object.entries(PLANS).map(([id, p]) => (
+              <button
+                key={id}
+                onClick={() => setSelectedPlan(id)}
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                  selectedPlan === id
+                    ? "bg-[#FF5A1F] text-[#1A0500]"
+                    : "bg-[#0C1A12] border border-[#1E3828] text-[#7AA88E] hover:border-[#FF5A1F]/40"
+                }`}
+              >
+                {p.name.replace("Nexus ", "")}<br/>
+                <span className={selectedPlan === id ? "text-[#5C1A00]" : "text-[#4A6A58]"}>R${p.price.toLocaleString("pt-BR")}/mês</span>
+              </button>
+            ))}
           </div>
 
           <div className="bg-[#0C1A12] border border-[#1E3828] rounded-3xl p-8 mb-6">
             <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#1E3828]">
               <div>
-                <div className="text-white font-syne font-bold">Nexus Intelligence</div>
-                <div className="text-[#7AA88E] text-sm">Plano completo — 21 módulos</div>
+                <div className="text-white font-syne font-bold">{plan.name}</div>
+                <div className="text-[#7AA88E] text-sm">{plan.desc}</div>
               </div>
               <div className="text-right">
-                <div className="text-[#00CC7A] font-bold">7 dias grátis</div>
-                <div className="text-[#7AA88E] text-sm">depois R$200/mês</div>
+                <div className="text-[#FF5A1F] font-bold text-lg">R${plan.price.toLocaleString("pt-BR")}/mês</div>
+                <div className="text-[#4A6A58] text-xs">cobrança no dia 1</div>
               </div>
             </div>
             <ul className="space-y-2 text-sm text-[#C4DDD0]">
-              {["Amanda AI — cobrança, estoque, NF e comissões", "WhatsApp Business API integrada", "Setup assistido em 24h", "Cancele quando quiser"].map((item, i) => (
+              {plan.features.map((item, i) => (
                 <li key={i} className="flex items-center gap-2">
                   <svg className="w-4 h-4 text-[#00CC7A] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
@@ -99,14 +168,9 @@ export default function Checkout() {
               disabled={isSubmitting}
               className="w-full bg-[#FF5A1F] text-[#1A0500] font-extrabold py-4 rounded-xl text-base mt-2 hover:scale-[1.01] transition-all disabled:opacity-60 shadow-lg"
             >
-              {isSubmitting ? "Processando..." : "Começar 7 dias grátis"}
+              {isSubmitting ? "Enviando..." : `Quero o ${plan.name}`}
             </button>
-            <p className="text-[#4A6A58] text-xs text-center">
-              Ao continuar, você concorda com nossos{" "}
-              <a href="/termos-uso" className="text-[#7AA88E] hover:text-white">Termos de Uso</a>
-              {" "}e{" "}
-              <a href="/politica-privacidade" className="text-[#7AA88E] hover:text-white">Política de Privacidade</a>.
-            </p>
+            <p className="text-[#4A6A58] text-xs text-center">Após o envio, nossa equipe entra em contato via WhatsApp em até 2h.</p>
           </form>
         </motion.div>
       </div>

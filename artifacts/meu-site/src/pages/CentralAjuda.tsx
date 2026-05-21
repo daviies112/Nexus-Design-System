@@ -6,7 +6,7 @@ const faqs = [
   { q: "Quanto tempo leva para configurar?", a: "Nossa equipe faz o setup assistido em até 24 horas após a assinatura. Você não precisa saber programar nada." },
   { q: "Preciso de número de WhatsApp Business?", a: "Sim, você precisa de um número com WhatsApp Business. Podemos ajudar a configurar a API oficial durante o onboarding." },
   { q: "A Amanda AI pode errar?", a: "A Amanda opera dentro de regras configuráveis por você. Para ações críticas, ela sempre aguarda confirmação antes de executar." },
-  { q: "Funciona para quantas revendedoras?", a: "Não há limite de revendedoras no plano padrão. O preço é fixo de R$200/mês independente do tamanho da sua rede." },
+  { q: "Funciona para quantas revendedoras?", a: "Depende do plano. Start suporta até 40 revendedoras ativas. Pro e Max são ilimitados. Os planos custam R$649, R$997 e R$1.449/mês respectivamente." },
   { q: "Posso cancelar a qualquer momento?", a: "Sim, sem multa e sem burocracia. O cancelamento é efetivado no final do período já pago." },
   { q: "Como é feita a emissão de notas fiscais?", a: "A Amanda emite NF-e e NFS-e automaticamente após cada venda confirmada, usando sua certificação digital. Você precisa ter um certificado digital A1 ou A3." },
   { q: "Os dados das minhas revendedoras ficam seguros?", a: "Sim. Todos os dados são criptografados com AES-256 e armazenados em servidores no Brasil, em conformidade com a LGPD." },

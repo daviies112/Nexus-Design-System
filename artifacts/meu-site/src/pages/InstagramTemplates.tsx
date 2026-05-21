@@ -64,12 +64,12 @@ export default function InstagramTemplates() {
           </div>
         </div>
 
-        {/* Template 4: R$200/mês */}
+        {/* Template 4: Planos */}
         <div className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group bg-[#FF5A1F] flex flex-col justify-center items-center text-center p-8" style={{ backgroundImage: "linear-gradient(rgba(26,5,0,0.06) 2px, transparent 2px), linear-gradient(90deg, rgba(26,5,0,0.06) 2px, transparent 2px)", backgroundSize: "40px 40px" }}>
           <div className="absolute top-6 left-6 bg-[#1A0500] text-[#FF5A1F] text-[9px] font-extrabold uppercase tracking-widest px-2 py-1 rounded">PREÇO</div>
           
           <div className="bg-white/5 p-12 rounded-[3rem] backdrop-blur-sm border border-[#1A0500]/10 shadow-xl">
-            <div className="font-syne font-extrabold text-8xl text-[#1A0500] leading-none tracking-tight mb-2">R$200</div>
+            <div className="font-syne font-extrabold text-7xl text-[#1A0500] leading-none tracking-tight mb-2">R$649</div>
             <div className="text-[#5C1A00] text-xl font-bold uppercase tracking-wider">/mês tudo incluso</div>
           </div>
           
