@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Nexus Intelligence"
+version = "1.0.0"
+id = "artifacts/nexus-intelligence"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19252
+
+[services.development]
+run = "pnpm --filter @workspace/nexus-intelligence run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nexus-intelligence", "run", "build" ]
+publicDir = "artifacts/nexus-intelligence/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19252"
+BASE_PATH = "/"
