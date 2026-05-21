@@ -25,9 +25,9 @@ export function NexusIcon({ size = 96, stroke = "#FF5A1F", white = "#FF5A1F", no
       {/* Outer pillars */}
       <line x1="28" y1="16" x2="28" y2="64" stroke={white} strokeWidth="3.5" />
       <line x1="84" y1="16" x2="84" y2="64" stroke={white} strokeWidth="3.5" />
-      {/* N diagonals — left-mid→center-top, center vertical, center-bottom→right-mid */}
+      {/* N diagonals — left-mid→center-top (gradient), center vertical (solid), center-bottom→right-mid (gradient) */}
       <line x1="28" y1="40" x2="56" y2="16" stroke={`url(#${gradId})`} strokeWidth="4" />
-      <line x1="56" y1="16" x2="56" y2="64" stroke={`url(#${gradId})`} strokeWidth="4" />
+      <line x1="56" y1="16" x2="56" y2="64" stroke={stroke} strokeWidth="4" />
       <line x1="56" y1="64" x2="84" y2="40" stroke={`url(#${gradId})`} strokeWidth="4" />
       {/* Action nodes */}
       <circle cx="28" cy="40" r="5.5" fill={nodeColor} />
@@ -60,9 +60,9 @@ export function NexusIconSm({ size = 44, stroke = "#FF5A1F", white = "#FF5A1F", 
       {/* Outer pillars */}
       <line x1="28" y1="16" x2="28" y2="64" stroke={white} strokeWidth="3.5" />
       <line x1="84" y1="16" x2="84" y2="64" stroke={white} strokeWidth="3.5" />
-      {/* N diagonals — left-mid→center-top, center vertical, center-bottom→right-mid */}
+      {/* N diagonals — left-mid→center-top (gradient), center vertical (solid), center-bottom→right-mid (gradient) */}
       <line x1="28" y1="40" x2="56" y2="16" stroke={`url(#${gradId})`} strokeWidth="4" />
-      <line x1="56" y1="16" x2="56" y2="64" stroke={`url(#${gradId})`} strokeWidth="4" />
+      <line x1="56" y1="16" x2="56" y2="64" stroke={stroke} strokeWidth="4" />
       <line x1="56" y1="64" x2="84" y2="40" stroke={`url(#${gradId})`} strokeWidth="4" />
       {/* Action nodes */}
       <circle cx="28" cy="40" r="5.5" fill={nodeColor} />

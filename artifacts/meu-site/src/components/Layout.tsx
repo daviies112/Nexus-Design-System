@@ -70,7 +70,7 @@ export default function Layout({ children }: LayoutProps) {
         className={`h-20 fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 ${
           scrolled
             ? "liquid-glass-nexus border-b border-[#00CC7A]/10 shadow-[0_4px_24px_rgba(0,0,0,0.3)]"
-            : "bg-transparent border-b border-transparent"
+            : "bg-[#060F0A]/90 backdrop-blur-md border-b border-[#1E3828]/20"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
