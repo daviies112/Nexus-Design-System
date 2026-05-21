@@ -1,6 +1,148 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { NexusIconSm } from "@/components/NexusIcon";
+
+/* ── Background video with RAF fade loop ── */
+function HeroVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    let rafId = 0;
+    const FADE_MS = 600;
+    const LEAD = 0.6;
+    let fadingOut = false;
+
+    const fadeTo = (target: number, ms: number) => {
+      cancelAnimationFrame(rafId);
+      const start = performance.now();
+      const from = parseFloat(video.style.opacity || "0");
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / ms);
+        video.style.opacity = String(from + (target - from) * t);
+        if (t < 1) rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const onLoaded = () => { video.style.opacity = "0"; video.play().catch(() => {}); fadeTo(1, FADE_MS); };
+    const onTime = () => {
+      if (!fadingOut && video.duration - video.currentTime <= LEAD && video.duration - video.currentTime > 0) {
+        fadingOut = true; fadeTo(0, FADE_MS);
+      }
+    };
+    const onEnded = () => {
+      video.style.opacity = "0";
+      setTimeout(() => { video.currentTime = 0; video.play().catch(() => {}); fadingOut = false; fadeTo(1, FADE_MS); }, 100);
+    };
+
+    video.addEventListener("loadeddata", onLoaded);
+    video.addEventListener("timeupdate", onTime);
+    video.addEventListener("ended", onEnded);
+    if (video.readyState >= 2) onLoaded();
+    return () => { cancelAnimationFrame(rafId); video.removeEventListener("loadeddata", onLoaded); video.removeEventListener("timeupdate", onTime); video.removeEventListener("ended", onEnded); };
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      src="https://res.cloudinary.com/dfonotyfb/video/upload/v1775585556/dds3_1_rqhg7x.mp4"
+      muted
+      playsInline
+      preload="auto"
+      className="absolute inset-0 w-full h-full object-cover z-0"
+      style={{ opacity: 0 }}
+    />
+  );
+}
+
+/* ── Animated network / connection lines (logo DNA expanded) ── */
+function NetworkLines() {
+  // Nodes in viewport-percent coordinates (0–100)
+  const nodes = [
+    { x: 8,  y: 22 }, { x: 22, y: 72 }, { x: 38, y: 14 },
+    { x: 50, y: 55 }, { x: 65, y: 28 }, { x: 78, y: 78 },
+    { x: 88, y: 18 }, { x: 14, y: 88 }, { x: 55, y: 88 },
+    { x: 92, y: 58 }, { x: 32, y: 45 }, { x: 70, y: 48 },
+  ];
+  const edges = [
+    [0,2],[2,4],[4,6],[6,9],[9,11],[11,5],[5,7],[7,1],[1,10],[10,3],[3,11],
+    [0,10],[2,10],[4,11],[6,11],[3,8],[5,9],[7,8],
+  ];
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 1000 600"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <filter id="glow-green" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-orange" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Connection lines — thin, animated draw */}
+      {edges.map(([a, b], i) => {
+        const na = nodes[a], nb = nodes[b];
+        // Scale node % coords to viewBox 1000×600
+        const x1 = na.x * 10, y1 = na.y * 6;
+        const x2 = nb.x * 10, y2 = nb.y * 6;
+        const len = Math.hypot(x2 - x1, y2 - y1);
+        const isOrange = i % 5 === 0;
+        return (
+          <line
+            key={i}
+            x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke={isOrange ? "#FF5A1F" : "#00CC7A"}
+            strokeWidth={isOrange ? 0.8 : 0.6}
+            strokeOpacity={isOrange ? 0.4 : 0.28}
+            strokeDasharray={`${len} ${len}`}
+            style={{
+              strokeDashoffset: len,
+              animation: `line-draw ${3.5 + (i % 4) * 0.8}s ease-in-out ${i * 0.45}s infinite`,
+            }}
+          />
+        );
+      })}
+
+      {/* Green nodes — small glowing dots */}
+      {nodes.map((n, i) => (
+        <g key={i} transform={`translate(${n.x * 10}, ${n.y * 6})`}>
+          {/* Glow halo */}
+          <circle r="5" fill="#00CC7A" opacity="0.08"
+            style={{ animation: `node-pulse ${2.5 + (i % 3) * 0.7}s ease-in-out ${i * 0.3}s infinite` }} />
+          {/* Core dot */}
+          <circle r="2" fill="#00CC7A" opacity="0.7" filter="url(#glow-green)"
+            style={{ animation: `node-pulse ${2.5 + (i % 3) * 0.7}s ease-in-out ${i * 0.3}s infinite` }} />
+        </g>
+      ))}
+
+      {/* Orange accent nodes — 3 key positions (mirror logo action nodes) */}
+      {[3, 6, 9].map((idx) => (
+        <g key={`o${idx}`} transform={`translate(${nodes[idx].x * 10}, ${nodes[idx].y * 6})`}>
+          <circle r="9" fill="#FF5A1F" opacity="0.07"
+            style={{ animation: `node-pulse-orange ${2.2 + idx * 0.4}s ease-in-out ${idx * 0.5}s infinite` }} />
+          <circle r="3" fill="#FF5A1F" opacity="0.85" filter="url(#glow-orange)"
+            style={{ animation: `node-pulse-orange ${2.2 + idx * 0.4}s ease-in-out ${idx * 0.5}s infinite` }} />
+        </g>
+      ))}
+
+      {/* Orbital rings centred on viewport — echo logo dashed arc */}
+      <circle cx="500" cy="300" r="200" stroke="#00CC7A" strokeWidth="0.6"
+        strokeDasharray="8 32" fill="none" opacity="0.12"
+        style={{ animation: "glow-pulse 4s ease-in-out infinite" }} />
+      <circle cx="500" cy="300" r="310" stroke="#FF5A1F" strokeWidth="0.5"
+        strokeDasharray="6 44" fill="none" opacity="0.09"
+        style={{ animation: "glow-pulse 5.5s ease-in-out 1s infinite" }} />
+    </svg>
+  );
+}
 import DemoSection from "@/components/DemoSection";
 import ROICalculator from "@/components/ROICalculator";
 import QualificationForm from "@/components/QualificationForm";
@@ -34,65 +176,90 @@ export default function LandingPage() {
       <SpecialOfferModal />
 
       {/* ── 1. HERO ── */}
-      <section className="relative bg-[#060F0A] px-6 overflow-hidden">
-        {/* Subtle background grid */}
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage: "linear-gradient(#7AA88E 1px, transparent 1px), linear-gradient(90deg, #7AA88E 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
+      <section className="relative min-h-screen bg-[#060F0A] overflow-hidden flex items-center">
+        {/* Layer 0: Cinematic background video */}
+        <HeroVideo />
 
-        <div className="max-w-4xl mx-auto text-center relative z-10 pt-24 pb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Status pill — once only across the page */}
-            <div className="inline-flex items-center gap-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
-              Fila de espera aberta — 200 vagas restantes
-            </div>
+        {/* Layer 1: Dark green brand overlay — preserves identity */}
+        <div className="absolute inset-0 z-[2]" style={{
+          background: "linear-gradient(165deg, rgba(6,15,10,0.82) 0%, rgba(6,15,10,0.65) 50%, rgba(6,15,10,0.88) 100%)"
+        }} />
 
-            <h1 className="font-syne font-semibold tracking-tight leading-[1.15] text-4xl md:text-5xl">
-              <span className="block text-white">
-                Automatize sua semijoia.
-              </span>
-              <span className="block text-white">
-                Cresça{" "}
-                <span className="text-[#FF5A1F]">sem contratar.</span>
-              </span>
-            </h1>
+        {/* Layer 2: Animated network / connection lines (logo DNA) */}
+        <div className="absolute inset-0 z-[3]">
+          <NetworkLines />
+        </div>
 
-            {/* Editorial divider */}
-            <div className="flex items-center justify-center gap-3 my-8">
-              <div className="h-px w-10 bg-[#1E3828]" />
-              <div className="w-1 h-1 rounded-full bg-[#FF5A1F]" />
-              <div className="h-px w-10 bg-[#1E3828]" />
-            </div>
+        {/* Layer 3: Bottom fade into rest of page */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-[4]" style={{
+          background: "linear-gradient(to bottom, transparent, #060F0A)"
+        }} />
 
-            <p className="text-[#7AA88E] text-lg leading-relaxed max-w-xl mx-auto font-normal">
-              Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
-              R$200/mês, sem cartão, sem contrato.
-            </p>
+        {/* Layer 4: Content */}
+        <div className="relative z-[5] w-full px-6 py-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Status pill */}
+              <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-4 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
+                Fila de espera aberta — 200 vagas restantes
+              </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-              <button
-                onClick={() => scrollTo("qualificacao")}
-                className="bg-[#FF5A1F] text-[#1A0500] font-bold px-9 py-3.5 rounded-full text-[15px] tracking-wide transition-opacity hover:opacity-90 w-full sm:w-auto"
+              <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-6xl">
+                <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
+                  Automatize sua semijoia.
+                </span>
+                <span className="block text-white">
+                  Cresça{" "}
+                  <span className="text-[#FF5A1F] drop-shadow-[0_0_32px_rgba(255,90,31,0.45)]">sem contratar.</span>
+                </span>
+              </h1>
+
+              {/* Animated divider — echoes logo nodes */}
+              <div className="flex items-center justify-center gap-3 my-9">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#00CC7A]/40" />
+                <div className="w-2 h-2 rounded-full bg-[#FF5A1F] shadow-[0_0_8px_rgba(255,90,31,0.7)] animate-pulse" />
+                <div className="h-px w-4 bg-[#00CC7A]/30" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#00CC7A]/60" />
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#00CC7A]/40" />
+              </div>
+
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl mx-auto font-normal"
               >
-                Garantir minha vaga
-              </button>
-              <button
-                onClick={() => scrollTo("demo")}
-                className="inline-flex items-center gap-2 text-[#7AA88E] hover:text-white text-[15px] font-medium transition-colors"
+                Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
+                <br className="hidden sm:block" />
+                R$200/mês, sem cartão, sem contrato.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
               >
-                Ver como funciona <IconArrow />
-              </button>
-            </div>
-          </motion.div>
+                <button
+                  onClick={() => scrollTo("qualificacao")}
+                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-9 py-3.5 rounded-full text-[15px] tracking-wide hover:opacity-90 transition-all hover:shadow-[0_0_32px_rgba(255,90,31,0.45)] active:scale-[0.97] w-full sm:w-auto"
+                >
+                  Garantir minha vaga
+                </button>
+                <button
+                  onClick={() => scrollTo("demo")}
+                  className="liquid-glass-nexus inline-flex items-center gap-2 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3"
+                >
+                  Ver como funciona <IconArrow />
+                </button>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#060F0A] text-[#F0FAF4] font-inter selection:bg-[#FF5A1F] selection:text-[#1A0500]">
-      <header className="h-20 bg-[#060F0A]/80 backdrop-blur-md border-b border-[#1E3828] sticky top-0 z-50 flex-none">
+      <header className="h-20 sticky top-0 z-50 flex-none liquid-glass-nexus border-b border-[#00CC7A]/10">
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           <Link href="/" className="flex items-center group">
             <NexusIconSm size={44} className="group-hover:scale-105 transition-transform" />
