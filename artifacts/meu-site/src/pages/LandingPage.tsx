@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { NexusIconSm } from "@/components/NexusIcon";
 import DemoSection from "@/components/DemoSection";
 import ROICalculator from "@/components/ROICalculator";
 import QualificationForm from "@/components/QualificationForm";
 import PurchaseNotification from "@/components/PurchaseNotification";
 import SpecialOfferModal from "@/components/SpecialOfferModal";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
 
 /* ─── Icon helpers ─── */
 function IconCheck() {
@@ -31,6 +33,39 @@ const fadeUp = {
     transition: { duration: 0.75, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
+
+/* ─── Animated counter ─── */
+function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = spanRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const t0 = performance.now();
+          const dur = 1700;
+          const tick = (now: number) => {
+            const p = Math.min(1, (now - t0) / dur);
+            const ease = 1 - Math.pow(1 - p, 3);
+            setCount(Math.round(ease * to));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [to]);
+
+  return <span ref={spanRef}>{count}{suffix}</span>;
+}
 
 /* ─── Hero video with RAF fade loop ─── */
 function HeroVideo() {
@@ -199,9 +234,11 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-4 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
+              <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-3 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
+                <span className="bg-[#FF5A1F] text-[#1A0500] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-widest flex-shrink-0">NOVO</span>
+                <span className="w-px h-3 bg-[#1E3828] flex-shrink-0" />
                 Fila de espera aberta — 200 vagas restantes
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse flex-shrink-0" />
               </div>
               <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-6xl">
                 <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
@@ -239,17 +276,27 @@ export default function LandingPage() {
                   onClick={() => scrollTo("qualificacao")}
                   whileHover={{ scale: 1.04, y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-9 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_40px_rgba(255,90,31,0.5)] w-full sm:w-auto"
+                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-7 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_44px_rgba(255,90,31,0.55)] w-full sm:w-auto inline-flex items-center justify-center gap-3 group"
                 >
                   Garantir minha vaga
+                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#1A0500]/20 group-hover:bg-[#1A0500]/30 transition-colors flex-shrink-0">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
                 </motion.button>
                 <motion.button
                   onClick={() => scrollTo("demo")}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="liquid-glass-nexus inline-flex items-center gap-2 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3"
+                  className="liquid-glass-nexus inline-flex items-center gap-2.5 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3 group"
                 >
-                  Ver como funciona <IconArrow />
+                  Ver como funciona
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full border border-[#2A4A38] group-hover:border-[#7AA88E] transition-colors">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -270,10 +317,10 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1E3828] border border-[#1E3828] rounded-2xl overflow-hidden">
             {[
-              { num: "97%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
-              { num: "R$200", label: "Por mês, tudo incluso", sub: "21 módulos integrados" },
-              { num: "24h", label: "Setup assistido", sub: "após a assinatura" },
-              { num: "Zero", label: "Contrato de fidelidade", sub: "cancele quando quiser" },
+              { num: "97%",   countTo: 97,  suffix: "%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
+              { num: "R$200", countTo: null, suffix: "",  label: "Por mês, tudo incluso", sub: "21 módulos integrados" },
+              { num: "24h",   countTo: 24,  suffix: "h", label: "Setup assistido", sub: "após a assinatura" },
+              { num: "Zero",  countTo: null, suffix: "",  label: "Contrato de fidelidade", sub: "cancele quando quiser" },
             ].map((s, i) => (
               <motion.div
                 key={i}
@@ -286,7 +333,9 @@ export default function LandingPage() {
                 transition={{ backgroundColor: { duration: 0.2 } }}
                 className="bg-[#060F0A] px-8 py-8 cursor-default"
               >
-                <div className="font-syne font-extrabold text-4xl text-white">{s.num}</div>
+                <div className="font-syne font-extrabold text-4xl text-white">
+                  {s.countTo != null ? <CountUp to={s.countTo} suffix={s.suffix} /> : s.num}
+                </div>
                 <div className="text-white text-sm font-semibold mt-2">{s.label}</div>
                 <div className="text-[#4A6A58] text-xs mt-0.5">{s.sub}</div>
               </motion.div>
@@ -431,7 +480,7 @@ export default function LandingPage() {
                 variants={fadeUp}
                 whileHover={{ scale: 1.03, y: -5 }}
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                className="bg-[#060F0A] border border-[#1E3828] rounded-2xl p-7 group hover:border-[#FF5A1F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)] cursor-default"
+                className="rounded-2xl p-7 group cursor-default glow-card"
               >
                 <div className="w-9 h-9 rounded-lg bg-[#1E3828] text-[#C4DDD0] flex items-center justify-center mb-5 group-hover:bg-[#FF5A1F]/10 group-hover:text-[#FF5A1F] transition-colors duration-300">
                   {f.icon}
@@ -466,6 +515,9 @@ export default function LandingPage() {
 
       {/* ── 6. ROI CALCULATOR ── */}
       <ROICalculator />
+
+      {/* ── 6b. TESTIMONIALS ── */}
+      <TestimonialsSection />
 
       {/* ── 7. PRICING — rounded top, pulled up ── */}
       <section id="preco" className="relative bg-[#060F0A] px-6 py-24 border-t border-[#1E3828] rounded-t-[40px] md:rounded-t-[56px] -mt-8 overflow-hidden">
@@ -591,6 +643,9 @@ export default function LandingPage() {
 
       {/* ── 8. QUALIFICATION FORM ── */}
       <QualificationForm />
+
+      {/* ── 8b. FAQ ── */}
+      <FAQSection />
 
       {/* ── 9. CTA FINAL — watermark + radial glow ── */}
       <section className="relative bg-[#0C1A12] border-t border-[#1E3828] px-6 py-28 overflow-hidden rounded-t-[40px] md:rounded-t-[56px] -mt-8">
