@@ -8,6 +8,11 @@ import PurchaseNotification from "@/components/PurchaseNotification";
 import SpecialOfferModal from "@/components/SpecialOfferModal";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
+import HeroMockup from "@/components/HeroMockup";
+import HowItWorks from "@/components/HowItWorks";
+import IntegrationStrip from "@/components/IntegrationStrip";
+import TrustBadges from "@/components/TrustBadges";
+import StickyBar from "@/components/StickyBar";
 
 /* ─── Icon helpers ─── */
 function IconCheck() {
@@ -224,85 +229,143 @@ export default function LandingPage() {
           background: "linear-gradient(165deg, rgba(6,15,10,0.82) 0%, rgba(6,15,10,0.65) 50%, rgba(6,15,10,0.88) 100%)"
         }} />
         <div className="absolute inset-0 z-[3]"><NetworkLines /></div>
+
+        {/* Ambient orbs */}
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none z-[1]"
+          style={{ background: "radial-gradient(circle, rgba(255,90,31,0.07) 0%, transparent 65%)", animation: "nexus-orb-float 14s ease-in-out infinite" }} />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-[1]"
+          style={{ background: "radial-gradient(circle, rgba(0,204,122,0.06) 0%, transparent 65%)", animation: "nexus-orb-float 18s ease-in-out 4s infinite reverse" }} />
+
+        {/* Beam sweep */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
+          <div className="nexus-beam" />
+        </div>
+
         <div className="absolute bottom-0 left-0 right-0 h-40 z-[4]" style={{
           background: "linear-gradient(to bottom, transparent, #060F0A)"
         }} />
-        <div className="relative z-[5] w-full px-6 py-32">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-3 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
-                <span className="bg-[#FF5A1F] text-[#1A0500] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-widest flex-shrink-0">NOVO</span>
-                <span className="w-px h-3 bg-[#1E3828] flex-shrink-0" />
-                Fila de espera aberta — 200 vagas restantes
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse flex-shrink-0" />
-              </div>
-              <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-6xl">
-                <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
-                  Automatize sua semijoia.
-                </span>
-                <span className="block text-white">
-                  Cresça{" "}
-                  <span className="text-[#FF5A1F] drop-shadow-[0_0_32px_rgba(255,90,31,0.45)]">sem contratar.</span>
-                </span>
-              </h1>
-              <div className="flex items-center justify-center gap-3 my-9">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#00CC7A]/40" />
-                <div className="w-2 h-2 rounded-full bg-[#FF5A1F] shadow-[0_0_8px_rgba(255,90,31,0.7)] animate-pulse" />
-                <div className="h-px w-4 bg-[#00CC7A]/30" />
-                <div className="w-1.5 h-1.5 rounded-full bg-[#00CC7A]/60" />
-                <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#00CC7A]/40" />
-              </div>
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl mx-auto font-normal"
-              >
-                Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
-                <br className="hidden sm:block" />
-                R$200/mês, sem cartão, sem contrato.
-              </motion.p>
+
+        <div className="relative z-[5] w-full px-6 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center min-h-[calc(100vh-14rem)]">
+
+              {/* Left: text content */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
+                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center lg:items-start"
               >
-                <motion.button
-                  onClick={() => scrollTo("qualificacao")}
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-7 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_44px_rgba(255,90,31,0.55)] w-full sm:w-auto inline-flex items-center justify-center gap-3 group"
-                >
-                  Garantir minha vaga
-                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#1A0500]/20 group-hover:bg-[#1A0500]/30 transition-colors flex-shrink-0">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-3 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
+                  <span className="bg-[#FF5A1F] text-[#1A0500] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-widest flex-shrink-0">NOVO</span>
+                  <span className="w-px h-3 bg-[#1E3828] flex-shrink-0" />
+                  Fila de espera aberta — 200 vagas restantes
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse flex-shrink-0" />
+                </div>
+
+                <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-[3.4rem] text-center lg:text-left">
+                  <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
+                    Automatize sua semijoia.
                   </span>
-                </motion.button>
-                <motion.button
-                  onClick={() => scrollTo("demo")}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="liquid-glass-nexus inline-flex items-center gap-2.5 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3 group"
-                >
-                  Ver como funciona
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full border border-[#2A4A38] group-hover:border-[#7AA88E] transition-colors">
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                  <span className="block text-white">
+                    Cresça{" "}
+                    <span className="nexus-gradient-text">sem contratar.</span>
                   </span>
-                </motion.button>
+                </h1>
+
+                <div className="flex items-center gap-3 my-8 justify-center lg:justify-start">
+                  <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#00CC7A]/40" />
+                  <div className="w-2 h-2 rounded-full bg-[#FF5A1F] shadow-[0_0_8px_rgba(255,90,31,0.7)] animate-pulse" />
+                  <div className="h-px w-4 bg-[#00CC7A]/30" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00CC7A]/60" />
+                  <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#00CC7A]/40" />
+                </div>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl font-normal text-center lg:text-left"
+                >
+                  Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
+                  <br className="hidden sm:block" />
+                  R$200/mês, sem cartão, sem contrato.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-9 w-full lg:w-auto"
+                >
+                  <motion.button
+                    onClick={() => scrollTo("qualificacao")}
+                    whileHover={{ scale: 1.04, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="bg-[#FF5A1F] text-[#1A0500] font-bold px-7 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_44px_rgba(255,90,31,0.55)] w-full sm:w-auto inline-flex items-center justify-center gap-3 group"
+                  >
+                    Garantir minha vaga
+                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#1A0500]/20 group-hover:bg-[#1A0500]/30 transition-colors flex-shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  </motion.button>
+                  <motion.button
+                    onClick={() => scrollTo("como-funciona")}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="liquid-glass-nexus inline-flex items-center gap-2.5 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3 group"
+                  >
+                    Ver como funciona
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full border border-[#2A4A38] group-hover:border-[#7AA88E] transition-colors">
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  </motion.button>
+                </motion.div>
+
+                {/* Social proof row */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.65 }}
+                  className="flex items-center gap-4 mt-8"
+                >
+                  <div className="flex -space-x-2">
+                    {["C","J","A","M","P"].map((l, i) => (
+                      <div key={i}
+                        className="w-8 h-8 rounded-full border-2 border-[#060F0A] flex items-center justify-center text-[10px] font-extrabold text-[#060F0A]"
+                        style={{ background: i % 2 === 0 ? "#00CC7A" : "#FF5A1F" }}
+                      >{l}</div>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="text-white text-sm font-semibold leading-none mb-1">+300 empreendedoras</div>
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} width="11" height="11" viewBox="0 0 11 11" fill="#FF5A1F">
+                          <path d="M5.5 1.2l.9 2.1 2.3.2-1.7 1.5.5 2.3-2-1.2-2 1.2.5-2.3-1.7-1.5 2.3-.2z"/>
+                        </svg>
+                      ))}
+                      <span className="text-[#7AA88E] text-[11px] ml-1.5">4.9 / 5.0</span>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
+
+              {/* Right: hero product mockup */}
+              <div className="hidden lg:block">
+                <HeroMockup />
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ── INTEGRATION STRIP ── */}
+      <IntegrationStrip />
 
       {/* ── MARQUEE STRIP ── */}
       <AutoMarquee />
@@ -343,6 +406,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* ── HOW IT WORKS ── */}
+      <HowItWorks />
 
       {/* ── 3. PROBLEMA ── */}
       <section className="relative bg-[#060F0A] px-6 py-24 border-t border-[#1E3828] overflow-hidden">
@@ -480,7 +546,15 @@ export default function LandingPage() {
                 variants={fadeUp}
                 whileHover={{ scale: 1.03, y: -5 }}
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                className="rounded-2xl p-7 group cursor-default glow-card"
+                className="rounded-2xl p-7 group cursor-default glow-card glow-card-enhanced"
+                style={{ transformStyle: "preserve-3d" }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+                  const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+                  (e.currentTarget as HTMLElement).style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg) scale(1.03)`;
+                }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ""; }}
               >
                 <div className="w-9 h-9 rounded-lg bg-[#1E3828] text-[#C4DDD0] flex items-center justify-center mb-5 group-hover:bg-[#FF5A1F]/10 group-hover:text-[#FF5A1F] transition-colors duration-300">
                   {f.icon}
@@ -518,6 +592,9 @@ export default function LandingPage() {
 
       {/* ── 6b. TESTIMONIALS ── */}
       <TestimonialsSection />
+
+      {/* ── TRUST BADGES ── */}
+      <TrustBadges />
 
       {/* ── 7. PRICING — rounded top, pulled up ── */}
       <section id="preco" className="relative bg-[#060F0A] px-6 py-24 border-t border-[#1E3828] rounded-t-[40px] md:rounded-t-[56px] -mt-8 overflow-hidden">
@@ -644,7 +721,7 @@ export default function LandingPage() {
       {/* ── 8. QUALIFICATION FORM ── */}
       <QualificationForm />
 
-      {/* ── 8b. FAQ ── */}
+      {/* ── FAQ ── */}
       <FAQSection />
 
       {/* ── 9. CTA FINAL — watermark + radial glow ── */}
@@ -733,6 +810,9 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── STICKY CONVERSION BAR (desktop only) ── */}
+      <StickyBar />
     </div>
   );
 }
