@@ -1,11 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { NexusIconSm } from "@/components/NexusIcon";
 import DemoSection from "@/components/DemoSection";
 import ROICalculator from "@/components/ROICalculator";
 import QualificationForm from "@/components/QualificationForm";
 import PurchaseNotification from "@/components/PurchaseNotification";
 import SpecialOfferModal from "@/components/SpecialOfferModal";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
+import HeroMockup from "@/components/HeroMockup";
+import HowItWorks from "@/components/HowItWorks";
+import IntegrationStrip from "@/components/IntegrationStrip";
+import TrustBadges from "@/components/TrustBadges";
+import StickyBar from "@/components/StickyBar";
 
 /* ─── Icon helpers ─── */
 function IconCheck() {
@@ -31,6 +38,39 @@ const fadeUp = {
     transition: { duration: 0.75, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
+
+/* ─── Animated counter ─── */
+function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = spanRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const t0 = performance.now();
+          const dur = 1700;
+          const tick = (now: number) => {
+            const p = Math.min(1, (now - t0) / dur);
+            const ease = 1 - Math.pow(1 - p, 3);
+            setCount(Math.round(ease * to));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [to]);
+
+  return <span ref={spanRef}>{count}{suffix}</span>;
+}
 
 /* ─── Hero video with RAF fade loop ─── */
 function HeroVideo() {
@@ -189,73 +229,143 @@ export default function LandingPage() {
           background: "linear-gradient(165deg, rgba(6,15,10,0.82) 0%, rgba(6,15,10,0.65) 50%, rgba(6,15,10,0.88) 100%)"
         }} />
         <div className="absolute inset-0 z-[3]"><NetworkLines /></div>
+
+        {/* Ambient orbs */}
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none z-[1]"
+          style={{ background: "radial-gradient(circle, rgba(255,90,31,0.07) 0%, transparent 65%)", animation: "nexus-orb-float 14s ease-in-out infinite" }} />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-[1]"
+          style={{ background: "radial-gradient(circle, rgba(0,204,122,0.06) 0%, transparent 65%)", animation: "nexus-orb-float 18s ease-in-out 4s infinite reverse" }} />
+
+        {/* Beam sweep */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
+          <div className="nexus-beam" />
+        </div>
+
         <div className="absolute bottom-0 left-0 right-0 h-40 z-[4]" style={{
           background: "linear-gradient(to bottom, transparent, #060F0A)"
         }} />
-        <div className="relative z-[5] w-full px-6 py-32">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-4 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
-                Fila de espera aberta — 200 vagas restantes
-              </div>
-              <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-6xl">
-                <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
-                  Automatize sua semijoia.
-                </span>
-                <span className="block text-white">
-                  Cresça{" "}
-                  <span className="text-[#FF5A1F] drop-shadow-[0_0_32px_rgba(255,90,31,0.45)]">sem contratar.</span>
-                </span>
-              </h1>
-              <div className="flex items-center justify-center gap-3 my-9">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#00CC7A]/40" />
-                <div className="w-2 h-2 rounded-full bg-[#FF5A1F] shadow-[0_0_8px_rgba(255,90,31,0.7)] animate-pulse" />
-                <div className="h-px w-4 bg-[#00CC7A]/30" />
-                <div className="w-1.5 h-1.5 rounded-full bg-[#00CC7A]/60" />
-                <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#00CC7A]/40" />
-              </div>
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl mx-auto font-normal"
-              >
-                Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
-                <br className="hidden sm:block" />
-                R$200/mês, sem cartão, sem contrato.
-              </motion.p>
+
+        <div className="relative z-[5] w-full px-6 py-24 md:py-32">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center min-h-[calc(100vh-14rem)]">
+
+              {/* Left: text content */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
+                initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center lg:items-start"
               >
-                <motion.button
-                  onClick={() => scrollTo("qualificacao")}
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="bg-[#FF5A1F] text-[#1A0500] font-bold px-9 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_40px_rgba(255,90,31,0.5)] w-full sm:w-auto"
+                <div className="inline-flex items-center gap-2.5 liquid-glass-nexus rounded-full px-3 py-2 text-xs text-[#7AA88E] mb-10 tracking-wide">
+                  <span className="bg-[#FF5A1F] text-[#1A0500] text-[9px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-widest flex-shrink-0">NOVO</span>
+                  <span className="w-px h-3 bg-[#1E3828] flex-shrink-0" />
+                  Fila de espera aberta — 200 vagas restantes
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse flex-shrink-0" />
+                </div>
+
+                <h1 className="font-syne font-semibold tracking-tight leading-[1.12] text-4xl md:text-5xl lg:text-[3.4rem] text-center lg:text-left">
+                  <span className="block text-white drop-shadow-[0_2px_16px_rgba(0,204,122,0.15)]">
+                    Automatize sua semijoia.
+                  </span>
+                  <span className="block text-white">
+                    Cresça{" "}
+                    <span className="nexus-gradient-text">sem contratar.</span>
+                  </span>
+                </h1>
+
+                <div className="flex items-center gap-3 my-8 justify-center lg:justify-start">
+                  <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#00CC7A]/40" />
+                  <div className="w-2 h-2 rounded-full bg-[#FF5A1F] shadow-[0_0_8px_rgba(255,90,31,0.7)] animate-pulse" />
+                  <div className="h-px w-4 bg-[#00CC7A]/30" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00CC7A]/60" />
+                  <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#00CC7A]/40" />
+                </div>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-[#A8C8B8] text-lg leading-relaxed max-w-xl font-normal text-center lg:text-left"
                 >
-                  Garantir minha vaga
-                </motion.button>
-                <motion.button
-                  onClick={() => scrollTo("demo")}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="liquid-glass-nexus inline-flex items-center gap-2 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3"
+                  Cobrança, estoque e nota fiscal automatizados pelo WhatsApp.
+                  <br className="hidden sm:block" />
+                  A partir de R$649/mês. 3 planos. Sem fidelidade.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-9 w-full lg:w-auto"
                 >
-                  Ver como funciona <IconArrow />
-                </motion.button>
+                  <motion.button
+                    onClick={() => scrollTo("qualificacao")}
+                    whileHover={{ scale: 1.04, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="bg-[#FF5A1F] text-[#1A0500] font-bold px-7 py-3.5 rounded-full text-[15px] tracking-wide transition-shadow hover:shadow-[0_0_44px_rgba(255,90,31,0.55)] w-full sm:w-auto inline-flex items-center justify-center gap-3 group"
+                  >
+                    Garantir minha vaga
+                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#1A0500]/20 group-hover:bg-[#1A0500]/30 transition-colors flex-shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  </motion.button>
+                  <motion.button
+                    onClick={() => scrollTo("como-funciona")}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="liquid-glass-nexus inline-flex items-center gap-2.5 text-[#C4DDD0] hover:text-white text-[15px] font-medium transition-colors rounded-full px-6 py-3 group"
+                  >
+                    Ver como funciona
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full border border-[#2A4A38] group-hover:border-[#7AA88E] transition-colors">
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  </motion.button>
+                </motion.div>
+
+                {/* Social proof row */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.65 }}
+                  className="flex items-center gap-4 mt-8"
+                >
+                  <div className="flex -space-x-2">
+                    {["C","J","A","M","P"].map((l, i) => (
+                      <div key={i}
+                        className="w-8 h-8 rounded-full border-2 border-[#060F0A] flex items-center justify-center text-[10px] font-extrabold text-[#060F0A]"
+                        style={{ background: i % 2 === 0 ? "#00CC7A" : "#FF5A1F" }}
+                      >{l}</div>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="text-white text-sm font-semibold leading-none mb-1">+300 empreendedoras</div>
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} width="11" height="11" viewBox="0 0 11 11" fill="#FF5A1F">
+                          <path d="M5.5 1.2l.9 2.1 2.3.2-1.7 1.5.5 2.3-2-1.2-2 1.2.5-2.3-1.7-1.5 2.3-.2z"/>
+                        </svg>
+                      ))}
+                      <span className="text-[#7AA88E] text-[11px] ml-1.5">4.9 / 5.0</span>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
+
+              {/* Right: hero product mockup */}
+              <div className="hidden lg:block">
+                <HeroMockup />
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ── INTEGRATION STRIP ── */}
+      <IntegrationStrip />
 
       {/* ── MARQUEE STRIP ── */}
       <AutoMarquee />
@@ -270,10 +380,10 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1E3828] border border-[#1E3828] rounded-2xl overflow-hidden">
             {[
-              { num: "97%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
-              { num: "R$200", label: "Por mês, tudo incluso", sub: "21 módulos integrados" },
-              { num: "24h", label: "Setup assistido", sub: "após a assinatura" },
-              { num: "Zero", label: "Contrato de fidelidade", sub: "cancele quando quiser" },
+              { num: "97%",   countTo: 97,  suffix: "%", label: "Cobranças resolvidas", sub: "sem intervenção humana" },
+              { num: "R$649", countTo: null, suffix: "",  label: "A partir de — Plano Start", sub: "3 planos disponíveis" },
+              { num: "24h",   countTo: 24,  suffix: "h", label: "Setup assistido", sub: "após a assinatura" },
+              { num: "Zero",  countTo: null, suffix: "",  label: "Contrato de fidelidade", sub: "cancele quando quiser" },
             ].map((s, i) => (
               <motion.div
                 key={i}
@@ -286,7 +396,9 @@ export default function LandingPage() {
                 transition={{ backgroundColor: { duration: 0.2 } }}
                 className="bg-[#060F0A] px-8 py-8 cursor-default"
               >
-                <div className="font-syne font-extrabold text-4xl text-white">{s.num}</div>
+                <div className="font-syne font-extrabold text-4xl text-white">
+                  {s.countTo != null ? <CountUp to={s.countTo} suffix={s.suffix} /> : s.num}
+                </div>
                 <div className="text-white text-sm font-semibold mt-2">{s.label}</div>
                 <div className="text-[#4A6A58] text-xs mt-0.5">{s.sub}</div>
               </motion.div>
@@ -294,6 +406,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* ── HOW IT WORKS ── */}
+      <HowItWorks />
 
       {/* ── 3. PROBLEMA ── */}
       <section className="relative bg-[#060F0A] px-6 py-24 border-t border-[#1E3828] overflow-hidden">
@@ -431,7 +546,15 @@ export default function LandingPage() {
                 variants={fadeUp}
                 whileHover={{ scale: 1.03, y: -5 }}
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                className="bg-[#060F0A] border border-[#1E3828] rounded-2xl p-7 group hover:border-[#FF5A1F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)] cursor-default"
+                className="rounded-2xl p-7 group cursor-default glow-card glow-card-enhanced"
+                style={{ transformStyle: "preserve-3d" }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+                  const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+                  (e.currentTarget as HTMLElement).style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg) scale(1.03)`;
+                }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ""; }}
               >
                 <div className="w-9 h-9 rounded-lg bg-[#1E3828] text-[#C4DDD0] flex items-center justify-center mb-5 group-hover:bg-[#FF5A1F]/10 group-hover:text-[#FF5A1F] transition-colors duration-300">
                   {f.icon}
@@ -456,7 +579,7 @@ export default function LandingPage() {
             >
               Quero a Amanda AI
             </motion.button>
-            <span className="text-[#4A6A58] text-sm">R$200/mês · 7 dias grátis · sem cartão</span>
+            <span className="text-[#4A6A58] text-sm">A partir de R$649/mês · setup em 7 dias · sem fidelidade</span>
           </motion.div>
         </div>
       </section>
@@ -467,6 +590,12 @@ export default function LandingPage() {
       {/* ── 6. ROI CALCULATOR ── */}
       <ROICalculator />
 
+      {/* ── 6b. TESTIMONIALS ── */}
+      <TestimonialsSection />
+
+      {/* ── TRUST BADGES ── */}
+      <TrustBadges />
+
       {/* ── 7. PRICING — rounded top, pulled up ── */}
       <section id="preco" className="relative bg-[#060F0A] px-6 py-24 border-t border-[#1E3828] rounded-t-[40px] md:rounded-t-[56px] -mt-8 overflow-hidden">
         {/* Radial arc: green center glow (Xero-inspired) */}
@@ -475,7 +604,7 @@ export default function LandingPage() {
         }} />
         <GridOverlay opacity={0.02} />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-xl mb-14">
             <motion.h2
               custom={0}
@@ -483,8 +612,8 @@ export default function LandingPage() {
               variants={fadeUp}
               className="font-syne font-bold text-3xl md:text-4xl text-white leading-snug tracking-tight"
             >
-              Simples, transparente,{" "}
-              <span className="text-[#FF5A1F] drop-shadow-[0_0_20px_rgba(255,90,31,0.3)]">sem surpresas.</span>
+              Antes fragmentado em 5 ferramentas.{" "}
+              <span className="text-[#FF5A1F] drop-shadow-[0_0_20px_rgba(255,90,31,0.3)]">Agora numa só.</span>
             </motion.h2>
             <motion.p
               custom={0.1}
@@ -492,26 +621,26 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-[#7AA88E] text-base mt-4 leading-relaxed max-w-sm"
             >
-              Um plano. 21 módulos. Tudo incluso pelo preço de um almoço por semana.
+              Três planos. Todos com a Amanda AI. Escolha o que combina com o tamanho da sua rede.
             </motion.p>
           </div>
 
+          {/* Competitor comparison */}
           <motion.div
-            custom={0.15}
+            custom={0.12}
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={fadeUp}
-            className="grid md:grid-cols-2 rounded-2xl overflow-hidden border border-[#1E3828]"
+            className="grid md:grid-cols-2 rounded-2xl overflow-hidden border border-[#1E3828] mb-8"
           >
-            {/* Left — o que você paga hoje */}
-            <div className="bg-[#0C1A12] p-10 border-b md:border-b-0 md:border-r border-[#1E3828]">
-              <p className="text-[#4A6A58] text-sm font-medium mb-7 uppercase tracking-wider">O que você paga hoje</p>
-              <div className="space-y-4 mb-8">
+            <div className="bg-[#0C1A12] p-8 border-b md:border-b-0 md:border-r border-[#1E3828]">
+              <p className="text-[#4A6A58] text-sm font-medium mb-6 uppercase tracking-wider">O ecossistema fragmentado que você usa hoje</p>
+              <div className="space-y-3 mb-6">
                 {[
-                  { label: "Cobrador / funcionário", val: "R$ 800+" },
-                  { label: "Software de estoque", val: "R$ 150" },
-                  { label: "Emissão de NF", val: "R$ 100" },
-                  { label: "WhatsApp Business API", val: "R$ 50" },
-                  { label: "Seu tempo (4h/dia × R$40/h)", val: "R$ 3.200" },
+                  { label: "Sistema de gestão (CRM + gestão)", val: "R$ 250" },
+                  { label: "App de vendas (catálogo + pedidos)", val: "R$ 450" },
+                  { label: "Sistema de reuniões IA", val: "R$ 3.000" },
+                  { label: "Formulários + landing pages", val: "R$ 100" },
+                  { label: "Agência de tráfego (mínimo)", val: "R$ 1.200" },
                 ].map((item, i) => (
                   <div key={i} className="flex justify-between items-center">
                     <span className="text-[#4A6A58] text-sm line-through">{item.label}</span>
@@ -519,35 +648,37 @@ export default function LandingPage() {
                   </div>
                 ))}
               </div>
-              <div className="pt-5 border-t border-[#1E3828]">
-                <div className="text-[#EF4444] font-syne font-extrabold text-3xl">R$4.300+/mês</div>
-                <div className="text-[#4A6A58] text-sm mt-1">sem contar esgotamento</div>
+              <div className="pt-4 border-t border-[#1E3828]">
+                <div className="text-[#EF4444] font-syne font-extrabold text-3xl">R$5.000+/mês</div>
+                <div className="text-[#4A6A58] text-sm mt-1">sem contar o tempo e o esgotamento</div>
               </div>
             </div>
 
-            {/* Right — Nexus */}
             <motion.div
               whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#FF5A1F] p-10 flex flex-col justify-between"
+              className="bg-[#FF5A1F] p-8 flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-3 mb-7">
-                  <NexusIconSm size={32} />
+                <div className="flex items-center gap-3 mb-6">
+                  <NexusIconSm size={28} />
                   <p className="text-[#1A0500] text-sm font-semibold uppercase tracking-wider">Nexus Intelligence</p>
                 </div>
-                <div className="mb-2">
-                  <span className="font-syne font-extrabold text-[56px] text-[#1A0500] leading-none">R$200</span>
+                <div className="mb-1">
+                  <span className="text-[#5C1A00] text-sm font-medium">A partir de</span>
+                </div>
+                <div className="mb-1">
+                  <span className="font-syne font-extrabold text-[52px] text-[#1A0500] leading-none">R$649</span>
                   <span className="text-[#5C1A00] text-lg font-semibold ml-1">/mês</span>
                 </div>
-                <p className="text-[#5C1A00] text-sm font-medium mb-8">21 módulos · sem taxas · sem fidelidade</p>
-                <ul className="space-y-2.5 mb-8">
+                <p className="text-[#5C1A00] text-sm font-medium mb-6">tudo integrado · sem fidelidade · setup em 7 dias</p>
+                <ul className="space-y-2 mb-6">
                   {[
-                    "Amanda AI — cobrança, NF e estoque",
-                    "WhatsApp Business API integrada",
-                    "Setup assistido em 24h",
-                    "Relatórios automáticos",
-                    "Suporte via WhatsApp",
+                    "Amanda AI — do lead ao repasse automático",
+                    "WhatsApp Business API oficial (sem risco)",
+                    "Prospecção, financeiro e logística integrados",
+                    "NF-e, Pix, Serasa — tudo automatizado",
+                    "Um cartão. Um painel. Zero ferramentas paralelas.",
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2.5 text-[#1A0500] text-sm font-medium">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -564,22 +695,150 @@ export default function LandingPage() {
                 whileTap={{ scale: 0.97 }}
                 className="bg-[#1A0500] text-[#FF5A1F] font-bold py-3.5 rounded-full text-[15px] hover:shadow-[0_0_24px_rgba(26,5,0,0.5)] transition-shadow w-full tracking-wide"
               >
-                Começar 7 dias grátis
+                Quero sair das ferramentas fragmentadas
               </motion.button>
             </motion.div>
           </motion.div>
 
+          {/* 3 full plan cards — MAX no centro (posição de maior destaque) */}
+          <div className="grid md:grid-cols-3 gap-5 items-start">
+
+            {/* START — esquerda, muted */}
+            <motion.div custom={0.2} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="rounded-2xl border border-[#1E3828] bg-[#0C1A12] flex flex-col opacity-75">
+              <div className="p-6 flex-1">
+                <div className="text-[#4A6A58] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Start — Ponto de entrada</div>
+                <div className="flex items-end gap-1 mb-1">
+                  <span className="font-syne font-extrabold text-3xl text-[#7AA88E]">R$649</span>
+                  <span className="text-[#4A6A58] text-sm mb-1">/mês</span>
+                </div>
+                <div className="text-[10px] font-semibold px-2.5 py-1 rounded-full inline-block mb-3 bg-[#1E3828] text-[#4A6A58]">30 candidatas/mês · máx. 40 revendedoras</div>
+                <p className="text-[#4A6A58] text-xs leading-relaxed mb-3">Para estruturar o processo de prospecção. A maioria das empresas faz upgrade em 2–3 meses ao sentir os limites de revendedoras.</p>
+                <ul className="space-y-1.5 text-xs text-[#4A6A58]">
+                  {["Amanda AI — atendimento WhatsApp 24/7","Formulário + consulta CPF automática","Contrato digital com assinatura eletrônica","Agendamento + reuniões com IA","Maleta com rastreio básico · Anti-churn D+3","CRM + publicação em 6 redes sociais"].map((f, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M2.5 7l3 3 6-6" stroke="#4A6A58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                  {["Pix automático · NF-e · Inadimplência · Serasa"].map((f, i) => (
+                    <li key={i} className="flex items-start gap-2 opacity-50 pt-1 border-t border-[#1E3828] mt-1">
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M4 4l6 6M10 4l-6 6" stroke="#4A6A58" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="px-6 pb-6">
+                <a href="/checkout?plan=start" className="block w-full py-2.5 rounded-xl font-semibold text-xs text-center bg-[#1E3828] text-[#4A6A58] hover:bg-[#2A4A38] hover:text-[#7AA88E] transition-all">
+                  Começar com o Start
+                </a>
+              </div>
+            </motion.div>
+
+            {/* MAX — CENTRO, dominante, a escolha óbvia */}
+            <motion.div custom={0.24} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="relative rounded-2xl border-2 border-[#00CC7A]/60 bg-gradient-to-b from-[#071510] to-[#0A1A10] shadow-[0_0_70px_rgba(0,204,122,0.15)] flex flex-col md:-mt-4 md:-mb-4">
+              <div className="bg-gradient-to-r from-[#00CC7A] to-[#00AA62] text-[#001A0E] text-center py-2 text-[11px] font-extrabold tracking-widest uppercase rounded-t-xl">
+                🏆 Recomendado — A operação completa · 50% OFF
+              </div>
+              <div className="p-6 flex-1">
+                <div className="text-[#00CC7A] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Max</div>
+                <div className="flex items-end gap-1 mb-0.5">
+                  <span className="font-syne font-extrabold text-5xl text-white">R$724</span>
+                  <span className="text-[#7AA88E] text-sm mb-2">/1º mês</span>
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[#4A6A58] text-sm line-through">R$1.449/mês</span>
+                  <span className="text-[#00CC7A] text-[10px] font-bold">depois R$1.449/mês</span>
+                </div>
+                <div className="bg-[#00CC7A]/12 border border-[#00CC7A]/25 rounded-xl px-3 py-2.5 mb-4">
+                  <p className="text-[#00CC7A] text-[11px] font-bold leading-snug">Ilimitado em tudo. Sem cap de revendedoras, leads ou admins. Do lead ao Serasa, 100% automático.</p>
+                </div>
+                <ul className="space-y-2 text-xs text-[#C4DDD0]">
+                  {[
+                    { t: "Amanda AI + prospecção + contratos", bold: false },
+                    { t: "Pix automático · NF-e via Bling", bold: false },
+                    { t: "Follow-up D+5 / D+10 / D+15 de inadimplência", bold: false },
+                    { t: "Maleta 100% automatizada + RMA com IA", bold: false },
+                    { t: "Anti-churn D+3 / D+10 / D+20", bold: false },
+                    { t: "Negativação Serasa D+17 automática (R$25/ação)", bold: true },
+                    { t: "Plano de ação IA por consultora (R$5/geração)", bold: true },
+                    { t: "Suporte via canal dedicado + prioridade em novas features", bold: true },
+                  ].map((f, i) => (
+                    <li key={i} className={`flex items-start gap-2 ${f.bold ? "text-[#00CC7A] font-semibold" : ""}`}>
+                      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5">
+                        <path d="M2.5 7l3 3 6-6" stroke={f.bold ? "#00CC7A" : "#7AA88E"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      {f.t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="px-6 pb-6">
+                <a href="/checkout?plan=max" className="block w-full py-4 rounded-xl font-extrabold text-base text-center bg-gradient-to-r from-[#00CC7A] to-[#00AA62] text-[#001A0E] hover:shadow-[0_0_30px_rgba(0,204,122,0.45)] hover:-translate-y-0.5 transition-all">
+                  Quero o Max — R$724 no 1º mês
+                </a>
+                <p className="text-[#4A6A58] text-[10px] text-center mt-2">Depois R$1.449/mês · Cancele quando quiser</p>
+              </div>
+            </motion.div>
+
+            {/* PRO — direita, secundário */}
+            <motion.div custom={0.28} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="relative rounded-2xl border-2 border-[#FF5A1F]/35 bg-[#0C1A12] shadow-[0_0_30px_rgba(255,90,31,0.06)] flex flex-col opacity-90">
+              <div className="bg-[#FF5A1F]/90 text-[#1A0500] text-center py-1.5 text-[10px] font-extrabold tracking-widest uppercase rounded-t-xl">
+                Para crescer · 35% OFF no 1º mês
+              </div>
+              <div className="p-6 flex-1">
+                <div className="text-[#FF5A1F] text-[10px] font-bold uppercase tracking-[0.15em] mb-2">Nexus Pro</div>
+                <div className="flex items-end gap-1 mb-0.5">
+                  <span className="font-syne font-extrabold text-4xl text-white">R$648</span>
+                  <span className="text-[#7AA88E] text-sm mb-1">/1º mês</span>
+                </div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[#4A6A58] text-xs line-through">R$997/mês</span>
+                  <span className="text-[#FF5A1F] text-[10px] font-bold">depois R$997/mês</span>
+                </div>
+                <div className="text-[10px] font-semibold px-2.5 py-1 rounded-full inline-block mb-3 bg-[#FF5A1F]/15 text-[#FF5A1F]">70 candidatas/mês · Revendedoras ilimitadas</div>
+                <p className="text-[#C4DDD0] text-xs leading-relaxed mb-3">Operação financeira e logística automática. Sem Serasa D+17 e sem plano de ação IA por consultora.</p>
+                <ul className="space-y-1.5 text-xs text-[#C4DDD0]">
+                  {["Pix automático · NF-e · Acerto parcial","Follow-up inadimplência D+5 / D+10 / D+15","Maleta 100% automatizada + RMA com IA","Anti-churn D+3 / D+10 / D+20","CRM + publicação em 6 redes sociais"].map((f, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M2.5 7l3 3 6-6" stroke="#FF5A1F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                  {["Serasa D+17 · Plano de ação IA · Canal dedicado"].map((f, i) => (
+                    <li key={i} className="flex items-start gap-2 opacity-40 pt-1 border-t border-[#1E3828] mt-1">
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 mt-0.5"><path d="M4 4l6 6M10 4l-6 6" stroke="#7AA88E" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="px-6 pb-6 space-y-2">
+                <a href="/checkout?plan=pro" className="block w-full py-3 rounded-xl font-bold text-sm text-center bg-[#FF5A1F]/20 text-[#FF5A1F] border border-[#FF5A1F]/30 hover:bg-[#FF5A1F]/30 transition-all">
+                  Escolher o Pro — R$648 no 1º mês
+                </a>
+                <a href="/checkout?plan=max" className="block w-full py-2 rounded-xl font-bold text-[11px] text-center bg-[#00CC7A]/10 text-[#00CC7A] hover:bg-[#00CC7A]/20 transition-all">
+                  Ou upgrade para o Max por +R$76 →
+                </a>
+              </div>
+            </motion.div>
+
+          </div>
+
           {/* Social proof bar */}
           <motion.div
-            custom={0.25}
+            custom={0.28}
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={fadeUp}
-            className="mt-6 grid grid-cols-3 gap-px bg-[#1E3828] border border-[#1E3828] rounded-xl overflow-hidden text-center"
+            className="mt-5 grid grid-cols-3 gap-px bg-[#1E3828] border border-[#1E3828] rounded-xl overflow-hidden text-center"
           >
             {[
               "Mais de 300 revendedoras automatizadas",
-              "Setup em até 24h após assinatura",
-              "94% mantêm o serviço após o primeiro mês",
+              "Setup em até 7 dias após assinatura",
+              "Cancele quando quiser, sem multa",
             ].map((item, i) => (
               <div key={i} className="bg-[#060F0A] px-4 py-4 text-[#7AA88E] text-xs leading-snug">
                 {item}
@@ -591,6 +850,9 @@ export default function LandingPage() {
 
       {/* ── 8. QUALIFICATION FORM ── */}
       <QualificationForm />
+
+      {/* ── FAQ ── */}
+      <FAQSection />
 
       {/* ── 9. CTA FINAL — watermark + radial glow ── */}
       <section className="relative bg-[#0C1A12] border-t border-[#1E3828] px-6 py-28 overflow-hidden rounded-t-[40px] md:rounded-t-[56px] -mt-8">
@@ -671,13 +933,16 @@ export default function LandingPage() {
               variants={fadeUp}
               className="flex items-center justify-center gap-6 mt-10 text-xs text-[#4A6A58]"
             >
-              <span className="flex items-center gap-1.5"><IconCheck />7 dias grátis</span>
-              <span className="flex items-center gap-1.5"><IconCheck />Sem cartão de crédito</span>
+              <span className="flex items-center gap-1.5"><IconCheck />Setup em 7 dias</span>
+              <span className="flex items-center gap-1.5"><IconCheck />Um cartão. Zero surpresas.</span>
               <span className="flex items-center gap-1.5"><IconCheck />Cancele quando quiser</span>
             </motion.div>
           </motion.div>
         </div>
       </section>
+
+      {/* ── STICKY CONVERSION BAR (desktop only) ── */}
+      <StickyBar />
     </div>
   );
 }

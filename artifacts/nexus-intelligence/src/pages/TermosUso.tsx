@@ -23,7 +23,7 @@ export default function TermosUso() {
             </section>
             <section>
               <h2 className="font-syne font-bold text-xl text-white mb-3">4. Pagamento e Cancelamento</h2>
-              <p>O plano Nexus Intelligence custa R$200/mês, cobrado mensalmente. Você pode cancelar a qualquer momento sem multa. O cancelamento é efetivado no final do período já pago.</p>
+              <p>A Nexus Intelligence oferece três planos mensais: Start (R$649/mês), Pro (R$997/mês) e Max (R$1.449/mês). Além da mensalidade, alguns serviços são cobrados por uso (consulta de CPF, Pix automático, negativação Serasa e plano de ação IA). Você pode cancelar a qualquer momento sem multa. O cancelamento é efetivado no final do período já pago.</p>
             </section>
             <section>
               <h2 className="font-syne font-bold text-xl text-white mb-3">5. Uso Permitido</h2>

@@ -28,7 +28,7 @@ export function NexusIcon({ size = 96, stroke = "#FF5A1F", white = "#FF5A1F", no
       {/* Action nodes */}
       <circle cx="28" cy="40" r="5.5" fill={nodeColor} />
       <circle cx="84" cy="40" r="5.5" fill={nodeColor} />
-      {/* Structural nodes — tops and bottoms of all three pillars + diagonal endpoints */}
+      {/* Structural nodes */}
       <circle cx="56" cy="16" r="4" fill={stroke} />
       <circle cx="56" cy="64" r="4" fill={stroke} />
       <circle cx="28" cy="16" r="4" fill={white} opacity="0.6" />

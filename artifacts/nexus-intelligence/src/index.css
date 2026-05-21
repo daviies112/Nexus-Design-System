@@ -245,6 +245,156 @@
   50% { opacity: 0.35; }
 }
 
+/* ── Marquee reverse (testimonials row 2) ── */
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 38s linear infinite;
+  will-change: transform;
+}
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* ── Custom cursor (desktop only) ── */
+@media (pointer: fine) {
+  body { cursor: none !important; }
+  a, button, [role=button], input, textarea, select, label { cursor: none !important; }
+
+  .nexus-cursor-ring {
+    position: fixed;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0, 204, 122, 0.55);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    will-change: left, top;
+  }
+  .nexus-cursor-ring.cursor-hover {
+    width: 54px;
+    height: 54px;
+    border-color: rgba(255, 90, 31, 0.75);
+    box-shadow: 0 0 20px rgba(255, 90, 31, 0.25), 0 0 40px rgba(255, 90, 31, 0.1);
+  }
+  .nexus-cursor-dot {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #FF5A1F;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(255, 90, 31, 0.9);
+    will-change: left, top;
+  }
+}
+
+/* ── Glow card (Amanda AI feature cards) ── */
+.glow-card {
+  background: #060F0A;
+  border: 1px solid #1E3828;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.glow-card:hover {
+  border-color: rgba(255, 90, 31, 0.38);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 90, 31, 0.12),
+    inset 0 0 40px rgba(255, 90, 31, 0.04);
+}
+
+/* ── Scroll-aware header transition helper ── */
+.header-solid {
+  background: rgba(6, 15, 10, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Orb / blob float animations ── */
+@keyframes nexus-orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(18px, -28px) scale(1.05); }
+  66% { transform: translate(-12px, 14px) scale(0.96); }
+}
+
+/* ── Beam sweep ── */
+.nexus-beam {
+  position: absolute;
+  top: -30%;
+  left: -40%;
+  width: 55%;
+  height: 160%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,204,122,0.03) 35%,
+    rgba(0,204,122,0.055) 50%,
+    rgba(0,204,122,0.03) 65%,
+    transparent 100%
+  );
+  transform: rotate(-22deg);
+  animation: nexus-beam-sweep 9s ease-in-out 1.5s infinite;
+  pointer-events: none;
+}
+@keyframes nexus-beam-sweep {
+  0%   { transform: translateX(0%)   rotate(-22deg); opacity: 0.6; }
+  45%  { opacity: 0.8; }
+  100% { transform: translateX(280%) rotate(-22deg); opacity: 0; }
+}
+
+/* ── Animated gradient / shimmer text ── */
+.nexus-gradient-text {
+  background: linear-gradient(90deg, #FF5A1F 0%, #FF8C4A 25%, #FF5A1F 50%, #FF7535 75%, #FF5A1F 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: nexus-text-shimmer 3s linear infinite;
+}
+@keyframes nexus-text-shimmer {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Enhanced glow card — animated border shimmer on hover ── */
+.glow-card-enhanced {
+  position: relative;
+}
+.glow-card-enhanced::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,90,31,0)   0%,
+    rgba(255,90,31,0)   25%,
+    rgba(255,90,31,0.6) 50%,
+    rgba(255,90,31,0)   75%,
+    rgba(255,90,31,0)   100%
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.glow-card-enhanced:hover::before {
+  opacity: 1;
+  animation: nexus-border-shimmer 2.5s linear infinite;
+}
+@keyframes nexus-border-shimmer {
+  0%   { background-position: 0%   0%; }
+  100% { background-position: 300% 300%; }
+}
+
 @layer utilities {
   .toggle-elevate::before,
   .toggle-elevate-2::before {

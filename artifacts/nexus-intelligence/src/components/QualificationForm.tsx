@@ -21,8 +21,8 @@ const initialData: FormData = {
 };
 
 function suggestPlan(score: number) {
-  if (score >= 70) return { plan: "Nexus Pro", price: "R$200/mês", color: "#FF5A1F" };
-  return { plan: "Nexus Essencial", price: "R$200/mês", color: "#00CC7A" };
+  if (score >= 70) return { plan: "Nexus Pro", price: "R$997/mês", color: "#FF5A1F" };
+  return { plan: "Nexus Start", price: "R$649/mês", color: "#00CC7A" };
 }
 
 const steps = [

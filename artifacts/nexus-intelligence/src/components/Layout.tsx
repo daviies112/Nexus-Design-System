@@ -1,19 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { NexusIconSm } from "./NexusIcon";
+import CustomCursor from "./CustomCursor";
+import FloatingCTA from "./FloatingCTA";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] z-[200] origin-left pointer-events-none"
+      style={{
+        scaleX,
+        background: "linear-gradient(90deg, #FF5A1F 0%, #FF8040 50%, #00CC7A 100%)",
+      }}
+    />
+  );
+}
+
+const NAV_LINKS = [
+  { label: "Funcionalidades", href: "/funcionalidades" },
+  { label: "Comparar", href: "/comparacao" },
+  { label: "Integrações", href: "/integracoes" },
+  { label: "Sobre", href: "/sobre-nos" },
+  { label: "Ajuda", href: "/central-ajuda" },
+];
+
 export default function Layout({ children }: LayoutProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   const scrollTo = (id: string) => {
     setMenuOpen(false);
     if (location === "/") {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }), 50);
     } else {
       window.location.href = `/#${id}`;
     }
@@ -21,7 +62,17 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#060F0A] text-[#F0FAF4] font-inter selection:bg-[#FF5A1F] selection:text-[#1A0500]">
-      <header className="h-20 sticky top-0 z-50 flex-none liquid-glass-nexus border-b border-[#00CC7A]/10">
+      <CustomCursor />
+      <ScrollProgressBar />
+
+      {/* ── HEADER ── */}
+      <header
+        className={`h-20 sticky top-[2px] z-50 flex-none transition-all duration-500 ${
+          scrolled
+            ? "liquid-glass-nexus border-b border-[#00CC7A]/10 shadow-[0_4px_24px_rgba(0,0,0,0.3)]"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           <Link href="/" className="flex items-center group">
             <NexusIconSm size={44} className="group-hover:scale-105 transition-transform" />
@@ -32,66 +83,131 @@ export default function Layout({ children }: LayoutProps) {
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
-            <Link href="/funcionalidades" className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors">
-              Funcionalidades
-            </Link>
-            <Link href="/integracoes" className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors">
-              Integrações
-            </Link>
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors duration-200 relative group"
+              >
+                {l.label}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#FF5A1F] group-hover:w-full transition-all duration-300" />
+              </Link>
+            ))}
             <button
               onClick={() => scrollTo("preco")}
-              className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors"
+              className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors duration-200 relative group"
             >
               Preço
+              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#FF5A1F] group-hover:w-full transition-all duration-300" />
             </button>
-            <Link href="/sobre-nos" className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors">
-              Sobre
-            </Link>
-            <Link href="/central-ajuda" className="text-sm font-medium text-[#7AA88E] hover:text-white transition-colors">
-              Ajuda
-            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/checkout" className="bg-[#FF5A1F] text-[#1A0500] font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity hidden md:block">
-              Começar grátis
+            <Link
+              href="/comparacao"
+              className="bg-[#FF5A1F] text-[#1A0500] font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 hover:shadow-[0_0_24px_rgba(255,90,31,0.45)] transition-all duration-300 hidden md:block"
+            >
+              Ver planos
             </Link>
             <button
-              className="md:hidden text-[#7AA88E] hover:text-white transition-colors p-2"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
+              className="md:hidden text-[#7AA88E] hover:text-white transition-colors p-2 relative z-10"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Abrir menu"
             >
-              {menuOpen ? (
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="18" y2="18" />
-                </svg>
-              )}
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
         </div>
-
-        {menuOpen && (
-          <div className="md:hidden absolute top-20 left-0 right-0 bg-[#0C1A12] border-b border-[#1E3828] z-50 px-6 py-5 flex flex-col gap-4">
-            <Link href="/funcionalidades" onClick={() => setMenuOpen(false)} className="text-[#C4DDD0] font-medium py-2 border-b border-[#1E3828]">Funcionalidades</Link>
-            <Link href="/integracoes" onClick={() => setMenuOpen(false)} className="text-[#C4DDD0] font-medium py-2 border-b border-[#1E3828]">Integrações</Link>
-            <button onClick={() => scrollTo("preco")} className="text-[#C4DDD0] font-medium py-2 border-b border-[#1E3828] text-left">Preço</button>
-            <Link href="/sobre-nos" onClick={() => setMenuOpen(false)} className="text-[#C4DDD0] font-medium py-2 border-b border-[#1E3828]">Sobre</Link>
-            <Link href="/central-ajuda" onClick={() => setMenuOpen(false)} className="text-[#C4DDD0] font-medium py-2 border-b border-[#1E3828]">Ajuda</Link>
-            <Link href="/checkout" onClick={() => setMenuOpen(false)} className="bg-[#FF5A1F] text-[#1A0500] font-extrabold py-3 rounded-xl text-center mt-2">
-              Começar 7 dias grátis
-            </Link>
-          </div>
-        )}
       </header>
 
-      <main className="flex-1">
-        {children}
-      </main>
+      {/* ── MOBILE MENU — slide in from right ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              className="fixed inset-0 bg-black/65 backdrop-blur-[6px] z-[60] md:hidden"
+              onClick={() => setMenuOpen(false)}
+            />
+            <motion.div
+              key="panel"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] bg-[#0A1710] border-l border-[#1E3828] z-[70] md:hidden flex flex-col"
+            >
+              {/* Panel header */}
+              <div className="flex items-center justify-between px-6 h-20 border-b border-[#1E3828] flex-shrink-0">
+                <NexusIconSm size={38} />
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full text-[#7AA88E] hover:text-white hover:bg-[#1E3828] transition-colors"
+                  aria-label="Fechar menu"
+                >
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                    <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
 
+              {/* Nav links */}
+              <nav className="flex-1 px-4 py-6 flex flex-col gap-1 overflow-y-auto">
+                {NAV_LINKS.map((l, i) => (
+                  <motion.div
+                    key={l.href}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.055 + 0.08, ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
+                  >
+                    <Link
+                      href={l.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center text-[#C4DDD0] hover:text-white font-medium py-3 px-3 rounded-xl hover:bg-[#1E3828] transition-colors text-[15px]"
+                    >
+                      {l.label}
+                    </Link>
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: NAV_LINKS.length * 0.055 + 0.08, ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
+                >
+                  <button
+                    onClick={() => scrollTo("preco")}
+                    className="flex items-center text-[#C4DDD0] hover:text-white font-medium py-3 px-3 rounded-xl hover:bg-[#1E3828] transition-colors text-[15px] w-full text-left"
+                  >
+                    Preço
+                  </button>
+                </motion.div>
+              </nav>
+
+              {/* CTA */}
+              <div className="px-4 pb-8 pt-4 border-t border-[#1E3828]">
+                <Link
+                  href="/checkout?plan=max"
+                  onClick={() => setMenuOpen(false)}
+                  className="block bg-[#FF5A1F] text-[#1A0500] font-extrabold py-3.5 rounded-full text-center text-sm hover:shadow-[0_0_24px_rgba(255,90,31,0.4)] transition-shadow"
+                >
+                  Quero o Nexus Max →
+                </Link>
+                <p className="text-[#4A6A58] text-xs text-center mt-3">50% off no 1º mês · sem fidelidade</p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      <main className="flex-1">{children}</main>
+
+      {/* ── FOOTER ── */}
       <footer className="bg-[#060F0A] border-t border-[#1E3828] py-12 md:py-16 flex-none mt-auto">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 mb-12">
@@ -139,10 +255,8 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Watermark — Kresna-style faded wordmark flush with footer width */}
         <div className="max-w-7xl mx-auto px-6 mt-8 pointer-events-none select-none overflow-hidden" aria-hidden>
           <svg
-            id="nexus-watermark"
             viewBox="0 0 900 140"
             preserveAspectRatio="xMidYMid meet"
             xmlns="http://www.w3.org/2000/svg"
@@ -165,6 +279,8 @@ export default function Layout({ children }: LayoutProps) {
           </svg>
         </div>
       </footer>
+
+      <FloatingCTA />
     </div>
   );
 }
