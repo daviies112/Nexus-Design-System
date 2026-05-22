@@ -15,6 +15,7 @@ import PoliticaPrivacidade from "@/pages/PoliticaPrivacidade";
 import CentralAjuda from "@/pages/CentralAjuda";
 import Checkout from "@/pages/Checkout";
 import Comparacao from "@/pages/Comparacao";
+import PosPagamento from "@/pages/PosPagamento";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/central-ajuda" component={CentralAjuda} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/comparacao" component={Comparacao} />
+        <Route path="/pos-pagamento" component={PosPagamento} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
